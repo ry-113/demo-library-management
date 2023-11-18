@@ -1,21 +1,23 @@
 <template>
   <div>
     <h1>Firebase Authentication Example</h1>
-    <p class="lead">This example is a quick exercise to sign in with a google acount.</p>
+    <p>This example is a quick exercise to sign in with a google acount.</p>
     <div v-if="currentUser == null">
-        <button type="button" role="button" @click="signIn">
+        <button type="button" role="button"
+            @click="signIn">
             Sign In
         </button>
     </div>
     <div v-else>
-        <button type="button" role="button" @click="signOutUser">
+        <button type="button" role="button"
+            @click="signOutUser">
             Sign Out
         </button>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import {
     getAuth,
     onAuthStateChanged,
@@ -24,35 +26,35 @@ import {
     signOut,
 } from 'firebase/auth';
 
-export default {
-    data: () => ({
-        currentUser: null
-    }),
-    mounted(){
-        onAuthStateChanged(getAuth(), (user) => {
-            if ( user != null ){
-                this.currentUser = user;
-            }else{
-                this.currentUser = null;
-            }
-        });
-    },
-    methods: {
-        signIn() {
-            var provider = new GoogleAuthProvider();
-            signInWithPopup(getAuth(), provider)
-            .then((auth) => {
-                console.log("login", auth.user );
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log("faild to login", errorCode, errorMessage );
-            });
-        },
-        signOutUser() {
-            signOut(getAuth());
+import {ref} from 'vue';
+
+const currentUser = ref(null);
+
+onMounted(() => {
+    onAuthStateChanged(getAuth(), (user) => {
+        if ( user != null ){
+            currentUser.value = user;
+        }else{
+            currentUser.value = null;
         }
-    }
+    });
+});
+
+function signIn()
+{
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(getAuth(), provider)
+    .then((auth) => {
+        console.log("login", auth );
+    })
+    .catch((error) => {
+        console.log("faild to login", error.code, error.message );
+    });
 }
+
+function signOutUser()
+{
+    signOut(getAuth());
+}
+
 </script>
