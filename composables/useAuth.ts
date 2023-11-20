@@ -42,7 +42,7 @@ export const useAuth = () => {
                 await createUser(googleUser);
                 const user = await getUser(googleUser.user.uid);
                 updateUser(user.data());
-                navigateTo("/firstsetting", {replace: true});
+                navigateTo("/firstsettings", {replace: true});
             }
         } catch (error) {
             throw error;

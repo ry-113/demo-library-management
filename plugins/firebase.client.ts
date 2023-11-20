@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getFirestore, connectFirestoreEmulator, initializeFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 import { defineNuxtPlugin } from '#app';
@@ -17,11 +17,13 @@ export default defineNuxtPlugin(() => {
   };
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
- const firestore = getFirestore(app);
+  const db = initializeFirestore(app, {
+   experimentalForceLongPolling: true,
+ });
 
-  const isEmulating = window.location.hostname === 'localhost';
-  if (isEmulating) {
-    const db = getFirestore();
-    connectFirestoreEmulator(db, 'localhost', 8080);
-  }
+  // const isEmulating = window.location.hostname === 'localhost';
+  // if (isEmulating) {
+  //   const db = getFirestore();
+  //   connectFirestoreEmulator(db, 'localhost', 8080);
+  // }
 });
