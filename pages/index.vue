@@ -1,60 +1,28 @@
 <template>
-  <div>
-    <h1>Firebase Authentication Example</h1>
-    <p>This example is a quick exercise to sign in with a google acount.</p>
-    <div v-if="currentUser == null">
-        <button type="button" role="button"
-            @click="signIn">
-            Sign In
-        </button>
+    <div>
+        <h1>蔵書管理アプリへようこそ</h1>
+        <p>G-mailアカウントで登録することができます</p>
+        <div v-if="auth.currentUser == null">
+            <button class="btn my-10" type="button" role="button"
+                @click="auth.signIn">
+                はじめる
+            </button>
+        </div>
+        <div v-else>
+            <button class="btn " type="button" role="button"
+                @click="auth.signOutUser">
+                Sign Out
+            </button>
+        </div>
     </div>
-    <div v-else>
-        <button type="button" role="button"
-            @click="signOutUser">
-            Sign Out
-        </button>
-    </div>
-  </div>
 </template>
 
-<script setup>
-import {
-    getAuth,
-    onAuthStateChanged,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signOut,
-} from 'firebase/auth';
-
-import {ref} from 'vue';
-
-const currentUser = ref(null);
-
-onMounted(() => {
-    onAuthStateChanged(getAuth(), (user) => {
-        if ( user != null ){
-            currentUser.value = user;
-        }else{
-            currentUser.value = null;
-        }
-    });
+<script setup lang="ts">
+definePageMeta({
+    layout: "custom",
 });
-
-function signIn()
-{
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(getAuth(), provider)
-    .then((auth) => {
-        console.log("login", auth );
-    })
-    .catch((error) => {
-        console.log("faild to login", error.code, error.message );
-    });
-}
-
-function signOutUser()
-{
-    signOut(getAuth());
-}
-
+const googleSignUp = () => {
+    const {googleSignUp} = useAuth()
+    googleSignUp();
+};
 </script>

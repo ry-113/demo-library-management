@@ -1,6 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  modules: [
+    '@nuxtjs/tailwindcss'
+  ],
   runtimeConfig: {
     public: {
       firebaseApiKey: process.env.NUXT_FIREBASE_APIKEY,
@@ -12,5 +15,11 @@ export default defineNuxtConfig({
       firebaseMeasurementId: process.env.NUXT_FIREBASE_MEASUREMENTID,
     },
   },
-  
+  // app: {
+  //   head: {
+  //     htmlAttrs: {
+  //       "data-theme": "cupcake",
+  //     },
+  //   },
+  // },
 });

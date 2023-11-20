@@ -1,7 +1,8 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { initializeApp } from 'firebase/app';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
-import { defineNuxtPlugin } from "#app";
+import { defineNuxtPlugin } from '#app';
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
@@ -14,11 +15,12 @@ export default defineNuxtPlugin(() => {
     messagingSenderId: config.public.firebaseMessagingSenderId,
     appId: config.public.firebaseAppId,
   };
-  initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-  const isEmulating = window.location.hostname === "localhost";
+  const isEmulating = window.location.hostname === 'localhost';
   if (isEmulating) {
     const db = getFirestore();
-    connectFirestoreEmulator(db, "localhost", 8080);
+    connectFirestoreEmulator(db, 'localhost', 8080);
   }
 });
