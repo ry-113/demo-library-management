@@ -36,13 +36,13 @@ export const useAuth = () => {
             if(user) {
                 alert("既にユーザーが登録されています。");
                 updateUser(user.data());
-                navigateTo("/apptop", {replace: true})
+                navigateTo("/", {replace: true})
             } else {
                 alert("新規登録完了しました。");
                 await createUser(googleUser);
                 const user = await getUser(googleUser.user.uid);
                 updateUser(user.data());
-                navigateTo("/new", {replace: true});
+                navigateTo("/firstsetting", {replace: true});
             }
         } catch (error) {
             throw error;

@@ -3,7 +3,7 @@ export default defineNuxtRouteMiddleware(async () => {
         const {token, checkAuthState} = useAuth();
         await checkAuthState()
         if(!token.value) {
-            return await navigateTo('/', {replace: true})
+            return await navigateTo('/login', {replace: true})
         }
     }
 });
