@@ -15,11 +15,4 @@ export default defineNuxtConfig({
       firebaseMeasurementId: process.env.NUXT_FIREBASE_MEASUREMENTID,
     },
   },
-  // app: {
-  //   head: {
-  //     htmlAttrs: {
-  //       "data-theme": "cupcake",
-  //     },
-  //   },
-  // },
 });

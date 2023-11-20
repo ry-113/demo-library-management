@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const auth = useAuth();
+const logIn = () => {
+    const {logIn} = useAuth()
+    logIn();
+};
 </script>
 <template>
     <header class="header min-h-[10vh] flex justify-between items-center px-10">
@@ -16,7 +19,7 @@ const auth = useAuth();
         
         <div class="app-link">
             <img src="" alt="" class="">
-            <button class="btn" @click="auth.signIn">ログイン</button>
+            <button class="btn" @click="logIn">ログイン</button>
         </div>
     </header>
     <div class="hero min-h-[70vh] bg-base-200">

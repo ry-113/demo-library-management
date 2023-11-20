@@ -2,16 +2,10 @@
     <div>
         <h1>蔵書管理アプリへようこそ</h1>
         <p>G-mailアカウントで登録することができます</p>
-        <div v-if="auth.currentUser == null">
+        <div>
             <button class="btn my-10" type="button" role="button"
-                @click="auth.signIn">
+                @click="logIn">
                 はじめる
-            </button>
-        </div>
-        <div v-else>
-            <button class="btn " type="button" role="button"
-                @click="auth.signOutUser">
-                Sign Out
             </button>
         </div>
     </div>
@@ -21,8 +15,8 @@
 definePageMeta({
     layout: "custom",
 });
-const googleSignUp = () => {
-    const {googleSignUp} = useAuth()
-    googleSignUp();
+const logIn = () => {
+    const {logIn} = useAuth()
+    logIn();
 };
 </script>

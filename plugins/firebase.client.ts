@@ -17,6 +17,7 @@ export default defineNuxtPlugin(() => {
   };
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+ const firestore = getFirestore(app);
 
   const isEmulating = window.location.hostname === 'localhost';
   if (isEmulating) {
