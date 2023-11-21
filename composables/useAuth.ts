@@ -34,10 +34,10 @@ export const useAuth = () => {
             const googleUser = await signInWithPopup(auth, provider);
             const user = await getUser(googleUser.user.uid);
             const {updateUser} = useUser();
-            if(user) {
+            if (user) {
                 alert("既にユーザーが登録されています。");
                 updateUser(user.data());
-                navigateTo("/", {replace: true})
+                navigateTo(`/${googleUser.user.uid}/transaction`, { replace: true });
             } else {
                 alert("新規登録完了しました。");
                 await createUser(googleUser);

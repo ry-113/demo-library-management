@@ -1,22 +1,22 @@
 <template>
-  <div class="navbar fixed top-0 z-10 bg-slate-300 py-6 justify-between">
+  <div class="navbar fixed top-0 z-10 bg-slate-300 px-6 py-4 justify-between">
     <div class="flex-1">
-      <a class="btn btn-ghost text-xl">daisyUI</a>
+      <a class="btn btn-ghost text-3xl">Logo</a>
     </div>
-    <div class="flex-none gap-2">
-      <div class="form-control">
-        <input
-          type="text"
-          placeholder="本をキーワードで検索"
-          class="input input-bordered w-[600px]"
-        />
-      </div>
+    <div class="gap-2">
+     <input
+        type="text"
+        placeholder="本をキーワードで検索"
+        class="input input-bordered w-[600px] absolute right-[50%] translate-x-[50%]"
+      />
       <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-          <div class="w-10 rounded-full">
+        <label tabindex="0" class="flex items-center gap-5 cursor-pointer">
+          <p>ユーザーネーム</p>
+          <div class="w-10">
             <img
-              alt="Tailwind CSS Navbar component"
-              src="/images/stock/photo-1534528741775-53994a69daeb.jpg"
+              alt=""
+              src=""
+              class="rounded-full"
             />
           </div>
         </label>
@@ -34,13 +34,11 @@
     </div>
   </div>
 
-  <div class="drawer lg:drawer-open">
+  <div class="drawer sm:drawer-open">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col items-center justify-center">
+    <div class="drawer-content absolute top-[80px] w-full h-[calc(100vh - 80px)] p-10">
       <!-- Page content here -->
-      <slot/>
-
-      <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+     <slot/>
     </div>
     <div class="drawer-side">
       <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -53,4 +51,9 @@
       </ul>
     </div>
   </div>
+  
 </template>
+
+<script setup lang="ts">
+
+</script>
