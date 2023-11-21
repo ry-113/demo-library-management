@@ -1,6 +1,6 @@
 import type {Auth, User, UserCredential} from "firebase/auth";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged} from "firebase/auth";
-import {getFirestore, collection, where, query, getDocs, addDoc} from "firebase/firestore";
+import {getFirestore, collection, where, query, getDocs, doc, setDoc} from "firebase/firestore";
 
 export const useAuth = () => {
     const db = getFirestore();
@@ -17,11 +17,12 @@ export const useAuth = () => {
     }
     
     const createUser = async (user: UserCredential) => {
-        await addDoc(collection(db, "users"), {
+        await setDoc(doc(db, "users", user.user.uid), {
             uid: user.user.uid,
             name: user.user.displayName,
             email: user.user.email,
             photo: user.user.photoURL,
+            role: "student",
         });
     };
 

@@ -22,14 +22,7 @@ const logIn = () => {
             <button class="btn" @click="logIn">ログイン</button>
         </div>
     </header>
-    <div class="hero min-h-[70vh] bg-base-200">
-        <div class="hero-content text-center">
-            <div class="max-w-lg">
-            <h1 class="text-5xl font-bold mb-10">Library Management</h1>
-            <slot/>
-            </div>
-        </div>
-    </div>
+    <slot/>
     <footer class="footer footer-center p-10 bg-base-200 text-base-content rounded min-h-[20vh]">
         <nav class="grid grid-flow-col gap-4">
             <a class="link link-hover">About us</a>
