@@ -46,19 +46,19 @@
       <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content text-xl">
         <!-- Sidebar content here -->
         <li class="p-4 mt-28" v-if="userRole === 'student'">
-          <NuxtLink :to="`/student/transaction-${user?.uid}`" :class="{'active': $route.path === `/student/transaction-${user?.uid}`}">貸出記録</NuxtLink>
+          <NuxtLink :to="`/student/transaction-${user?.uid}`" class="py-3" :class="{'active': $route.path === `/student/transaction-${user?.uid}`}">貸出記録</NuxtLink>
         </li>
         <li class="p-4 mt-28" v-else>
-          <NuxtLink to="/instructor/transaction" :class="{'active': $route.path === '/instructor/transaction'}">貸出記録</NuxtLink>
+          <NuxtLink to="/instructor/transaction" class="py-3" :class="{'active': $route.path === '/instructor/transaction'}">貸出記録</NuxtLink>
         </li>
         <li class="p-4">
-          <NuxtLink to="/books" :class="{'active': $route.path === '/books'}">本棚</NuxtLink>
+          <NuxtLink to="/books" class="py-3" :class="{'active': $route.path === '/books'}">本棚</NuxtLink>
         </li>
         <li class="p-4" v-if="userRole === 'admin' || userRole === 'instructor'">
-          <NuxtLink to="/instructor/database" :class="{'active': $route.path === '/instructor/database'}">データベース</NuxtLink>
+          <NuxtLink to="/instructor/database" class="py-3" :class="{'active': $route.path === '/instructor/database'}">データベース</NuxtLink>
         </li>
         <li class="p-4" v-if="userRole === 'admin'">
-          <NuxtLink to="/admin/user-management" :class="{'active': $route.path === '/admin/user-management'}">ユーザー管理</NuxtLink>
+          <NuxtLink to="/admin/user-management" class="py-3" :class="{'active': $route.path === '/admin/user-management'}">ユーザー管理</NuxtLink>
         </li>
       </ul>
     </div>
