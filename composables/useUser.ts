@@ -12,4 +12,4 @@ export const useUser = () => {
         user: readonly(user),
         updateUser: updateUser(user)
     }
-}; 
+};

@@ -10,12 +10,13 @@
         class="input input-bordered w-[600px] absolute right-[50%] translate-x-[50%]"
       />
       <div class="dropdown dropdown-end">
-        <label tabindex="0" class="flex items-center gap-5 cursor-pointer">
-          <p>ユーザーネーム</p>
+        <label tabindex="0" class="flex items-center gap-2 cursor-pointer btn btn-ghost">
+          <div class="badge badge-outline">{{ userRole }}</div>
+          <p class="user-name">{{ user?.displayName }}さん</p>
           <div class="w-10">
             <img
               alt=""
-              src=""
+              :src="`${user?.photoURL}`"
               class="rounded-full"
             />
           </div>
@@ -28,7 +29,7 @@
             <a>プロフィール</a>
           </li>
           <li><a>設定</a></li>
-          <li><a>ログアウト</a></li>
+          <li @click="logOut"><NuxtLink to="/">ログアウト</NuxtLink></li>
         </ul>
       </div>
     </div>
@@ -44,10 +45,21 @@
       <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
       <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content text-xl">
         <!-- Sidebar content here -->
-        <li class="p-4 mt-28"><a>貸出記録</a></li>
-        <li class="p-4"><a>本棚</a></li>
-        <li class="p-4"><a>データベース</a></li>
-        <li class="p-4"><a>ユーザー管理</a></li>
+        <li class="p-4 mt-28" v-if="userRole === 'student'">
+          <NuxtLink :to="`/student/transaction-${user?.uid}`">貸出記録</NuxtLink>
+        </li>
+        <li class="p-4 mt-28" v-else>
+          <NuxtLink to="/instructor/transaction">貸出記録</NuxtLink>
+        </li>
+        <li class="p-4">
+          <NuxtLink to="/books">本棚</NuxtLink>
+        </li>
+        <li class="p-4" v-if="userRole === 'admin' || userRole === 'instructor'">
+          <NuxtLink to="/instructor/database">データベース</NuxtLink>
+        </li>
+        <li class="p-4" v-if="userRole === 'admin'">
+          <NuxtLink to="/admin/user-management">ユーザー管理</NuxtLink>
+        </li>
       </ul>
     </div>
   </div>
@@ -55,5 +67,19 @@
 </template>
 
 <script setup lang="ts">
+import {getAuth} from "firebase/auth"
+const auth = getAuth();
+const user = auth.currentUser;
+const {logOut} = useAuth();
 
+const {getUser} = useAuth();
+const getUserRole = async () => {
+  if(user != null) {
+    const userSnapShot = await getUser(user.uid);
+    const userData = userSnapShot.data();
+    return userData.role
+  }
+};
+
+const userRole = await getUserRole();
 </script>

@@ -1,5 +1,5 @@
 import { getFirestore, doc, collection, updateDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 
 export const useUserSetting = () => {
     const db = getFirestore();
@@ -9,6 +9,11 @@ export const useUserSetting = () => {
     
     const changeName = async (displayName: string) => {
         if(user) {
+            //authの情報を変更
+            updateProfile(user, {
+                displayName
+            });
+            //firestoreの情報を変更
             const userRef = doc(usersCol, user.uid);
             await updateDoc(userRef, {
                 name: displayName,
