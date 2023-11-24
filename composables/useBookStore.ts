@@ -26,6 +26,7 @@ export const useBookStore = () => {
       const timeDiff = Math.abs(now - lastUpdateTime) / (1000 * 60); //単位は分
       if (timeDiff >= 10) {
         getAllBooks();
+        sessionStorage.setItem("timestamp", String(new Date()));
         console.log("10分以上たった");
       }
     }
