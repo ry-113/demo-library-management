@@ -4,7 +4,7 @@ type Book = {
   ISBN: string;
   author: string;
   bookid: string;
-  description: string:
+  description: string;
   genre: string;
   imageURL: string;
   labels: string[];

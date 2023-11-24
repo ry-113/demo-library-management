@@ -39,7 +39,9 @@
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content absolute top-[80px] w-full h-[calc(100vh - 80px)] p-10">
       <!-- Page content here -->
-     <slot/>
+      <div class="max-w-[1180px] max-h-[570px] overflow-y-scroll">
+        <slot/>
+      </div>
     </div>
     <div class="drawer-side">
       <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>

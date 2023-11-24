@@ -1,7 +1,7 @@
 <template>
     <h1>{{ genre }}の一覧ページ</h1>
     <ul>
-        <li v-for="book in books">
+        <li v-for="book in books" :key="book.bookid">
             <p>{{ book.title }}</p>
             <p>{{ book.author }}</p>
         </li>
