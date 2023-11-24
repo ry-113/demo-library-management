@@ -1,16 +1,34 @@
-import { getFirestore, collection, getDocs} from "firebase/firestore";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 export const useBookStore = () => {
   const db = getFirestore();
-
+  const allBooks = useState("allBooks", () => []);
   const getAllBooks = async () => {
-    const allBooks = [];
+    const fetchData = [];
     const querySnapshot = await getDocs(collection(db, "books"));
     querySnapshot.forEach((doc) => {
-      allBooks.push(doc.data());
+      fetchData.push(doc.data());
     });
-    return allBooks;
+    allBooks.value = fetchData;
   };
-  
-  return {getAllBooks}
+
+  onMounted(() => {
+    const isExisting = sessionStorage.getItem("isExisting");
+    const timestamp = sessionStorage.getItem("timestamp");
+    if (!isExisting) {
+      getAllBooks();
+      sessionStorage.setItem("isExisting", "true");
+      sessionStorage.setItem("timestamp", String(new Date()));
+      console.log("初回のGET");
+    } else if (timestamp) {
+      const lastUpdateTime = new Date(timestamp).getTime();
+      const now = new Date().getTime();
+      const timeDiff = Math.abs(now - lastUpdateTime) / (1000 * 60); //単位は分
+      if (timeDiff >= 10) {
+        getAllBooks();
+        console.log("10分以上たった");
+      }
+    }
+  });
+  return { allBooks, getAllBooks };
 };
