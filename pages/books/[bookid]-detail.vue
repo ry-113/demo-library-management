@@ -6,6 +6,5 @@
 const route = useRoute();
 const bookid = route.params.bookid;
 const { allBooks } = useBookStore();
-const book = allBooks.value.find((book) => book.bookid = bookid)
-console.log(bookid, book);
+const book = allBooks.value.find((book) => book.bookid === bookid);
 </script>

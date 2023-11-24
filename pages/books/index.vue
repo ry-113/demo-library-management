@@ -6,7 +6,6 @@
                 <p>{{ book.title }}</p>
                 <p>{{ book.author }}</p>
             </NuxtLink>
-            
         </li>
     </ul>
 </template>
