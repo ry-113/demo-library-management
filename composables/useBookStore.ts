@@ -1,13 +1,26 @@
 import { getFirestore, collection, getDocs } from "firebase/firestore";
+import type { Ref } from "vue";
+type Book = {
+  ISBN: string;
+  author: string;
+  bookid: string;
+  description: string:
+  genre: string;
+  imageURL: string;
+  labels: string[];
+  stock: number;
+  title: string;
+  year: number;
+};
 
 export const useBookStore = () => {
   const db = getFirestore();
-  const allBooks = useState("allBooks", () => []);
+  const allBooks: Ref<Book[]> = useState("allBooks", () => []);
   const getAllBooks = async () => {
-    const fetchData = [];
+    const fetchData: Book[] = [];
     const querySnapshot = await getDocs(collection(db, "books"));
     querySnapshot.forEach((doc) => {
-      fetchData.push(doc.data());
+      fetchData.push(doc.data() as Book);
     });
     allBooks.value = fetchData;
   };

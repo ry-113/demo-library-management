@@ -1,5 +1,5 @@
 <template>
-    <h1>{{ book.title }}の詳細ページ</h1>
+    <h1>{{ book?.title }}の詳細ページ</h1>
 </template>
 
 <script setup lang="ts">
