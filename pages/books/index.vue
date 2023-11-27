@@ -1,13 +1,15 @@
 <template>
-  <div v-for="num in 3" :key="num">
-    <h2 class="mt-6 text-xl">ジャンル名</h2>
+  <div v-if="isLoading">ロード中...</div>
+  
+  <div v-for="[genre, books] in Object.entries(booksByGenre)">
+    <h2 class="mt-6 text-xl">{{ genre }}</h2>
     <ul
       class="carousel carousel-center p-4 space-x-4 bg-stone-100 rounded-box overflow-x-hidden"
     >
       <li
-        v-for="book in allBooks"
+        v-for="book in books"
         :key="book.bookid"
-        class="mb-3 carousel-item card card-compact shadow-xl bg-base-100 w-[180px]"
+        class="mb-3 carousel-item card card-compact shadow-xl bg-base-100 w-[190px]"
       >
         <NuxtLink :to="`/books/${book.bookid}-detail`">
           <figure>
@@ -23,5 +25,5 @@
   </div>
 </template>
 <script setup lang="ts">
-const { allBooks } = useBookStore();
+const { booksByGenre, isLoading } = useBookStore();
 </script>
