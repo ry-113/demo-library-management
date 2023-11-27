@@ -31,7 +31,7 @@ export const useBookStore = () => {
     });
 
     allBooks.value = [...fetchData];
-
+    booksByGenre.value = {};//初期化
     fetchData.forEach(book => {
       const {genre} = book;
       if(!booksByGenre.value[genre]) {
