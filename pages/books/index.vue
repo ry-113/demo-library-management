@@ -8,7 +8,5 @@
     </ul>
 </template>
 <script setup lang="ts">
-const { getAllBooks } = useBookStore();
-const allBooks = await getAllBooks();
-console.log(allBooks);
+const { allBooks } = useBookStore();
 </script>

@@ -29,6 +29,8 @@ export const useAuth = () => {
     });
   };
 
+  
+
   //ログイン関数
   const logIn = async () => {
     try {

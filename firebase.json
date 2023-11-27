@@ -8,10 +8,6 @@
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log"
-      ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
-        "npm --prefix \"$RESOURCE_DIR\" run build"
       ]
     }
   ],
@@ -25,7 +21,14 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/index.html",
+        "function": "createBundle"
+      }
+    ],
+    "headers": [
+      {
+        "source": "*",
+        "headers": [{"key": "Access-Control-Allow-Origin", "value": "*"}]
       }
     ]
   },
