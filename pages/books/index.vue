@@ -1,7 +1,7 @@
 <template>
-  <div v-if="isLoading">ロード中...</div>
+  <div v-if="isLoading" class="w-full h-[85vh] flex justify-center"><span class="loading loading-spinner loading-lg"></span></div>
   
-  <div v-for="[genre, books] in Object.entries(booksByGenre)">
+  <div v-else v-for="[genre, books] in Object.entries(booksByGenre)">
     <h2 class="mt-6 text-xl">{{ genre }}</h2>
     <ul
       class="carousel carousel-center p-4 space-x-4 bg-stone-100 rounded-box overflow-x-hidden"
