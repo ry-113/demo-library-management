@@ -38,8 +38,9 @@
   <div class="drawer sm:drawer-open">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content absolute top-[80px] w-full h-[calc(100vh - 80px)] p-10">
+      <slot name="breadcrumbs"/>
       <!-- Page content here -->
-      <div class="w-full max-h-[85vh] overflow-y-scroll">
+      <div class="w-full max-h-[85vh] overflow-y-scroll disable-scrollbars">
         <slot/>
       </div>
     </div>

@@ -13,7 +13,30 @@ export default {
   },
   plugins: [
     require("@tailwindcss/typography"),
-    require("daisyui")
+    require("daisyui"),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".disable-scrollbars": {
+          scrollbarWidth: "none",
+          "-ms-overflow-style": "none",
+          "&::-webkit-scrollbar": {
+            width: "0px",
+            background: "transparent",
+            display: "none"
+          },
+          "& *::-webkit-scrollbar": {
+            width: "0px",
+            background: "transparent",
+            display: "none"
+          },
+          "& *": {
+            scrollbarWidth: "none",
+            "-ms-overflow-style": "none"
+          }
+        }
+      };
+      addUtilities(newUtilities);
+    },
   ],
 }
 
