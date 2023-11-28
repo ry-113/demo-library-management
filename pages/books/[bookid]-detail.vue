@@ -26,6 +26,8 @@
               <button class="btn w-32">返す</button>
             </div>
           </div>
+
+          <!-- ここにコンテンツが来る -->
         </div>
       </template>
     </NuxtLayout>
