@@ -54,7 +54,7 @@
           <NuxtLink to="/instructor/transaction" class="py-3" :class="{'active': $route.path === '/instructor/transaction'}">貸出記録</NuxtLink>
         </li>
         <li class="p-4">
-          <NuxtLink to="/books" class="py-3" :class="{'active': $route.path === '/books'}">本棚</NuxtLink>
+          <NuxtLink to="/books" class="py-3" :class="{'active':  /^\/books/.test($route.path)}">本棚</NuxtLink>
         </li>
         <li class="p-4" v-if="userRole === 'admin' || userRole === 'instructor'">
           <NuxtLink to="/instructor/database" class="py-3" :class="{'active': $route.path === '/instructor/database'}">データベース</NuxtLink>
