@@ -1,5 +1,7 @@
 <template>
   <div>
+    <p class="text-xl align-middle">
+      {{ props.rating }}
     <span
       v-for="(star, index) in 5"
       :key="index"
@@ -11,7 +13,7 @@
       @click="setRating(index + 1)"
       class=""
       >★</span
-    >
+    ></p>
   </div>
 </template>
 

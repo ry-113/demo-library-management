@@ -1,5 +1,9 @@
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import type { Ref } from 'vue';
+type Label = {
+  name: string;
+  color: string;
+};
 export type Book = {
   ISBN: string;
   author: string;
@@ -7,7 +11,7 @@ export type Book = {
   description: string;
   genre: string;
   imageURL: string;
-  labels: string[];
+  labels: Label[];
   stock: number;
   title: string;
   year: number;
