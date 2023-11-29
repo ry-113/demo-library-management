@@ -22,21 +22,26 @@ export default {
           "&::-webkit-scrollbar": {
             width: "0px",
             background: "transparent",
-            display: "none"
+            display: "none",
           },
           "& *::-webkit-scrollbar": {
             width: "0px",
             background: "transparent",
-            display: "none"
+            display: "none",
           },
           "& *": {
             scrollbarWidth: "none",
-            "-ms-overflow-style": "none"
-          }
-        }
+            "-ms-overflow-style": "none",
+          },
+        },
+        ".text-overflow-lines": {
+          display: "-webkit-box",
+          "-webkit-box-orient": "vertical",
+          "-webkit-line-clamp": "3",
+          overflow: "hidden",
+        },
       };
       addUtilities(newUtilities);
     },
   ],
-}
-
+};
