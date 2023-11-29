@@ -25,21 +25,21 @@
             <ReviewDisplay :rating="rating" class="mt-3"></ReviewDisplay>
 
             <div class="action--btns flex absolute bottom-4 right-0 gap-5">
-              <Modal modal-id="review">
+              <CommonModal modal-id="review">
                 <template #actionName> レビュー投稿 </template>
                 <h1>レビュー投稿</h1>
                 <p>このモーダルはレビューを投稿できます。</p>
-              </Modal>
-              <Modal modal-id="borrow">
+              </CommonModal>
+              <CommonModal modal-id="borrow">
                 <template #actionName> 借りる </template>
                 <h1>貸出リクエスト</h1>
                 <p>このモーダルは貸出のリクエストができます。</p>
-              </Modal>
-              <Modal modal-id="returnBook">
+              </CommonModal>
+              <CommonModal modal-id="returnBook">
                 <template #actionName> 返す </template>
                 <h1>返却リクエスト</h1>
                 <p>このモーダルは返却のリクエストができます。</p>
-              </Modal>
+              </CommonModal>
             </div>
           </div>
 
@@ -90,9 +90,7 @@
                         </div>
                         <p>{{ review.timestamp }}</p>
                       </div>
-
                       <ReviewDisplay :rating="Number(review.rating)" />
-
                       <div class="review--box mt-6 text-overflow-lines">
                         <h3 class="mb-3 font-semibold">{{ review.title }}</h3>
                         <p>{{ review.description }}</p>
