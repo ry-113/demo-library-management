@@ -53,7 +53,7 @@
                 <p class="mb-8">クリックすると全文を表示できます。</p>
                 <Carousel :items-to-show="1" :wrap-around="true" :autoplay="5000" :transition="800">
                   <Slide v-for="review in reviews" :key="review.reviewid">
-                    <div class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[75%] h-[30vh]">
+                    <div class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[75%] h-[35vh]">
                       <div class="review--header flex items-center justify-between mb-3">
                         <div class="reviewer-info flex items-center gap-3">
                           <img :src="`${review.photo}`" alt="" class="rounded-full w-10" />
@@ -65,7 +65,7 @@
                       <ReviewDisplay :rating="review.rating" />
 
                       <div class="review--box mt-6 text-overflow-lines">
-                        <h3 class="mb-3">{{ review.title }}</h3>
+                        <h3 class="mb-3 font-semibold">{{ review.title }}</h3>
                         <p>{{ review.description }}</p>
                       </div>
                       
