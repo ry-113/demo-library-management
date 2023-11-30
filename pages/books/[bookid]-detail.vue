@@ -41,7 +41,11 @@
                     <div class="mb-3">
                       <label for="rating">
                         評価
-                        <RatingDisplay :rating="postRating" id="rating" @update:rating="setRating"/>
+                        <RatingDisplay
+                          :rating="postRating"
+                          id="rating"
+                          @update:rating="setRating"
+                        />
                       </label>
                     </div>
                     <div class="mb-3">
@@ -121,7 +125,7 @@
                           <img :src="`${review.photo}`" alt="" class="rounded-full w-10" />
                           <p class="text-lg">{{ review.username }}</p>
                         </div>
-                        <p>{{ review.timestamp }}</p>
+                        <p>{{ $dayjs(review.timestamp).format("YYYY/MM/DD") }}</p>
                       </div>
                       <RatingDisplay :rating="Number(review.rating)" />
                       <div class="review--box mt-6 text-overflow-lines">
@@ -145,6 +149,7 @@
 </template>
 
 <script setup lang="ts">
+import { getAuth } from 'firebase/auth';
 import 'vue3-carousel/dist/carousel.css';
 import type { Review } from '@/composables/useReviewStore';
 definePageMeta({
@@ -171,7 +176,7 @@ const getBgColor = (color: string) => {
   }
 };
 
-const { getReviews } = useReviewStore();
+const { getReviews, addReview } = useReviewStore();
 const reviews: Review[] = await getReviews(book?.bookid);
 
 //firestoreのレビューコレクションの集計
@@ -191,19 +196,52 @@ const showFullReview = (review: Review) => {
 
 //本のレビュー投稿
 const postRating = ref(0);
-const reviewTitle = ref("");
-const reviewContent = ref("");
-const setRating = (rating:number) => {
+const reviewTitle = ref('');
+const reviewContent = ref('');
+const setRating = (rating: number) => {
   postRating.value = rating;
 };
-const submitReview = () => {
+const submitReview = async () => {
   //レビュー評価のバリデーション
-  if(!postRating.value) {
-    alert("評価を選択してください。");
+  if (!postRating.value) {
+    alert('評価を選択してください。');
     return;
   }
-  console.log(postRating.value, reviewTitle.value, reviewContent.value);
-  //ここにfirestoreのレビューコレクションに保存する処理を書く
-  //ユーザー情報と本の情報、タイムスタンプを忘れずに
+  const auth = getAuth();
+  const user = auth.currentUser;
+  let username, uid, photo;
+  if (user) {
+    username = user.displayName;
+    uid = user.uid;
+    photo = user.photoURL;
+  }
+  const newReview: Review = {
+    uid,
+    username,
+    photo,
+    bookid,
+    rating: postRating.value,
+    title: reviewTitle.value,
+    description: reviewContent.value,
+    timestamp: new Date().toLocaleString(),
+  };
+  try{
+    await addReview(newReview);
+    alert("レビューの投稿が完了しました。");
+  } catch {
+    alert('レビュー送信中に予期せぬエラーが起きました');
+  }
+  document.getElementById("review")?.close();
 };
 </script>
+<!-- export type Review = {
+  reviewid: string;
+  uid: string;
+  username: string;
+  photo: string;
+  bookid: string;
+  rating: number;
+  title: string;
+  description: string;
+  timestamp: Date;
+}; -->
