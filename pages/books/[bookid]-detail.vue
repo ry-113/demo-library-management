@@ -6,9 +6,7 @@
           <ul>
             <li><NuxtLink to="/books">本棚</NuxtLink></li>
             <li>
-              <NuxtLink :to="`/books/${book?.genre}`">{{
-                book?.genre
-              }}</NuxtLink>
+              <NuxtLink :to="`/books/${book?.genre}`">{{ book?.genre }}</NuxtLink>
             </li>
             <li>{{ book?.title }}</li>
           </ul>
@@ -43,9 +41,7 @@
             </div>
           </div>
 
-          <div
-            class="contents--container py-10 flex justify-between items-start"
-          >
+          <div class="contents--container pt-20 flex justify-between items-start">
             <img src="/img/book_dummy.png" alt="" class="w-[45%] xl:w-[35%]" />
             <div class="book--info w-[50%]">
               <ul class="flex gap-3 label--list flex-wrap">
@@ -60,32 +56,22 @@
               </ul>
 
               <div class="description--box">
-                <h2 class="text-xl mt-8 mb-2">説明</h2>
+                <h2 class="text-xl mt-8 xl:mt-12 mb-2">説明</h2>
                 <p>{{ book?.description }}</p>
               </div>
 
               <div class="review--box">
-                <h2 class="text-xl mt-8 mb-2">レビュー</h2>
+                <h2 class="text-xl mt-8 xl:mt-12 mb-2">レビュー</h2>
                 <p class="mb-8">クリックすると全文を表示できます。</p>
-                <Carousel
-                  :items-to-show="1"
-                  :wrap-around="true"
-                  :autoplay="5000"
-                  :transition="800"
-                >
+                <Carousel :items-to-show="1" :wrap-around="true" :autoplay="5000" :transition="800">
                   <Slide v-for="review in reviews" :key="review.reviewid">
                     <div
-                      class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[75%] h-[35vh]"
+                      class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[75%] h-[20vh]"
+                      @click="showFullReview(review)"
                     >
-                      <div
-                        class="review--header flex items-center justify-between mb-3"
-                      >
+                      <div class="review--header flex items-center justify-between mb-3">
                         <div class="reviewer-info flex items-center gap-3">
-                          <img
-                            :src="`${review.photo}`"
-                            alt=""
-                            class="rounded-full w-10"
-                          />
+                          <img :src="`${review.photo}`" alt="" class="rounded-full w-10" />
                           <p class="text-lg">{{ review.username }}</p>
                         </div>
                         <p>{{ review.timestamp }}</p>
@@ -101,6 +87,7 @@
                     <Navigation />
                   </template>
                 </Carousel>
+                <ReviewModal :review="selectedReview"/>
               </div>
             </div>
           </div>
@@ -111,8 +98,8 @@
 </template>
 
 <script setup lang="ts">
-import "vue3-carousel/dist/carousel.css";
-import type { Review } from "@/composables/useReviewStore";
+import 'vue3-carousel/dist/carousel.css';
+import type { Review } from '@/composables/useReviewStore';
 definePageMeta({
   layout: false,
 });
@@ -124,16 +111,16 @@ const labels = computed(() => book?.labels);
 
 const getBgColor = (color: string) => {
   switch (color) {
-    case "red":
-      return "bg-red-400";
-    case "blue":
-      return "bg-blue-400";
-    case "green":
-      return "bg-green-400";
-    case "yellow":
-      return "bg-yellow-400";
-    case "purple":
-      return "bg-purple-400";
+    case 'red':
+      return 'bg-red-400';
+    case 'blue':
+      return 'bg-blue-400';
+    case 'green':
+      return 'bg-green-400';
+    case 'yellow':
+      return 'bg-yellow-400';
+    case 'purple':
+      return 'bg-purple-400';
   }
 };
 
@@ -147,4 +134,10 @@ const rating = computed((): number => {
   const rating = Math.round(ratingAvr * 10) / 10; //小数第2位を四捨五入
   return rating;
 });
+
+const selectedReview: Ref<Review | null> = ref(null);
+const showFullReview = (review: Review) => {
+  selectedReview.value = review;
+  document.getElementById('full_review')?.showModal();
+};
 </script>
