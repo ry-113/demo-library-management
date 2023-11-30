@@ -20,7 +20,7 @@
             <p>著者: {{ book?.author }}</p>
             <p>出版年: {{ book?.year }}</p>
             <p>ジャンル: {{ book?.genre }}</p>
-            <RatingDisplay :rating="rating" class="mt-3"></RatingDisplay>
+            <RatingDisplay :rating="rating" class="mt-3">{{ numOfReviews }}件</RatingDisplay>
 
             <div class="action--btns flex absolute bottom-4 right-0 gap-5">
               <CommonModal modal-id="review">
@@ -178,12 +178,12 @@ const getBgColor = (color: string) => {
 
 const { getReviews, addReview } = useReviewStore();
 const reviews: Review[] = await getReviews(book?.bookid);
-
+const numOfReviews = reviews.length
 //firestoreのレビューコレクションの集計
 const rating = computed((): number => {
   let total: number = 0;
   reviews.forEach((review) => (total += Number(review.rating)));
-  const ratingAvr = total / reviews.length;
+  const ratingAvr = total / numOfReviews;
   const rating = Math.round(ratingAvr * 10) / 10; //小数第2位を四捨五入
   return rating;
 });

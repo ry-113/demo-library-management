@@ -12,7 +12,9 @@
       ]"
       @click="setRating(index + 1)"
       >★</span
-    ></p>
+    >
+    <span class="ml-2"><slot/></span>
+  </p>
   </div>
 </template>
 
