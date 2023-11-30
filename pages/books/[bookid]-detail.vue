@@ -20,14 +20,59 @@
             <p>著者: {{ book?.author }}</p>
             <p>出版年: {{ book?.year }}</p>
             <p>ジャンル: {{ book?.genre }}</p>
-            <ReviewDisplay :rating="rating" class="mt-3"></ReviewDisplay>
+            <RatingDisplay :rating="rating" class="mt-3"></RatingDisplay>
 
             <div class="action--btns flex absolute bottom-4 right-0 gap-5">
               <CommonModal modal-id="review">
                 <template #actionName> レビュー投稿 </template>
-                <h1>レビュー投稿</h1>
-                <p>このモーダルはレビューを投稿できます。</p>
+                <h1 class="text-xl">レビュー投稿</h1>
+                <p>フォームを入力し、送信ボタンを押してください。</p>
+                <div class="review--form flex items-start mt-10 gap-10">
+                  <div class="text-left card card-compact shadow-xl bg-base-100 w-[35%]">
+                    <figure>
+                      <img src="/img/book_dummy.png" alt="" class="rounded-t-2xl" />
+                    </figure>
+                    <div class="card-body">
+                      <p class="font-bold text-xs xl:text-sm">{{ book?.title }}</p>
+                      <p class="text-xs">{{ book?.author }}</p>
+                    </div>
+                  </div>
+                  <form @submit.prevent="submitReview" class="w-[60%]">
+                    <div class="mb-3">
+                      <label for="rating">
+                        評価
+                        <RatingDisplay :rating="postRating" id="rating" @update:rating="setRating"/>
+                      </label>
+                    </div>
+                    <div class="mb-3">
+                      <label for="title">
+                        レビュータイトル
+                        <input
+                          type="text"
+                          placeholder="タイトルを20文字以内で入力してください"
+                          class="input input-bordered w-full"
+                          id="title"
+                          v-model="reviewTitle"
+                        />
+                      </label>
+                    </div>
+                    <div class="mb-3">
+                      <label for="content">
+                        内容
+                        <textarea
+                          class="textarea textarea-bordered w-full text-base h-[200px]"
+                          placeholder="500文字以内で入力してください"
+                          id="content"
+                          v-model="reviewContent"
+                        ></textarea>
+                      </label>
+                    </div>
+
+                    <button type="submit" class="btn block ml-auto">送信</button>
+                  </form>
+                </div>
               </CommonModal>
+
               <CommonModal modal-id="borrow">
                 <template #actionName> 借りる </template>
                 <h1>貸出リクエスト</h1>
@@ -76,7 +121,7 @@
                         </div>
                         <p>{{ review.timestamp }}</p>
                       </div>
-                      <ReviewDisplay :rating="Number(review.rating)" />
+                      <RatingDisplay :rating="Number(review.rating)" />
                       <div class="review--box mt-6 text-overflow-lines">
                         <h3 class="mb-3 font-semibold">{{ review.title }}</h3>
                         <p>{{ review.description }}</p>
@@ -87,7 +132,7 @@
                     <Navigation />
                   </template>
                 </Carousel>
-                <ReviewModal :review="selectedReview"/>
+                <ReviewModal :review="selectedReview" />
               </div>
             </div>
           </div>
@@ -127,6 +172,7 @@ const getBgColor = (color: string) => {
 const { getReviews } = useReviewStore();
 const reviews: Review[] = await getReviews(book?.bookid);
 
+//firestoreのレビューコレクションの集計
 const rating = computed((): number => {
   let total: number = 0;
   reviews.forEach((review) => (total += Number(review.rating)));
@@ -139,5 +185,18 @@ const selectedReview: Ref<Review | null> = ref(null);
 const showFullReview = (review: Review) => {
   selectedReview.value = review;
   document.getElementById('full_review')?.showModal();
+};
+
+//本のレビュー投稿
+const postRating = ref(0);
+const reviewTitle = ref("");
+const reviewContent = ref("");
+const setRating = (rating:number) => {
+  postRating.value = rating;
+};
+const submitReview = () => {
+  console.log(postRating.value, reviewTitle.value, reviewContent.value);
+  //ここにfirestoreのレビューコレクションに保存する処理を書く
+  //ユーザー情報と本の情報、タイムスタンプを忘れずに
 };
 </script>

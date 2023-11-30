@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="text-xl align-middle">
-      {{ props.rating }}
+    <span v-if="props.rating !== 0" class="mr-2">{{ props.rating }}</span>
     <span
       v-for="(star, index) in 5"
       :key="index"
@@ -11,7 +11,6 @@
         index === Math.floor(props.rating) && props.rating % 1 !== 0 ? 'half-filled' : '',
       ]"
       @click="setRating(index + 1)"
-      class=""
       >★</span
     ></p>
   </div>
@@ -20,7 +19,7 @@
 <script setup lang="ts">
 
 interface Props {
-  rating: number;
+  rating : number;
 }
 const props = defineProps<Props>();
 

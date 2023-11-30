@@ -9,7 +9,7 @@
           </div>
           <p>{{ review?.timestamp }}</p>
         </div>
-        <ReviewDisplay :rating="Number(review?.rating)" />
+        <RatingDisplay :rating="Number(review?.rating)" />
         <div class="review--box mt-6">
           <h3 class="mb-3 font-semibold">{{ review?.title }}</h3>
           <p>{{ review?.description }}</p>
