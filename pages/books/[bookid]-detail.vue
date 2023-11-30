@@ -53,6 +53,7 @@
                           class="input input-bordered w-full"
                           id="title"
                           v-model="reviewTitle"
+                          required
                         />
                       </label>
                     </div>
@@ -64,6 +65,7 @@
                           placeholder="500文字以内で入力してください"
                           id="content"
                           v-model="reviewContent"
+                          required
                         ></textarea>
                       </label>
                     </div>
@@ -195,6 +197,11 @@ const setRating = (rating:number) => {
   postRating.value = rating;
 };
 const submitReview = () => {
+  //レビュー評価のバリデーション
+  if(!postRating.value) {
+    alert("評価を選択してください。");
+    return;
+  }
   console.log(postRating.value, reviewTitle.value, reviewContent.value);
   //ここにfirestoreのレビューコレクションに保存する処理を書く
   //ユーザー情報と本の情報、タイムスタンプを忘れずに
