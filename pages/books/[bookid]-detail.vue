@@ -6,7 +6,9 @@
           <ul>
             <li><NuxtLink to="/books">本棚</NuxtLink></li>
             <li>
-              <NuxtLink :to="`/books/${book?.genre}`">{{ book?.genre }}</NuxtLink>
+              <NuxtLink :to="`/books/${book?.genre}`">{{
+                book?.genre
+              }}</NuxtLink>
             </li>
             <li>{{ book?.title }}</li>
           </ul>
@@ -20,7 +22,9 @@
             <p>著者: {{ book?.author }}</p>
             <p>出版年: {{ book?.year }}</p>
             <p>ジャンル: {{ book?.genre }}</p>
-            <RatingDisplay :rating="rating" class="mt-3">{{ numOfReviews }}件</RatingDisplay>
+            <RatingDisplay :rating="rating" class="mt-3"
+              >{{ numOfReviews }}件</RatingDisplay
+            >
 
             <div class="action--btns flex absolute bottom-4 right-0 gap-5">
               <CommonModal modal-id="review">
@@ -28,12 +32,20 @@
                 <h1 class="text-xl">レビュー投稿</h1>
                 <p>フォームを入力し、送信ボタンを押してください。</p>
                 <div class="review--form flex items-start mt-10 gap-10">
-                  <div class="text-left card card-compact shadow-xl bg-base-100 w-[35%]">
+                  <div
+                    class="text-left card card-compact shadow-xl bg-base-100 w-[35%]"
+                  >
                     <figure>
-                      <img src="/img/book_dummy.png" alt="" class="rounded-t-2xl" />
+                      <img
+                        src="/img/book_dummy.png"
+                        alt=""
+                        class="rounded-t-2xl"
+                      />
                     </figure>
                     <div class="card-body">
-                      <p class="font-bold text-xs xl:text-sm">{{ book?.title }}</p>
+                      <p class="font-bold text-xs xl:text-sm">
+                        {{ book?.title }}
+                      </p>
                       <p class="text-xs">{{ book?.author }}</p>
                     </div>
                   </div>
@@ -74,7 +86,9 @@
                       </label>
                     </div>
 
-                    <button type="submit" class="btn block ml-auto">送信</button>
+                    <button type="submit" class="btn block ml-auto">
+                      送信
+                    </button>
                   </form>
                 </div>
               </CommonModal>
@@ -85,18 +99,31 @@
                 <p>カレンダーから返却予定日を選択してください。</p>
                 <p class="text-sm">※1か月以上先は選択できません。</p>
                 <div class="review--form flex items-start mt-10 gap-10">
-                  <div class="text-left card card-compact shadow-xl bg-base-100 w-[35%]">
+                  <div
+                    class="text-left card card-compact shadow-xl bg-base-100 w-[35%]"
+                  >
                     <figure>
-                      <img src="/img/book_dummy.png" alt="" class="rounded-t-2xl" />
+                      <img
+                        src="/img/book_dummy.png"
+                        alt=""
+                        class="rounded-t-2xl"
+                      />
                     </figure>
                     <div class="card-body">
-                      <p class="font-bold text-xs xl:text-sm">{{ book?.title }}</p>
+                      <p class="font-bold text-xs xl:text-sm">
+                        {{ book?.title }}
+                      </p>
                       <p class="text-xs">{{ book?.author }}</p>
                     </div>
                   </div>
-                  <form @submit.prevent="submitReview" class="w-[60%]">
-                    <DatePicker :datePeriod="datePeriod" @update:model-value="setDatePeriod"></DatePicker>
-                    <button type="submit" class="btn block ml-auto mt-3">送信</button>
+                  <form @submit.prevent="borrowReq" class="w-[60%]">
+                    <DatePicker
+                      :datePeriod="datePeriod"
+                      @update:model-value="setDatePeriod"
+                    ></DatePicker>
+                    <button type="submit" class="btn block ml-auto mt-3">
+                      送信
+                    </button>
                   </form>
                 </div>
               </CommonModal>
@@ -108,7 +135,9 @@
             </div>
           </div>
 
-          <div class="contents--container pt-20 flex justify-between items-start">
+          <div
+            class="contents--container pt-20 flex justify-between items-start"
+          >
             <img src="/img/book_dummy.png" alt="" class="w-[45%] xl:w-[35%]" />
             <div class="book--info w-[50%]">
               <ul class="flex gap-3 label--list flex-wrap">
@@ -130,18 +159,31 @@
               <div class="review--box">
                 <h2 class="text-xl mt-8 xl:mt-12 mb-2">レビュー</h2>
                 <p class="mb-8">クリックすると全文を表示できます。</p>
-                <Carousel :items-to-show="1" :wrap-around="true" :autoplay="5000" :transition="800">
+                <Carousel
+                  :items-to-show="1"
+                  :wrap-around="true"
+                  :autoplay="5000"
+                  :transition="800"
+                >
                   <Slide v-for="review in reviews" :key="review.reviewid">
                     <div
                       class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[75%] h-[20vh]"
                       @click="showFullReview(review)"
                     >
-                      <div class="review--header flex items-center justify-between mb-3">
+                      <div
+                        class="review--header flex items-center justify-between mb-3"
+                      >
                         <div class="reviewer-info flex items-center gap-3">
-                          <img :src="`${review.photo}`" alt="" class="rounded-full w-10" />
+                          <img
+                            :src="`${review.photo}`"
+                            alt=""
+                            class="rounded-full w-10"
+                          />
                           <p class="text-lg">{{ review.username }}</p>
                         </div>
-                        <p>{{ $dayjs(review.timestamp).format('YYYY/MM/DD') }}</p>
+                        <p>
+                          {{ $dayjs(review.timestamp).format("YYYY/MM/DD") }}
+                        </p>
                       </div>
                       <RatingDisplay :rating="Number(review.rating)" />
                       <div class="review--box mt-6 text-overflow-lines">
@@ -165,9 +207,11 @@
 </template>
 
 <script setup lang="ts">
-import { getAuth } from 'firebase/auth';
-import 'vue3-carousel/dist/carousel.css';
-import type { Review } from '@/composables/useReviewStore';
+import { getAuth } from "firebase/auth";
+const auth = getAuth();
+const user = auth.currentUser;
+import "vue3-carousel/dist/carousel.css";
+import type { Review } from "@/composables/useReviewStore";
 definePageMeta({
   layout: false,
 });
@@ -179,16 +223,16 @@ const labels = computed(() => book?.labels);
 
 const getBgColor = (color: string) => {
   switch (color) {
-    case 'red':
-      return 'bg-red-400';
-    case 'blue':
-      return 'bg-blue-400';
-    case 'green':
-      return 'bg-green-400';
-    case 'yellow':
-      return 'bg-yellow-400';
-    case 'purple':
-      return 'bg-purple-400';
+    case "red":
+      return "bg-red-400";
+    case "blue":
+      return "bg-blue-400";
+    case "green":
+      return "bg-green-400";
+    case "yellow":
+      return "bg-yellow-400";
+    case "purple":
+      return "bg-purple-400";
   }
 };
 
@@ -207,24 +251,23 @@ const rating = computed((): number => {
 const selectedReview: Ref<Review | null> = ref(null);
 const showFullReview = (review: Review) => {
   selectedReview.value = review;
-  document.getElementById('full_review')?.showModal();
+  document.getElementById("full_review")?.showModal();
 };
 
 //本のレビュー投稿
 const postRating = ref(0);
-const reviewTitle = ref('');
-const reviewContent = ref('');
+const reviewTitle = ref("");
+const reviewContent = ref("");
 const setRating = (rating: number) => {
   postRating.value = rating;
 };
 const submitReview = async () => {
   //レビュー評価のバリデーション
   if (!postRating.value) {
-    alert('評価を選択してください。');
+    alert("評価を選択してください。");
     return;
   }
-  const auth = getAuth();
-  const user = auth.currentUser;
+
   let username, uid, photo;
   if (user) {
     username = user.displayName;
@@ -243,11 +286,11 @@ const submitReview = async () => {
   };
   try {
     await addReview(newReview);
-    alert('レビューの投稿が完了しました。');
+    alert("レビューの投稿が完了しました。");
   } catch {
-    alert('レビュー送信中に予期せぬエラーが起きました');
+    alert("レビュー送信中に予期せぬエラーが起きました");
   }
-  document.getElementById('review')?.close();
+  document.getElementById("review")?.close();
 };
 
 //本の貸出リクエスト
@@ -256,5 +299,8 @@ const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
 const datePeriod: Ref<Date[]> = ref([startDate, endDate]);
 const setDatePeriod = (value: Date[]) => {
   datePeriod.value = value;
+};
+const borrowReq = () => {
+  console.log(datePeriod.value, user?.uid, user?.displayName, book?.bookid);
 };
 </script>

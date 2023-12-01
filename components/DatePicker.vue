@@ -15,7 +15,6 @@
     week-start="0"
     :month-change-on-scroll="false"
     @update:model-value="setDatePeriod"
-    :disabled-week-days="[6,0]"
   />
 </template>
 
