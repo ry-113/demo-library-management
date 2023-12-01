@@ -81,8 +81,23 @@
 
               <CommonModal modal-id="borrow">
                 <template #actionName> 借りる </template>
-                <h1>貸出リクエスト</h1>
-                <p>このモーダルは貸出のリクエストができます。</p>
+                <h1 class="text-xl">貸出リクエスト</h1>
+                <p>カレンダーから貸出期間を選択してください。</p>
+                <div class="review--form flex items-start mt-10 gap-10">
+                  <div class="text-left card card-compact shadow-xl bg-base-100 w-[35%]">
+                    <figure>
+                      <img src="/img/book_dummy.png" alt="" class="rounded-t-2xl" />
+                    </figure>
+                    <div class="card-body">
+                      <p class="font-bold text-xs xl:text-sm">{{ book?.title }}</p>
+                      <p class="text-xs">{{ book?.author }}</p>
+                    </div>
+                  </div>
+                  <form @submit.prevent="submitReview" class="w-[60%]">
+                    <DatePicker></DatePicker>
+                    <button type="submit" class="btn block ml-auto mt-3">送信</button>
+                  </form>
+                </div>
               </CommonModal>
               <CommonModal modal-id="returnBook">
                 <template #actionName> 返す </template>
@@ -125,7 +140,7 @@
                           <img :src="`${review.photo}`" alt="" class="rounded-full w-10" />
                           <p class="text-lg">{{ review.username }}</p>
                         </div>
-                        <p>{{ $dayjs(review.timestamp).format("YYYY/MM/DD") }}</p>
+                        <p>{{ $dayjs(review.timestamp).format('YYYY/MM/DD') }}</p>
                       </div>
                       <RatingDisplay :rating="Number(review.rating)" />
                       <div class="review--box mt-6 text-overflow-lines">
@@ -178,7 +193,7 @@ const getBgColor = (color: string) => {
 
 const { getReviews, addReview } = useReviewStore();
 const reviews: Review[] = await getReviews(book?.bookid);
-const numOfReviews = reviews.length
+const numOfReviews = reviews.length;
 //firestoreのレビューコレクションの集計
 const rating = computed((): number => {
   let total: number = 0;
@@ -225,13 +240,13 @@ const submitReview = async () => {
     description: reviewContent.value,
     timestamp: new Date().toLocaleString(),
   };
-  try{
+  try {
     await addReview(newReview);
-    alert("レビューの投稿が完了しました。");
+    alert('レビューの投稿が完了しました。');
   } catch {
     alert('レビュー送信中に予期せぬエラーが起きました');
   }
-  document.getElementById("review")?.close();
+  document.getElementById('review')?.close();
 };
 </script>
 <!-- export type Review = {
