@@ -1,19 +1,25 @@
 <template>
     <h2 class="text-lg">貸出期間</h2>
-  <VueDatePicker v-model="date" range multi-calendars inline auto-apply locale="ja" format="yyyy/MM/dd" :enable-time-picker="false" week-start="0"  :month-change-on-scroll="false"/>
+  <VueDatePicker v-model="props.datePeriod" range multi-calendars inline auto-apply locale="ja" :enable-time-picker="false" week-start="0"  :month-change-on-scroll="false" @update:model-value="setDatePeriod"/>
 </template>
 
 <script setup lang="ts">
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
-const date: Ref<Date[] | null> = ref(null);
+interface Props {
+    datePeriod: Date[],
+}
+const props = defineProps<Props>();
 
-onMounted(() => {
-    const startDate = new Date();
-    const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
-    date.value = [startDate, endDate];
-});
+interface Emits {
+    (e: "update:modelValue",datePeriod: Date[]): void
+}
+const emit = defineEmits<Emits>();
+
+const setDatePeriod = (datePeriod: Date[]) => {
+    emit("update:modelValue", datePeriod);
+};
 
 //modelValueの変更はemitで知らせる
 //modelValueの表示の仕方を調べる

@@ -94,7 +94,7 @@
                     </div>
                   </div>
                   <form @submit.prevent="submitReview" class="w-[60%]">
-                    <DatePicker></DatePicker>
+                    <DatePicker :datePeriod="datePeriod" @update:model-value="setDatePeriod"></DatePicker>
                     <button type="submit" class="btn block ml-auto mt-3">送信</button>
                   </form>
                 </div>
@@ -247,6 +247,14 @@ const submitReview = async () => {
     alert('レビュー送信中に予期せぬエラーが起きました');
   }
   document.getElementById('review')?.close();
+};
+
+//本の貸出リクエスト
+const startDate = new Date();
+const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
+const datePeriod: Ref<Date[]> = ref([startDate, endDate]);
+const setDatePeriod = (value: Date[]) => {
+  datePeriod.value = value;
 };
 </script>
 <!-- export type Review = {
