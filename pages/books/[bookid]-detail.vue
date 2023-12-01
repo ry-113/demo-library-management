@@ -82,7 +82,8 @@
               <CommonModal modal-id="borrow">
                 <template #actionName> 借りる </template>
                 <h1 class="text-xl">貸出リクエスト</h1>
-                <p>カレンダーから貸出期間を選択してください。</p>
+                <p>カレンダーから返却予定日を選択してください。</p>
+                <p class="text-sm">※1か月以上先は選択できません。</p>
                 <div class="review--form flex items-start mt-10 gap-10">
                   <div class="text-left card card-compact shadow-xl bg-base-100 w-[35%]">
                     <figure>
@@ -257,14 +258,3 @@ const setDatePeriod = (value: Date[]) => {
   datePeriod.value = value;
 };
 </script>
-<!-- export type Review = {
-  reviewid: string;
-  uid: string;
-  username: string;
-  photo: string;
-  bookid: string;
-  rating: number;
-  title: string;
-  description: string;
-  timestamp: Date;
-}; -->
