@@ -129,8 +129,13 @@
               </CommonModal>
               <CommonModal modal-id="returnBook">
                 <template #actionName> 返す </template>
-                <h1>返却リクエスト</h1>
-                <p>このモーダルは返却のリクエストができます。</p>
+                <h1 class="text-xl mb-3">返却リクエスト</h1>
+                <p>この本を返却します。よろしいですか？</p>
+                <form @submit.prevent="returnReq">
+                  <button type="submit" class="btn block ml-auto mt-3">
+                    OK
+                  </button>
+                </form>
               </CommonModal>
             </div>
           </div>
@@ -293,7 +298,7 @@ const submitReview = async () => {
   document.getElementById("review")?.close();
 };
 
-//本の貸出リクエスト
+//本の貸出・返却
 const startDate = new Date();
 const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
 const datePeriod: Ref<Date[]> = ref([startDate, endDate]);
@@ -303,4 +308,10 @@ const setDatePeriod = (value: Date[]) => {
 const borrowReq = () => {
   console.log(datePeriod.value, user?.uid, user?.displayName, book?.bookid);
 };
+
+const returnReq = () => {
+  const returnDate = new Date();
+  console.log(returnDate, user?.uid, user?.displayName, book?.bookid);
+};
+
 </script>
