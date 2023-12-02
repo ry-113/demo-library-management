@@ -307,11 +307,13 @@ const setDatePeriod = (value: Date[]) => {
 };
 const borrowReq = () => {
   console.log(datePeriod.value, user?.uid, user?.displayName, book?.bookid);
+  document.getElementById("borrow")?.close();
 };
 
 const returnReq = () => {
   const returnDate = new Date();
   console.log(returnDate, user?.uid, user?.displayName, book?.bookid);
+  document.getElementById("returnBook")?.close();
 };
 
 </script>
