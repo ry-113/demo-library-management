@@ -39,6 +39,7 @@
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content absolute top-[100px] w-full h-[calc(100vh - 80px)] p-10">
       <slot name="breadcrumbs"/>
+      <slot name="table-header"/>
       <!-- Page content here -->
       <div class="w-full max-h-[83vh] overflow-y-scroll disable-scrollbars">
         <slot/>

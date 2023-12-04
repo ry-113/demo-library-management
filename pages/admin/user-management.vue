@@ -1,6 +1,21 @@
 <template>
   <div>
     <NuxtLayout name="default">
+      <template #table-header>
+        <label for="role-filter">
+          <div class="inline-block mr-2">フィルタ<Icon name="fluent:filter-12-regular" class="ml-2"/></div>
+          <select
+            class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
+            v-model="selectedRole"
+            id="role-filter"
+          >
+            <option selected>all</option>
+            <option v-for="role in userRoles" :key="role" :value="role">
+              {{ role }}
+            </option>
+          </select>
+        </label>
+      </template>
       <template #default>
         <div v-if="isLoading" class="w-full h-[85vh] flex justify-center">
           <span class="loading loading-spinner loading-lg"></span>
@@ -11,19 +26,7 @@
               <td></td>
               <td>名前</td>
               <td>メールアドレス</td>
-              <td class="pl-[32px] relative">
-                タイプ
-                <button class="btn btn-ghost h-[2rem] min-h-[2rem] px-2" @click="toggleMenu">
-                  <Icon name="fluent:filter-12-regular" size="1.25rem" />
-                </button>
-                <ul class="menu bg-base-200 w-60 rounded-box absolute top-16 left-[-20px] shadow-sm transition-all" v-show="isMenuOpen">
-                  <li class="menu-title">ユーザータイプを選択してください。</li>
-                  <li><a>All</a></li>
-                  <li><a>student</a></li>
-                  <li><a>instructor</a></li>
-                  <li><a>admin</a></li>
-                </ul>
-              </td>
+              <td class="pl-[32px] relative">ユーザータイプ</td>
               <td></td>
             </tr>
           </thead>
@@ -61,13 +64,17 @@
                   <template #actionName>
                     <Icon name="ant-design:delete-outlined" size="1.4rem" />
                   </template>
-                  <p class="text-xl font-semibold mb-2">名前：{{ user.name }}</p>
+                  <p class="text-xl font-semibold mb-2">
+                    名前：{{ user.name }}
+                  </p>
                   <p class="text-xl">
                     このユーザーを<span class="text-red-500">削除</span
                     >します。本当によろしいですか？
                   </p>
                   <form @submit.prevent="deleteUserReq(user.uid)">
-                    <button type="submit" class="btn block ml-auto mt-3">OK</button>
+                    <button type="submit" class="btn block ml-auto mt-3">
+                      OK
+                    </button>
                   </form>
                 </CommonModal>
               </td>
@@ -83,8 +90,9 @@
 definePageMeta({
   layout: false,
 });
-const { allUsers, isLoading, getAllUsers, changeRole, deleteUser } = useUserStore();
-const userRoles = ['student', 'instructor', 'admin'];
+const { allUsers, isLoading, getAllUsers, changeRole, deleteUser } =
+  useUserStore();
+const userRoles = ["student", "instructor", "admin"];
 const changeRoleReq = async (e: Event, uid: string) => {
   const targetElm = e.target as HTMLSelectElement;
   const newRole = targetElm.value;
@@ -97,19 +105,16 @@ const deleteUserReq = async (uid: string) => {
   await getAllUsers();
 };
 
-const isMenuOpen = ref(false);
-const toggleMenu = ():void => {
-    isMenuOpen.value ? isMenuOpen.value = false : isMenuOpen.value = true;
-};
-
 const selectedRole = ref("all");
 const filteredUsers = computed(() => {
-    if(selectedRole.value === "all") {
-        return allUsers.value;
-    } else {
-        const filteredUsers = allUsers.value.filter(user => user.role === selectedRole.value);
-        return filteredUsers;
-    }
+  if (selectedRole.value === "all") {
+    return allUsers.value;
+  } else {
+    const filteredUsers = allUsers.value.filter(
+      (user) => user.role === selectedRole.value
+    );
+    return filteredUsers;
+  }
 });
 //タイプもドロップダウン使えば解決？
 </script>
