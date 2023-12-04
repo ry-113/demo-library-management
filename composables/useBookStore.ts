@@ -48,20 +48,20 @@ export const useBookStore = () => {
   };
 
   onMounted(() => {
-    const isExisting = sessionStorage.getItem('isExisting');
-    const timestamp = sessionStorage.getItem('timestamp');
-    if (!isExisting) {
+    const isBooksExisting = sessionStorage.getItem('isBooksExisting');
+    const booksTimestamp = sessionStorage.getItem('booksTimestamp');
+    if (!isBooksExisting) {
       getAllBooks();
-      sessionStorage.setItem('isExisting', 'true');
-      sessionStorage.setItem('timestamp', String(new Date()));
+      sessionStorage.setItem('isBooksExisting', 'true');
+      sessionStorage.setItem('booksTimestamp', String(new Date()));
       console.log('初回のGET');
-    } else if (timestamp) {
-      const lastUpdateTime = new Date(timestamp).getTime();
+    } else if (booksTimestamp) {
+      const lastUpdateTime = new Date(booksTimestamp).getTime();
       const now = new Date().getTime();
       const timeDiff = Math.abs(now - lastUpdateTime) / (1000 * 60); //単位は分
       if (timeDiff >= 10) {
         getAllBooks();
-        sessionStorage.setItem('timestamp', String(new Date()));
+        sessionStorage.setItem('booksTimestamp', String(new Date()));
         console.log('10分以上たった');
       }
     }
