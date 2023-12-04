@@ -9,7 +9,7 @@
             v-model="selectedRole"
             id="role-filter"
           >
-            <option selected>all</option>
+            <option selected>すべて</option>
             <option v-for="role in userRoles" :key="role" :value="role">
               {{ role }}
             </option>
@@ -105,9 +105,9 @@ const deleteUserReq = async (uid: string) => {
   await getAllUsers();
 };
 
-const selectedRole = ref("all");
+const selectedRole = ref("すべて");
 const filteredUsers = computed(() => {
-  if (selectedRole.value === "all") {
+  if (selectedRole.value === "すべて") {
     return allUsers.value;
   } else {
     const filteredUsers = allUsers.value.filter(

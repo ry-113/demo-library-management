@@ -1,7 +1,23 @@
 <template>
   <div>
     <NuxtLayout name="default">
-      <template #table-header> ここにヘッダー </template>
+      <template #table-header>
+        <label for="genre-filter">
+          <div class="inline-block mr-2">
+            フィルタ<Icon name="fluent:filter-12-regular" class="ml-2" />
+          </div>
+          <select
+            class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
+            v-model="selectedGenre"
+            id="genre-filter"
+          >
+            <option selected>すべて</option>
+            <option v-for="genre in genres" :key="genre" :value="genre">
+              {{ genre }}
+            </option>
+          </select>
+        </label>
+      </template>
       <template #default>
         <div v-if="isLoading" class="w-full h-[85vh] flex justify-center">
           <span class="loading loading-spinner loading-lg"></span>
@@ -18,7 +34,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(book, index) in allBooks" :key="book.bookid" class="hover cursor-pointer">
+            <tr
+              v-for="(book, index) in filteredBooks"
+              :key="book.bookid"
+              class="hover cursor-pointer"
+            >
               <th>{{ index + 1 }}</th>
               <td>
                 {{ book.title }}
@@ -33,7 +53,23 @@
                 {{ book.genre }}
               </td>
               <td>
-                <Icon name="ant-design:delete-outlined" size="1.4rem" />
+                <CommonModal :modal-id="`bookid${book.bookid}`">
+                  <template #actionName>
+                    <Icon name="ant-design:delete-outlined" size="1.4rem" />
+                  </template>
+                  <p class="text-xl font-semibold mb-2">
+                    {{ book.title }}
+                  </p>
+                  <p class="text-xl">
+                    この本を<span class="text-red-500">削除</span
+                    >します。本当によろしいですか？
+                  </p>
+                  <form @submit.prevent="deleteBookReq(book.bookid)">
+                    <button type="submit" class="btn block ml-auto mt-3">
+                      OK
+                    </button>
+                  </form>
+                </CommonModal>
               </td>
             </tr>
           </tbody>
@@ -48,5 +84,22 @@ definePageMeta({
   layout: false,
 });
 
-const { allBooks, isLoading, getAllBooks } = useBookStore();
+const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook } = useBookStore();
+const selectedGenre = ref("すべて");
+const genres = computed(() => Object.keys(booksByGenre.value));
+const filteredBooks = computed(() => {
+  if (selectedGenre.value === "すべて") {
+    return allBooks.value;
+  } else {
+    const filteredBooks = allBooks.value.filter(
+      (book) => book.genre === selectedGenre.value
+    );
+    return filteredBooks;
+  }
+});
+
+const deleteBookReq = async (bookid: string) => {
+  await deleteBook(bookid);
+  await getAllBooks();
+};
 </script>
