@@ -1,20 +1,29 @@
 <template>
   <div>
     <NuxtLayout name="default">
-      <template #table-header>
-        ここにソートボタンとかが来ます
-      </template>
       <template #default>
         <div v-if="isLoading" class="w-full h-[85vh] flex justify-center">
           <span class="loading loading-spinner loading-lg"></span>
         </div>
-        <table v-else class="table">
-          <thead>
+        <table v-else class="table table-pin-rows">
+          <thead class="text-sm">
             <tr>
               <td></td>
               <td>名前</td>
               <td>メールアドレス</td>
-              <td>権限</td>
+              <td class="pl-[32px] relative">
+                タイプ
+                <button class="btn btn-ghost h-[2rem] min-h-[2rem] px-2" @click="toggleMenu">
+                  <Icon name="fluent:filter-12-regular" size="1.25rem" />
+                </button>
+                <ul class="menu bg-base-200 w-60 rounded-box absolute top-16 left-[-20px] shadow-sm transition-all" v-show="isMenuOpen">
+                  <li class="menu-title">ユーザータイプを選択してください。</li>
+                  <li><a>student</a></li>
+                  <li><a>instructor</a></li>
+                  <li><a>admin</a></li>
+                </ul>
+              </td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
@@ -71,7 +80,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-    layout: false,
+  layout: false,
 });
 const { allUsers, isLoading, getAllUsers, changeRole, deleteUser } = useUserStore();
 const userRoles = ['student', 'instructor', 'admin'];
@@ -85,5 +94,10 @@ const changeRoleReq = async (e: Event, uid: string) => {
 const deleteUserReq = async (uid: string) => {
   await deleteUser(uid);
   await getAllUsers();
+};
+
+const isMenuOpen = ref(false);
+const toggleMenu = ():void => {
+    isMenuOpen.value ? isMenuOpen.value = false : isMenuOpen.value = true;
 };
 </script>
