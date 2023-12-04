@@ -2,21 +2,27 @@
   <div>
     <NuxtLayout name="default">
       <template #table-header>
-        <label for="genre-filter">
-          <div class="inline-block mr-2">
-            フィルタ<Icon name="fluent:filter-12-regular" class="ml-2" />
-          </div>
-          <select
-            class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
-            v-model="selectedGenre"
-            id="genre-filter"
-          >
-            <option selected>すべて</option>
-            <option v-for="genre in genres" :key="genre" :value="genre">
-              {{ genre }}
-            </option>
-          </select>
-        </label>
+        <div class="flex justify-between items-center">
+          <label for="genre-filter">
+            <div class="inline-block mr-2">
+              フィルタ<Icon name="fluent:filter-12-regular" class="ml-2" />
+            </div>
+            <select
+              class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
+              v-model="selectedGenre"
+              id="genre-filter"
+            >
+              <option selected>すべて</option>
+              <option v-for="genre in genres" :key="genre" :value="genre">
+                {{ genre }}
+              </option>
+            </select>
+          </label>
+          <button class="btn flex items-center font-semibold">
+            追加
+            <Icon name="ant-design:plus-outlined" />
+          </button>
+        </div>
       </template>
       <template #default>
         <div v-if="isLoading" class="w-full h-[85vh] flex justify-center">
@@ -84,7 +90,8 @@ definePageMeta({
   layout: false,
 });
 
-const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook } = useBookStore();
+const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook } =
+  useBookStore();
 const selectedGenre = ref("すべて");
 const genres = computed(() => Object.keys(booksByGenre.value));
 const filteredBooks = computed(() => {
