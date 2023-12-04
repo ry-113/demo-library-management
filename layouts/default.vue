@@ -59,7 +59,7 @@
           <NuxtLink to="/books" class="py-3" :class="{'active':  /^\/books/.test($route.path)}">本棚</NuxtLink>
         </li>
         <li class="p-4" v-if="userRole === 'admin' || userRole === 'instructor'">
-          <NuxtLink to="/instructor/database" class="py-3" :class="{'active': $route.path === '/instructor/database'}">データベース</NuxtLink>
+          <NuxtLink to="/instructor/database" class="py-3" :class="{'active': $route.path === '/instructor/database'}">書籍管理</NuxtLink>
         </li>
         <li class="p-4" v-if="userRole === 'admin'">
           <NuxtLink to="/admin/user-management" class="py-3" :class="{'active': $route.path === '/admin/user-management'}">ユーザー管理</NuxtLink>
