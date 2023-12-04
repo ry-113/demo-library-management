@@ -1,4 +1,4 @@
-import {getFirestore, collection, getDocs, doc, deleteDoc} from "firebase/firestore"
+import {getFirestore, collection, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore"
 export type AppUser = {
     email: string;
     name: string;
@@ -21,6 +21,15 @@ export const useUserStore = () => {
         allUsers.value = [...fetchData];
         isLoading.value = false;
     };
+
+    const changeRole = async (uid: string, role:string) => {
+        try{
+            await updateDoc(doc(db, "users", uid), {role});
+            alert("ユーザーロールが正常に変更されました");
+        } catch(error) {
+            console.error(error);
+        }
+    }
 
     const deleteUser = async (uid:string) => {
         try{
@@ -51,5 +60,5 @@ export const useUserStore = () => {
         }
     });
 
-    return {allUsers, isLoading, getAllUsers, deleteUser};
+    return {allUsers, isLoading, getAllUsers, changeRole, deleteUser};
 };
