@@ -18,6 +18,7 @@
                 </button>
                 <ul class="menu bg-base-200 w-60 rounded-box absolute top-16 left-[-20px] shadow-sm transition-all" v-show="isMenuOpen">
                   <li class="menu-title">ユーザータイプを選択してください。</li>
+                  <li><a>All</a></li>
                   <li><a>student</a></li>
                   <li><a>instructor</a></li>
                   <li><a>admin</a></li>
@@ -27,7 +28,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(user, index) in allUsers" :key="user.uid">
+            <tr v-for="(user, index) in filteredUsers" :key="user.uid">
               <th>{{ index + 1 }}</th>
               <td>
                 <div class="flex items-center gap-3">
@@ -100,4 +101,15 @@ const isMenuOpen = ref(false);
 const toggleMenu = ():void => {
     isMenuOpen.value ? isMenuOpen.value = false : isMenuOpen.value = true;
 };
+
+const selectedRole = ref("all");
+const filteredUsers = computed(() => {
+    if(selectedRole.value === "all") {
+        return allUsers.value;
+    } else {
+        const filteredUsers = allUsers.value.filter(user => user.role === selectedRole.value);
+        return filteredUsers;
+    }
+});
+//タイプもドロップダウン使えば解決？
 </script>
