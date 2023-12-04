@@ -1,6 +1,6 @@
 <template>
   <!-- slotでボタンの名前と中身のHTMLを記述して、propsで一意のmodal-idを渡す -->
-  <div class="btn w-32" :onclick="`${props.modalId}.showModal()`">
+  <div class="btn btn-ghost" :onclick="`${props.modalId}.showModal()`">
     <slot name="actionName">デフォルト</slot>
   </div>
   <dialog :id="`${props.modalId}`" class="modal">

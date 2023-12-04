@@ -1,4 +1,4 @@
-import {getFirestore, collection, getDocs} from "firebase/firestore"
+import {getFirestore, collection, getDocs, doc, deleteDoc} from "firebase/firestore"
 export type AppUser = {
     email: string;
     name: string;
@@ -22,6 +22,15 @@ export const useUserStore = () => {
         isLoading.value = false;
     };
 
+    const deleteUser = async (uid:string) => {
+        try{
+            await deleteDoc(doc(db, "users", uid));
+        } catch(error) {
+            console.error("ユーザー削除中にエラーが発生：", error);
+        }
+        
+    }
+
     onMounted(() => {
         const isUsersExisting = sessionStorage.getItem("isUsersExisting");
         const usersTimestamp = sessionStorage.getItem("usersTimestamp");
@@ -42,5 +51,5 @@ export const useUserStore = () => {
         }
     });
 
-    return {allUsers, isLoading, getAllUsers};
+    return {allUsers, isLoading, getAllUsers, deleteUser};
 };
