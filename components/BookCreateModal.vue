@@ -165,18 +165,24 @@ const getBgColor = (color: string) => {
   }
 };
 
-const imageURL = ref(null);
+const imageURL: Ref<any> = ref(null);//プレビュー用のデータ
+const imageFile:Ref<File | null> = ref(null);//こっちがcloudstorage用
 const handleFileUpload = (e) => {
   const file = e.target.files[0];
-  console.log(file);
   if (file && file.type.startsWith("image/")) {
     const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.onload = (e) => {
       imageURL.value = e.target?.result;
-    };
-    reader.readAsDataURL(file);
+    }
   } else {
     imageURL.value = null;
   }
+  imageFile.value = file
 };
+
+const createBook = async () => {
+  await uploadImage(imageFile.value);
+};
+const { uploadImage } = useBookStorage();
 </script>
