@@ -62,7 +62,10 @@
               <td>
                 <CommonModal :modal-id="`uid${user.uid}`">
                   <template #actionName>
-                    <Icon name="ant-design:delete-outlined" size="1.4rem" />
+                    <button class="btn btn-ghost">
+                      <Icon name="ant-design:delete-outlined" size="1.4rem" />
+                    </button>
+                    
                   </template>
                   <p class="text-xl font-semibold mb-2">
                     名前：{{ user.name }}

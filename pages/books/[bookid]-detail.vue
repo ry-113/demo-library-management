@@ -28,7 +28,9 @@
 
             <div class="action--btns flex absolute bottom-4 right-0 gap-5">
               <CommonModal modal-id="review">
-                <template #actionName> レビュー投稿 </template>
+                <template #actionName>
+                  <button class="btn">レビュー投稿</button>  
+                </template>
                 <h1 class="text-xl">レビュー投稿</h1>
                 <p>フォームを入力し、送信ボタンを押してください。</p>
                 <div class="review--form flex items-start mt-10 gap-10">
@@ -94,7 +96,11 @@
               </CommonModal>
 
               <CommonModal modal-id="borrow">
-                <template #actionName> 借りる </template>
+                <template #actionName>
+                  <button class="btn">
+                    借りる
+                  </button>  
+                </template>
                 <h1 class="text-xl">貸出リクエスト</h1>
                 <p>カレンダーから返却予定日を選択してください。</p>
                 <p class="text-sm">※1か月以上先は選択できません。</p>
@@ -128,7 +134,9 @@
                 </div>
               </CommonModal>
               <CommonModal modal-id="returnBook">
-                <template #actionName> 返す </template>
+                <template #actionName>
+                  <button class="btn">返す</button>
+                </template>
                 <h1 class="text-xl mb-3">返却リクエスト</h1>
                 <p>この本を返却します。よろしいですか？</p>
                 <form @submit.prevent="returnReq">

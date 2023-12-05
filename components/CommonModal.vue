@@ -1,12 +1,12 @@
 <template>
   <!-- slotでボタンの名前と中身のHTMLを記述して、propsで一意のmodal-idを渡す -->
-  <div class="btn btn-ghost" :onclick="`${props.modalId}.showModal()`">
+  <div @click="showModal(`${props.modalId}`)">
     <slot name="actionName">デフォルト</slot>
   </div>
   <dialog :id="`${props.modalId}`" class="modal">
     <div class="modal-box max-w-[900px] p-20">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" >
           ✕
         </button>
       </form>
@@ -21,4 +21,8 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const showModal = (modalId:string) => {
+  document.getElementById(modalId)?.showModal();
+};
 </script>

@@ -18,9 +18,10 @@
               </option>
             </select>
           </label>
-          <button class="btn flex items-center font-semibold">
+          <button class="btn" @click.stop="showBookFormModal(null)">
             追加
             <Icon name="ant-design:plus-outlined" />
+            <BookCreateModal/>
           </button>
         </div>
       </template>
@@ -36,48 +37,27 @@
               <td>著者名</td>
               <td>出版年</td>
               <td>ジャンル</td>
-              <td></td>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(book, index) in filteredBooks"
-              :key="book.bookid"
-              class="hover cursor-pointer"
-            >
-              <th>{{ index + 1 }}</th>
-              <td>
-                {{ book.title }}
-              </td>
-              <td>
-                {{ book.author }}
-              </td>
-              <td>
-                {{ book.year }}
-              </td>
-              <td>
-                {{ book.genre }}
-              </td>
-              <td>
-                <CommonModal :modal-id="`bookid${book.bookid}`">
-                  <template #actionName>
-                    <Icon name="ant-design:delete-outlined" size="1.4rem" />
-                  </template>
-                  <p class="text-xl font-semibold mb-2">
-                    {{ book.title }}
-                  </p>
-                  <p class="text-xl">
-                    この本を<span class="text-red-500">削除</span
-                    >します。本当によろしいですか？
-                  </p>
-                  <form @submit.prevent="deleteBookReq(book.bookid)">
-                    <button type="submit" class="btn block ml-auto mt-3">
-                      OK
-                    </button>
-                  </form>
-                </CommonModal>
-              </td>
-            </tr>
+            <template v-for="(book, index) in filteredBooks" :key="book.bookid">
+              <tr class="hover cursor-pointer" @click="showBookFormModal(book)">
+                <th>{{ index + 1 }}</th>
+                <td>
+                  {{ book.title }}
+                </td>
+                <td>
+                  {{ book.author }}
+                </td>
+                <td>
+                  {{ book.year }}
+                </td>
+                <td>
+                  {{ book.genre }}
+                </td>
+                <BookUpdateModal :book="book" />
+              </tr>
+            </template>
           </tbody>
         </table>
       </template>
@@ -90,17 +70,14 @@ definePageMeta({
   layout: false,
 });
 
-const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook } =
-  useBookStore();
-const selectedGenre = ref("すべて");
+const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook } = useBookStore();
+const selectedGenre = ref('すべて');
 const genres = computed(() => Object.keys(booksByGenre.value));
 const filteredBooks = computed(() => {
-  if (selectedGenre.value === "すべて") {
+  if (selectedGenre.value === 'すべて') {
     return allBooks.value;
   } else {
-    const filteredBooks = allBooks.value.filter(
-      (book) => book.genre === selectedGenre.value
-    );
+    const filteredBooks = allBooks.value.filter((book) => book.genre === selectedGenre.value);
     return filteredBooks;
   }
 });
@@ -108,5 +85,12 @@ const filteredBooks = computed(() => {
 const deleteBookReq = async (bookid: string) => {
   await deleteBook(bookid);
   await getAllBooks();
+};
+
+const selectedBook: Ref<Book | null> = ref(null);
+const showBookFormModal = (book: Book | null) => {
+  selectedBook.value = book;
+  const modal = book ? document.getElementById(`book-${book.bookid}`) : document.getElementById("newBook");
+  modal?.showModal();
 };
 </script>

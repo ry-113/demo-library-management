@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'vue3-carousel-nuxt',
     'dayjs-nuxt',
-    'nuxt-icon'
+    'nuxt-icon',
   ],
   runtimeConfig: {
     public: {
