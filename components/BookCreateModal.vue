@@ -52,6 +52,7 @@
                 class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
                 v-model="newBook.year"
                 id="year-select"
+                required
               >
                 <option selected disabled>選択</option>
                 <option v-for="num in 41" :key="num" :value="num + 1989">
@@ -67,6 +68,7 @@
                 class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
                 v-model="newBook.genre"
                 id="genre-select"
+                required
               >
                 <option selected disabled>選択</option>
                 <option v-for="genre in genres" :key="genre.name" :value="genre.name">
@@ -82,6 +84,7 @@
                 class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
                 v-model="newBook.stock"
                 id="stock-select"
+                required
               >
                 <option selected disabled>選択</option>
                 <option v-for="num in 30" :key="num" :value="num">

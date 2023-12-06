@@ -139,7 +139,7 @@
               class="w-[45%] xl:w-[35%] border shadow-lg"
             />
             <div class="book--info w-[50%]">
-              <template v-if="labels?.length !== undefined && 0">
+              <template v-if="labels !== undefined && labels.length !== 0">
                 <ul class="flex gap-3 label--list flex-wrap">
                   <li
                     v-for="label in labels"
