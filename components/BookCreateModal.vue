@@ -207,9 +207,8 @@ watch(newBook, (newValue) => {
 
 watch(labels, (newValue) => {
   const checkedLabels = newValue.filter((label) => label.isChecked === true);
-  console.log(checkedLabels);
   emit("checkLabel", checkedLabels);
-}, {immediate: true});
+}, {immediate: true, deep: true});
 
 const submitBookData = () => {
   emit("submitBookData");

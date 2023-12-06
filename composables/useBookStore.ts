@@ -1,4 +1,4 @@
-import { getFirestore, collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, deleteDoc, doc, addDoc, updateDoc} from "firebase/firestore";
 import type { Ref } from "vue";
 type Label = {
   name: string;
@@ -18,6 +18,7 @@ export type Book = {
 };
 
 export const useBookStore = () => {
+  const {uploadImage} = useBookStorage();
   const db = getFirestore();
   const allBooks: Ref<Book[]> = useState("allBooks", () => []);
   type BooksByGenre = {
@@ -55,6 +56,16 @@ export const useBookStore = () => {
     }
   };
 
+  const addBook = async (book: Book, file: File | null) => {
+    const bookRef = await addDoc(collection(db, "books"), book);
+    if(file) {
+      await uploadImage(file, bookRef.id);
+    }
+    await updateDoc(doc(db, "books", bookRef.id), {
+      bookid: bookRef.id,
+    });
+  };
+
   onMounted(() => {
     const isBooksExisting = sessionStorage.getItem("isBooksExisting");
     const booksTimestamp = sessionStorage.getItem("booksTimestamp");
@@ -75,5 +86,5 @@ export const useBookStore = () => {
     }
   });
 
-  return { allBooks, booksByGenre, isLoading, getAllBooks, deleteBook };
+  return { allBooks, booksByGenre, isLoading, getAllBooks, deleteBook, addBook };
 };

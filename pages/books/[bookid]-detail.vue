@@ -39,7 +39,7 @@
                   >
                     <figure>
                       <img
-                        src="/img/book_dummy.png"
+                        :src="book?.imageURL"
                         alt=""
                         class="rounded-t-2xl"
                       />
@@ -110,7 +110,7 @@
                   >
                     <figure>
                       <img
-                        src="/img/book_dummy.png"
+                        :src="book?.imageURL"
                         alt=""
                         class="rounded-t-2xl"
                       />
@@ -151,7 +151,7 @@
           <div
             class="contents--container pt-20 flex justify-between items-start"
           >
-            <img src="/img/book_dummy.png" alt="" class="w-[45%] xl:w-[35%]" />
+            <img :src="book?.imageURL" alt="" class="w-[45%] xl:w-[35%] border shadow-lg" />
             <div class="book--info w-[50%]">
               <ul class="flex gap-3 label--list flex-wrap">
                 <li

@@ -21,7 +21,14 @@
           <button class="btn" @click.stop="showBookFormModal(null)">
             追加
             <Icon name="ant-design:plus-outlined" />
-            <BookCreateModal :newBook="newBook" :imageFile="imageFile" @change-image-file="changeImageFile" @change-book-data="changeBookData" @check-label="checkLabel" @submit-book-data="submitBookData"/>
+            <BookCreateModal
+              :newBook="newBook"
+              :imageFile="imageFile"
+              @change-image-file="changeImageFile"
+              @change-book-data="changeBookData"
+              @check-label="checkLabel"
+              @submit-book-data="submitBookData"
+            />
           </button>
         </div>
       </template>
@@ -70,7 +77,7 @@ definePageMeta({
   layout: false,
 });
 
-const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook } = useBookStore();
+const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook } = useBookStore();
 const selectedGenre = ref('すべて');
 const genres = computed(() => Object.keys(booksByGenre.value));
 const filteredBooks = computed(() => {
@@ -112,7 +119,6 @@ const { uploadImage } = useBookStorage();
 const imageFile:Ref<File | null> = ref(null);
 const changeImageFile = (file: File) => {
   imageFile.value = file;
-  newBook.value.imageURL = file.name;
 };
 const changeBookData = (newValue: Book) => {
   newBook.value = newValue;
@@ -121,9 +127,11 @@ const checkLabel = (checkedLabels: Label[]) => {
   newBook.value.labels = checkedLabels;
 }
 const submitBookData = async () => {
-  console.log(newBook.value);
-  // await uploadImage(imageFile.value);
-  // document.getElementById("newBook")?.close();
+  try {
+    await addBook(newBook.value, imageFile.value);
+    document.getElementById("newBook")?.close();
+  } catch(error) {
+    console.error(error);
+  }
 };
-
 </script>

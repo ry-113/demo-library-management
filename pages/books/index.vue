@@ -35,7 +35,7 @@
               <li class="mb-3 carousel__item text-left card card-compact shadow-xl bg-base-100 w-[80%]">
                 <NuxtLink :to="`/books/${book.bookid}-detail`">
                   <figure>
-                    <img src="/img/book_dummy.png" alt="" class="rounded-t-2xl" />
+                    <img :src="book.imageURL || '/img/noimage.png'" alt="" class="rounded-t-2xl " />
                   </figure>
                   <div class="card-body">
                     <p class="font-bold text-xs xl:text-sm">{{ book.title }}</p>
