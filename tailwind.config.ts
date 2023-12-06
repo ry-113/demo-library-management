@@ -34,10 +34,16 @@ export default {
             "-ms-overflow-style": "none",
           },
         },
-        ".text-overflow-lines": {
+        ".text-overflow-lines-4": {
           display: "-webkit-box",
           "-webkit-box-orient": "vertical",
           "-webkit-line-clamp": "4",
+          overflow: "hidden",
+        },
+        ".text-overflow-lines-6": {
+          display: "-webkit-box",
+          "-webkit-box-orient": "vertical",
+          "-webkit-line-clamp": "6",
           overflow: "hidden",
         },
       };

@@ -129,6 +129,7 @@ const checkLabel = (checkedLabels: Label[]) => {
 const submitBookData = async () => {
   try {
     await addBook(newBook.value, imageFile.value);
+    await getAllBooks();
     document.getElementById("newBook")?.close();
   } catch(error) {
     console.error(error);

@@ -156,7 +156,7 @@
               </template>
               <div class="description--box">
                 <h2 class="text-xl mt-8 xl:mt-12 mb-2">説明</h2>
-                <p>{{ book?.description }}</p>
+                <p class="text-overflow-lines-6">{{ book?.description }}</p>
               </div>
 
               <div class="review--box">
@@ -184,7 +184,7 @@
                           </p>
                         </div>
                         <RatingDisplay :rating="Number(review.rating)" />
-                        <div class="review--box mt-6 text-overflow-lines">
+                        <div class="review--box mt-6 text-overflow-lines-4">
                           <h3 class="mb-3 font-semibold">{{ review.title }}</h3>
                           <p>{{ review.description }}</p>
                         </div>
