@@ -2,11 +2,9 @@
   <dialog id="newBook" class="modal">
     <div class="modal-box max-w-[900px] p-20 text-left">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-          ✕
-        </button>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
-      <form class="flex w-full gap-[4%]" @submit.prevent="createBook">
+      <form class="flex w-full gap-[4%]" @submit.prevent="submitBookData">
         <div class="left--box w-[48%]">
           <div class="mb-5">
             <label for="isbn">
@@ -16,7 +14,7 @@
                 placeholder="ISBNを入力してください"
                 class="input input-bordered w-full"
                 id="isbn"
-                v-model="reviewTitle"
+                v-model="newBook.ISBN"
                 required
               />
             </label>
@@ -29,7 +27,7 @@
                 placeholder="タイトルを入力してください"
                 class="input input-bordered w-full"
                 id="title"
-                v-model="reviewTitle"
+                v-model="newBook.title"
                 required
               />
             </label>
@@ -42,7 +40,7 @@
                 placeholder="著者を入力してください"
                 class="input input-bordered w-full"
                 id="author"
-                v-model="reviewTitle"
+                v-model="newBook.author"
                 required
               />
             </label>
@@ -52,7 +50,7 @@
               <p>出版年</p>
               <select
                 class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
-                v-model="selectedGenre"
+                v-model="newBook.year"
                 id="year-select"
               >
                 <option selected disabled>選択</option>
@@ -67,16 +65,27 @@
               <p>ジャンル</p>
               <select
                 class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
-                v-model="selectedGenre"
+                v-model="newBook.genre"
                 id="genre-select"
               >
                 <option selected disabled>選択</option>
-                <option
-                  v-for="genre in genres"
-                  :key="genre.name"
-                  :value="genre.name"
-                >
+                <option v-for="genre in genres" :key="genre.name" :value="genre.name">
                   {{ genre.name }}
+                </option>
+              </select>
+            </label>
+          </div>
+          <div class="mb-5 inline-block">
+            <label for="stock-select">
+              <p>在庫数</p>
+              <select
+                class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
+                v-model="newBook.stock"
+                id="stock-select"
+              >
+                <option selected disabled>選択</option>
+                <option v-for="num in 30" :key="num" :value="num">
+                  {{ num }}
                 </option>
               </select>
             </label>
@@ -102,7 +111,7 @@
         </div>
         <div class="right--box w-[48%]">
           <p>ラベル</p>
-          <div class="flex flex-wrap mb-5">
+          <div class="flex flex-wrap mb-5 border rounded-lg py-2 border-gray-300">
             <label
               v-for="(label, index) in labels"
               :key="label.name"
@@ -116,11 +125,8 @@
                 v-model="label.isChecked"
               />
               <div
-                class="badge badge-lg rounded-md py-4 px-3 text-white"
-                :class="[
-                  getBgColor(label.color),
-                  { 'bg-gray-400': !label.isChecked },
-                ]"
+                class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
+                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
               >
                 {{ label.name }}
               </div>
@@ -133,14 +139,12 @@
                 class="textarea textarea-bordered w-full text-base h-[300px]"
                 placeholder="500文字以内で入力してください"
                 id="content"
-                v-model="reviewContent"
+                v-model="newBook.description"
                 required
               ></textarea>
             </label>
           </div>
-          <button class="btn block ml-auto">
-            登録
-          </button>
+          <button class="btn block ml-auto">登録</button>
         </div>
       </form>
     </div>
@@ -148,41 +152,66 @@
 </template>
 
 <script setup lang="ts">
+interface Props {
+  newBook: Book;
+  imageFile: File | null;
+}
+const { newBook, imageFile } = defineProps<Props>();
+
+interface Emits {
+  (e: 'changeBookData', value: Book): void;
+  (e: 'changeImageFile', value: File): void;
+  (e: 'submitBookData'): void;
+  (e: "checkLabel", value: Label[]): void;
+}
+const emit = defineEmits<Emits>();
 const { genres } = useGenreStore();
 const { labels } = useLabelStore();
-const getBgColor = (color: string) => {
-  switch (color) {
-    case "red":
-      return "bg-red-400";
-    case "blue":
-      return "bg-blue-400";
-    case "green":
-      return "bg-green-400";
-    case "yellow":
-      return "bg-yellow-400";
-    case "purple":
-      return "bg-purple-400";
+const getBgColor = (label: Label) => {
+  if (!label.isChecked) {
+    return false;
+  }
+  switch (label.color) {
+    case 'red':
+      return 'bg-red-400';
+    case 'blue':
+      return 'bg-blue-400';
+    case 'green':
+      return 'bg-green-400';
+    case 'yellow':
+      return 'bg-yellow-400';
+    case 'purple':
+      return 'bg-purple-400';
   }
 };
 
-const imageURL: Ref<any> = ref(null);//プレビュー用のデータ
-const imageFile:Ref<File | null> = ref(null);//こっちがcloudstorage用
+const imageURL: Ref<any> = ref(null); //プレビュー用のデータ
 const handleFileUpload = (e) => {
   const file = e.target.files[0];
-  if (file && file.type.startsWith("image/")) {
+  if (file && file.type.startsWith('image/')) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
       imageURL.value = e.target?.result;
-    }
+    };
   } else {
     imageURL.value = null;
   }
-  imageFile.value = file
+  emit('changeImageFile', file);
 };
 
-const createBook = async () => {
-  await uploadImage(imageFile.value);
+//フォームの入力をリアルタイムに監視
+watch(newBook, (newValue) => {
+  emit("changeBookData", newValue);
+}, { immediate: true, deep: true });
+
+watch(labels, (newValue) => {
+  const checkedLabels = newValue.filter((label) => label.isChecked === true);
+  console.log(checkedLabels);
+  emit("checkLabel", checkedLabels);
+}, {immediate: true});
+
+const submitBookData = () => {
+  emit("submitBookData");
 };
-const { uploadImage } = useBookStorage();
 </script>

@@ -1,5 +1,5 @@
 import { getFirestore, getDocs, collection } from "firebase/firestore";
-type Label = {
+export type Label = {
   name: string;
   color: string;
   isChecked: boolean;

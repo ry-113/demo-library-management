@@ -21,7 +21,7 @@
           <button class="btn" @click.stop="showBookFormModal(null)">
             追加
             <Icon name="ant-design:plus-outlined" />
-            <BookCreateModal/>
+            <BookCreateModal :newBook="newBook" :imageFile="imageFile" @change-image-file="changeImageFile" @change-book-data="changeBookData" @check-label="checkLabel" @submit-book-data="submitBookData"/>
           </button>
         </div>
       </template>
@@ -93,4 +93,37 @@ const showBookFormModal = (book: Book | null) => {
   const modal = book ? document.getElementById(`book-${book.bookid}`) : document.getElementById("newBook");
   modal?.showModal();
 };
+
+//本の新規登録
+const newBookInit:Book = {
+  ISBN: "",
+  author: "",
+  bookid: "",
+  description: "",
+  genre: "",
+  imageURL: "",
+  labels: [],
+  stock: 1,
+  title: "",
+  year: new Date().getFullYear(),
+}
+const newBook = ref(newBookInit);
+const { uploadImage } = useBookStorage();
+const imageFile:Ref<File | null> = ref(null);
+const changeImageFile = (file: File) => {
+  imageFile.value = file;
+  newBook.value.imageURL = file.name;
+};
+const changeBookData = (newValue: Book) => {
+  newBook.value = newValue;
+};
+const checkLabel = (checkedLabels: Label[]) => {
+  newBook.value.labels = checkedLabels;
+}
+const submitBookData = async () => {
+  console.log(newBook.value);
+  // await uploadImage(imageFile.value);
+  // document.getElementById("newBook")?.close();
+};
+
 </script>
