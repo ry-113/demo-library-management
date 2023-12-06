@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="text-xl align-middle">
-    <span v-if="props.rating !== 0" class="mr-2">{{ props.rating }}</span>
+    <span v-if="props.rating !== 0" class="mr-2">{{ props.rating || "" }}</span>
     <span
       v-for="(star, index) in 5"
       :key="index"

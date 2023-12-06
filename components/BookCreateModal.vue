@@ -103,7 +103,7 @@
             <div v-else class="mt-5">
               <img
                 src="/img/noimage.png"
-                class="w-[300px] h-[424px] bg-gray-100 object-contain rounded-lg"
+                class="object-contain rounded-lg"
                 alt=""
               />
             </div>

@@ -21,7 +21,7 @@
             >
               <NuxtLink :to="`/books/${book.bookid}-detail`">
                 <figure>
-                  <img :src="book.imageURL" alt="" class="rounded-t-2xl" />
+                  <img :src="book.imageURL || '/img/noimage.png'" alt="" class="rounded-t-2xl" />
                 </figure>
                 <div class="card-body">
                   <p class="font-bold text-xs xl:text-sm">{{ book.title }}</p>
