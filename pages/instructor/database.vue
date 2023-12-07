@@ -65,7 +65,6 @@
                 <BookUpdateModal
                   :book="book"
                   :imageFile="imageFile"
-                  @change-book-data="changeBookData"
                   @change-image-file="changeImageFile"
                   @update-book-data="updateBookData"
                 />
