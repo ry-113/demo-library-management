@@ -222,7 +222,7 @@ const route = useRoute();
 const bookid = route.params.bookid;
 const { allBooks } = useBookStore();
 const book = allBooks.value.find((book) => book.bookid === bookid);
-const labels = computed(() => book?.labels);
+const labels = computed(() => book?.labels.filter(label => label.isChecked === true));
 
 const getBgColor = (color: string) => {
   switch (color) {

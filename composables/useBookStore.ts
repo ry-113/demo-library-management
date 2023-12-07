@@ -3,6 +3,7 @@ import type { Ref } from "vue";
 type Label = {
   name: string;
   color: string;
+  isChecked: boolean;
 };
 export type Book = {
   ISBN: string;
@@ -66,6 +67,13 @@ export const useBookStore = () => {
     });
   };
 
+  const updateBook = async (book: Book, file: File | null) => {
+    if(file) {
+      await uploadImage(file, book.bookid)
+    }
+    await updateDoc(doc(db, "books", book.bookid), book);
+  };
+
   onMounted(() => {
     const isBooksExisting = sessionStorage.getItem("isBooksExisting");
     const booksTimestamp = sessionStorage.getItem("booksTimestamp");
@@ -86,5 +94,5 @@ export const useBookStore = () => {
     }
   });
 
-  return { allBooks, booksByGenre, isLoading, getAllBooks, deleteBook, addBook };
+  return { allBooks, booksByGenre, isLoading, getAllBooks, deleteBook, addBook, updateBook };
 };

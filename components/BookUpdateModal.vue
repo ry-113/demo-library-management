@@ -1,17 +1,209 @@
 <template>
   <dialog :id="`book-${book?.bookid}`" class="modal">
-    <div class="modal-box">
+    <div class="modal-box max-w-[900px] p-20 text-left">
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
-      <p>{{ book?.title }}の編集画面</p>
+      <form class="flex w-full gap-[4%]" @submit.prevent="updateBookData">
+        <div class="left--box w-[48%]">
+          <div class="mb-5">
+            <label for="isbn">
+              ISBN
+              <input
+                type="text"
+                placeholder="ISBNを入力してください"
+                class="input input-bordered w-full"
+                id="isbn"
+                v-model="book.ISBN"
+                required
+              />
+            </label>
+          </div>
+          <div class="mb-5">
+            <label for="title">
+              タイトル
+              <input
+                type="text"
+                placeholder="タイトルを入力してください"
+                class="input input-bordered w-full"
+                id="title"
+                v-model="book.title"
+                required
+              />
+            </label>
+          </div>
+          <div class="mb-5">
+            <label for="author">
+              著者名
+              <input
+                type="text"
+                placeholder="著者を入力してください"
+                class="input input-bordered w-full"
+                id="author"
+                v-model="book.author"
+                required
+              />
+            </label>
+          </div>
+          <div class="mb-5 inline-block mr-3">
+            <label for="year-select">
+              <p>出版年</p>
+              <select
+                class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
+                v-model="book.year"
+                id="year-select"
+                required
+              >
+                <option selected disabled>選択</option>
+                <option v-for="num in 41" :key="num" :value="num + 1989">
+                  {{ num + 1989 }}
+                </option>
+              </select>
+            </label>
+          </div>
+          <div class="mb-5 inline-block">
+            <label for="genre-select">
+              <p>ジャンル</p>
+              <select
+                class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
+                v-model="book.genre"
+                id="genre-select"
+                required
+              >
+                <option selected disabled>選択</option>
+                <option v-for="genre in genres" :key="genre.name" :value="genre.name">
+                  {{ genre.name }}
+                </option>
+              </select>
+            </label>
+          </div>
+          <div class="mb-5 inline-block">
+            <label for="stock-select">
+              <p>在庫数</p>
+              <select
+                class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
+                v-model="book.stock"
+                id="stock-select"
+                required
+              >
+                <option selected disabled>選択</option>
+                <option v-for="num in 30" :key="num" :value="num">
+                  {{ num }}
+                </option>
+              </select>
+            </label>
+          </div>
+          <label for="">
+            <p>画像</p>
+            <input
+              type="file"
+              class="file-input file-input-bordered w-full max-w-xs"
+              @change="handleFileUpload"
+            />
+            <div v-if="book.imageURL && !imageURL" class="mt-5">
+              <img :src="book.imageURL" alt="" class="w-[300px] rounded-lg" />
+            </div>
+            <div v-else-if="imageURL" class="mt-5">
+              <img :src="imageURL" alt="" class="w-[300px] rounded-lg" />
+            </div>
+            <div v-else class="mt-5">
+              <img src="/img/noimage.png" class="object-contain rounded-lg" alt="" />
+            </div>
+          </label>
+        </div>
+        <div class="right--box w-[48%]">
+          <p>ラベル</p>
+          <div class="flex flex-wrap mb-5 border rounded-lg py-2 border-gray-300">
+            <label
+              v-for="label in book.labels"
+              :key="label.name"
+              :for="`${label.name}-${book.bookid}`"
+              class="flex items-center space-x-2 space-y-1"
+            >
+              <input
+                type="checkbox"
+                class="hidden"
+                :id="`${label.name}-${book.bookid}`"
+                v-model="label.isChecked"
+              />
+              <div
+                class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
+                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
+              >
+                {{ label.name }}
+              </div>
+            </label>
+          </div>
+          <div class="mb-5">
+            <label for="content">
+              説明
+              <textarea
+                class="textarea textarea-bordered w-full text-base h-[300px]"
+                placeholder="500文字以内で入力してください"
+                id="content"
+                v-model="book.description"
+                required
+              ></textarea>
+            </label>
+          </div>
+          <button class="btn block ml-auto" @click="updateBookData">登録</button>
+        </div>
+      </form>
     </div>
   </dialog>
 </template>
 
 <script setup lang="ts">
 interface Props {
-    book: Book | null;
+  book: Book;
 }
 const {book} = defineProps<Props>();
+
+interface Emits {
+  (e: 'changeBookData', value: Book): void;
+  (e: 'changeImageFile', value: File): void;
+  (e: 'updateBookData', value: Book): void;
+}
+const emit = defineEmits<Emits>();
+const { genres } = useGenreStore();
+const getBgColor = (label: Label) => {
+  if (!label.isChecked) {
+    return false;
+  }
+  switch (label.color) {
+    case 'red':
+      return 'bg-red-400';
+    case 'blue':
+      return 'bg-blue-400';
+    case 'green':
+      return 'bg-green-400';
+    case 'yellow':
+      return 'bg-yellow-400';
+    case 'purple':
+      return 'bg-purple-400';
+  }
+};
+
+const imageURL: Ref<any> = ref(null); //プレビュー用のデータ
+const handleFileUpload = (e) => {
+  const file = e.target.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      imageURL.value = e.target?.result;
+    };
+  } else {
+    imageURL.value = null;
+  }
+  emit('changeImageFile', file);
+};
+
+const updateBookData = () => {
+  emit('updateBookData', book);
+};
+
+watch(book, (newValue) => {
+  emit("changeBookData", newValue);
+}, { immediate: true, deep: true });
 </script>

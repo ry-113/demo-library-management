@@ -62,7 +62,13 @@
                 <td>
                   {{ book.genre }}
                 </td>
-                <BookUpdateModal :book="book" />
+                <BookUpdateModal
+                  :book="book"
+                  :imageFile="imageFile"
+                  @change-book-data="changeBookData"
+                  @change-image-file="changeImageFile"
+                  @update-book-data="updateBookData"
+                />
               </tr>
             </template>
           </tbody>
@@ -77,7 +83,7 @@ definePageMeta({
   layout: false,
 });
 
-const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook } = useBookStore();
+const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook, updateBook } = useBookStore();
 const selectedGenre = ref('すべて');
 const genres = computed(() => Object.keys(booksByGenre.value));
 const filteredBooks = computed(() => {
@@ -97,41 +103,52 @@ const deleteBookReq = async (bookid: string) => {
 const selectedBook: Ref<Book | null> = ref(null);
 const showBookFormModal = (book: Book | null) => {
   selectedBook.value = book;
-  const modal = book ? document.getElementById(`book-${book.bookid}`) : document.getElementById("newBook");
+  const modal = book
+    ? document.getElementById(`book-${book.bookid}`)
+    : document.getElementById('newBook');
   modal?.showModal();
 };
 
 //本の新規登録
-const newBookInit:Book = {
-  ISBN: "",
-  author: "",
-  bookid: "",
-  description: "",
-  genre: "",
-  imageURL: "",
+const newBookInit: Book = {
+  ISBN: '',
+  author: '',
+  bookid: '',
+  description: '',
+  genre: '',
+  imageURL: '',
   labels: [],
   stock: 1,
-  title: "",
+  title: '',
   year: new Date().getFullYear(),
-}
+};
 const newBook = ref(newBookInit);
-const { uploadImage } = useBookStorage();
-const imageFile:Ref<File | null> = ref(null);
+const imageFile: Ref<File | null> = ref(null);
 const changeImageFile = (file: File) => {
   imageFile.value = file;
 };
 const changeBookData = (newValue: Book) => {
   newBook.value = newValue;
 };
-const checkLabel = (checkedLabels: Label[]) => {
-  newBook.value.labels = checkedLabels;
-}
+const checkLabel = (newValue: Label[]) => {
+  newBook.value.labels = newValue;
+};
 const submitBookData = async () => {
   try {
     await addBook(newBook.value, imageFile.value);
     await getAllBooks();
-    document.getElementById("newBook")?.close();
-  } catch(error) {
+    document.getElementById('newBook')?.close();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const updateBookData = async (book: Book) => {
+  try {
+    await updateBook(book, imageFile.value);
+    await getAllBooks();
+    document.getElementById(`book-${book.bookid}`)?.close();
+  } catch (error) {
     console.error(error);
   }
 };
