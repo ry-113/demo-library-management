@@ -1,4 +1,12 @@
-import { getFirestore, collection, getDocs, deleteDoc, doc, addDoc, updateDoc} from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  addDoc,
+  updateDoc,
+} from "firebase/firestore";
 import type { Ref } from "vue";
 type Label = {
   name: string;
@@ -19,7 +27,7 @@ export type Book = {
 };
 
 export const useBookStore = () => {
-  const {uploadImage, deleteImage} = useBookStorage();
+  const { uploadImage, deleteImage } = useBookStorage();
   const db = getFirestore();
   const allBooks: Ref<Book[]> = useState("allBooks", () => []);
   type BooksByGenre = {
@@ -49,10 +57,12 @@ export const useBookStore = () => {
     isLoading.value = false;
   };
 
-  const deleteBook = async (bookid: string) => {
+  const deleteBook = async (book: Book) => {
     try {
-      await deleteDoc(doc(db, "books", bookid));
-      await deleteImage(bookid);
+      await deleteDoc(doc(db, "books", book.bookid));
+      if (book.imageURL) {
+        await deleteImage(book.bookid);
+      }
     } catch (error) {
       console.error("本を削除中にエラーが発生：", error);
     }
@@ -60,7 +70,7 @@ export const useBookStore = () => {
 
   const addBook = async (book: Book, file: File | null) => {
     const bookRef = await addDoc(collection(db, "books"), book);
-    if(file) {
+    if (file) {
       await uploadImage(file, bookRef.id);
     }
     await updateDoc(doc(db, "books", bookRef.id), {
@@ -69,8 +79,8 @@ export const useBookStore = () => {
   };
 
   const updateBook = async (book: Book, file: File | null) => {
-    if(file) {
-      await uploadImage(file, book.bookid)
+    if (file) {
+      await uploadImage(file, book.bookid);
     }
     await updateDoc(doc(db, "books", book.bookid), book);
   };
@@ -95,5 +105,13 @@ export const useBookStore = () => {
     }
   });
 
-  return { allBooks, booksByGenre, isLoading, getAllBooks, deleteBook, addBook, updateBook };
+  return {
+    allBooks,
+    booksByGenre,
+    isLoading,
+    getAllBooks,
+    deleteBook,
+    addBook,
+    updateBook,
+  };
 };

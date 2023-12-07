@@ -153,7 +153,7 @@ const deleteBookData = async (book: Book) => {
   const answer = confirm(`${book.title}を削除します。よろしいですか？`);
   if (answer) {
     try {
-      await deleteBook(book.bookid);
+      await deleteBook(book);
       await getAllBooks();
     } catch (error) {
       console.error(error);
