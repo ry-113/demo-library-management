@@ -7,7 +7,7 @@
      <input
         type="text"
         placeholder="本をキーワードで検索"
-        class="input input-bordered w-[600px] absolute right-[50%] translate-x-[50%]"
+        class="input input-bordered w-[35%] absolute right-[50%] translate-x-[50%]"
       />
       <div class="dropdown dropdown-end">
         <label tabindex="0" class="flex items-center gap-2 cursor-pointer btn btn-ghost">
@@ -37,7 +37,7 @@
 
   <div class="drawer sm:drawer-open">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content absolute top-[100px] w-full h-[calc(100vh - 70px)] py-5 px-10">
+    <div class="drawer-content absolute top-[70px] w-full h-[calc(100vh - 70px)] py-5 px-10">
       <slot name="breadcrumbs"/>
       <slot name="table-header"/>
       <!-- Page content here -->

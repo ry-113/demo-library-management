@@ -16,7 +16,7 @@
       <template #default>
         <div class="max-w-[1500px] mx-auto">
           <div class="heading border-b-2 border-b-gray-400 relative py-4">
-            <h1 class="text-2xl mt-10 mb-3">{{ book?.title }}</h1>
+            <h1 class="text-2xl mt-3 mb-3">{{ book?.title }}</h1>
             <p>著者: {{ book?.author }}</p>
             <p>出版年: {{ book?.year }}</p>
             <p>ジャンル: {{ book?.genre }}</p>
@@ -132,7 +132,7 @@
             </div>
           </div>
 
-          <div class="contents--container pt-20 flex justify-between items-start">
+          <div class="contents--container pt-12 flex justify-between items-start">
             <img
               :src="book?.imageURL || '/img/noimage.png'"
               alt=""
