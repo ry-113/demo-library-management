@@ -1,4 +1,4 @@
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import {getFirestore, doc, updateDoc } from "firebase/firestore";
 export const useBookStorage = () => {
   const storage = getStorage();
@@ -6,7 +6,7 @@ export const useBookStorage = () => {
 
   const uploadImage = async (file: File | null, docRefId: string) => {
     if (file) {
-      const bookRef = ref(storage, `book/${file.name}`);
+      const bookRef = ref(storage, `book/${docRefId}`);
       await uploadBytes(bookRef, file)
         .then((snapshot) => {
           console.log("アップロードしました！");
@@ -23,5 +23,14 @@ export const useBookStorage = () => {
     }
   };
 
-  return { uploadImage };
+  const deleteImage = async (docRefId: string) => {
+    const bookRef = ref(storage, `book/${docRefId}`);
+    deleteObject(bookRef).then(() => {
+      console.log("storeから画像ファイルを削除しました");
+    }).catch((error) => {
+      console.error(error);
+    });
+  };
+
+  return { uploadImage, deleteImage };
 };
