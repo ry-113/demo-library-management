@@ -4,7 +4,7 @@
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
-      <form class="flex w-full gap-[4%]" @submit.prevent="updateBookData">
+      <form class="flex w-full gap-[4%]">
         <div class="left--box w-[48%]">
           <div class="mb-5">
             <label for="isbn">
@@ -146,7 +146,18 @@
               ></textarea>
             </label>
           </div>
-          <button class="btn block ml-auto" @click="updateBookData">登録</button>
+
+          <div class="flex justify-between">
+            <button
+              class="btn inline-block bg-red-500 text-white w-[100px]"
+              @click.prevent="deleteBookData"
+            >
+              削除
+              <Icon name="ant-design:delete-outlined" size="1.25rem" />
+            </button>
+
+            <button class="btn inline-block w-[100px]" @click.prevent="updateBookData">適用</button>
+          </div>
         </div>
       </form>
     </div>
@@ -157,12 +168,13 @@
 interface Props {
   book: Book;
 }
-const {book} = defineProps<Props>();
+const { book } = defineProps<Props>();
 
 interface Emits {
   (e: 'changeBookData', value: Book): void;
   (e: 'changeImageFile', value: File): void;
   (e: 'updateBookData', value: Book): void;
+  (e: 'deleteBookData', value: Book): void;
 }
 const emit = defineEmits<Emits>();
 const { genres } = useGenreStore();
@@ -203,7 +215,15 @@ const updateBookData = () => {
   emit('updateBookData', book);
 };
 
-watch(book, (newValue) => {
-  emit("changeBookData", newValue);
-}, { immediate: true, deep: true });
+const deleteBookData = () => {
+  emit('deleteBookData', book);
+};
+
+watch(
+  book,
+  (newValue) => {
+    emit('changeBookData', newValue);
+  },
+  { immediate: true, deep: true }
+);
 </script>

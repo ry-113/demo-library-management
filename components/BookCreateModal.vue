@@ -157,9 +157,8 @@
 <script setup lang="ts">
 interface Props {
   newBook: Book;
-  imageFile: File | null;
 }
-const { newBook, imageFile } = defineProps<Props>();
+const { newBook } = defineProps<Props>();
 
 interface Emits {
   (e: 'changeBookData', value: Book): void;

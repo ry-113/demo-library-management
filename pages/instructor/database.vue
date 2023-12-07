@@ -67,6 +67,7 @@
                   :imageFile="imageFile"
                   @change-image-file="changeImageFile"
                   @update-book-data="updateBookData"
+                  @delete-book-data="deleteBookData"
                 />
               </tr>
             </template>
@@ -82,7 +83,8 @@ definePageMeta({
   layout: false,
 });
 
-const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook, updateBook } = useBookStore();
+const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook, updateBook } =
+  useBookStore();
 const selectedGenre = ref('すべて');
 const genres = computed(() => Object.keys(booksByGenre.value));
 const filteredBooks = computed(() => {
@@ -93,11 +95,6 @@ const filteredBooks = computed(() => {
     return filteredBooks;
   }
 });
-
-const deleteBookReq = async (bookid: string) => {
-  await deleteBook(bookid);
-  await getAllBooks();
-};
 
 const selectedBook: Ref<Book | null> = ref(null);
 const showBookFormModal = (book: Book | null) => {
@@ -149,6 +146,18 @@ const updateBookData = async (book: Book) => {
     document.getElementById(`book-${book.bookid}`)?.close();
   } catch (error) {
     console.error(error);
+  }
+};
+
+const deleteBookData = async (book: Book) => {
+  const answer = confirm(`${book.title}を削除します。よろしいですか？`);
+  if (answer) {
+    try {
+      await deleteBook(book.bookid);
+      await getAllBooks();
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 </script>
