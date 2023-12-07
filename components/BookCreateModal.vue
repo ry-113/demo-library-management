@@ -190,7 +190,11 @@ const getBgColor = (label: Label) => {
 const imageURL: Ref<any> = ref(null); //プレビュー用のデータ
 const handleFileUpload = (e) => {
   const file = e.target.files[0];
-  if (file && file.type.startsWith('image/')) {
+  const maxFileSize = 1024 * 200;//200KB
+  if (file && file.size > maxFileSize) {
+    alert("ファイルサイズが大きすぎます。200KB以下のファイルを選択してください。");
+    e.target.value = null;
+  }else if (file && file.type.startsWith('image/')) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
@@ -198,6 +202,8 @@ const handleFileUpload = (e) => {
     };
   } else {
     imageURL.value = null;
+    alert("無効なファイルです。画像ファイルを指定してください。");
+    e.target.value = null;
   }
   emit('changeImageFile', file);
 };
