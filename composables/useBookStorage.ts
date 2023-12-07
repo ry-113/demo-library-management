@@ -35,7 +35,7 @@ export const useBookStorage = () => {
     const bookRef = ref(storage, `book/${docRefId}`);
     deleteObject(bookRef)
       .then(() => {
-        console.log("storeから画像ファイルを削除しました");
+        console.log("storageから画像ファイルを削除しました");
       })
       .catch((error) => {
         console.error(error);

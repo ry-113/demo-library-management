@@ -1,4 +1,4 @@
-import { getFirestore, collection, getDocs, query, where, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where, addDoc, updateDoc, doc, writeBatch} from 'firebase/firestore';
 export type Review = {
   reviewid?: string;
   uid: string;
@@ -35,5 +35,13 @@ export const useReviewStore = () => {
         reviewid: reviewRef.id,
     });
   };
-  return { getReviews, addReview };
+
+  const deleteReviews = async (bookid: string) => {
+    const q = query(collection(db, "reviews"), where('bookid', '==', bookid));
+    const querySnapShot = await getDocs(q);
+    const batch = writeBatch(db);
+    querySnapShot.docs.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+  };
+  return { getReviews, addReview, deleteReviews };
 };

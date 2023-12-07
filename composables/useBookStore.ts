@@ -28,6 +28,7 @@ export type Book = {
 
 export const useBookStore = () => {
   const { uploadImage, deleteImage } = useBookStorage();
+  const { deleteReviews } = useReviewStore();
   const db = getFirestore();
   const allBooks: Ref<Book[]> = useState("allBooks", () => []);
   type BooksByGenre = {
@@ -63,6 +64,7 @@ export const useBookStore = () => {
       if (book.imageURL) {
         await deleteImage(book.bookid);
       }
+      await deleteReviews(book.bookid);
     } catch (error) {
       console.error("本を削除中にエラーが発生：", error);
     }
