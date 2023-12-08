@@ -15,9 +15,9 @@
             <div class="font-bold">{{ transaction.userName }}</div>
           </div>
         </div>
-        <p class="text-xl">本のタイトル: {{ transaction.bookTitle }}</p>
-        <p class="text-xl">ステータス: {{ transaction.status }}</p>
-        <div>
+        <p class="text-xl mb-2">{{ transaction.bookTitle }}</p>
+        <p class="text-xl"><span class="w-4 h-4 rounded-full inline-block mr-2" :class="getStatusColor(transaction.status)"></span>{{ transaction.status }}</p>
+        <div class="mt-6">
           <ul class="steps steps-vertical min-w-full">
             <li class="step step-primary" data-content="●">
               {{ transaction.status === '貸出確認' ? '貸出日: ' : '返却日: '
@@ -51,6 +51,15 @@ const approveReq = (status: string) => {
     emit('approveBorrowReq', transaction);
   } else {
     emit('approveReturnReq', transaction);
+  }
+};
+
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case '貸出確認':
+      return 'bg-orange-400';
+    case '返却確認':
+      return 'bg-purple-400';
   }
 };
 </script>

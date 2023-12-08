@@ -2,7 +2,6 @@ import {
   getFirestore,
   collection,
   getDocs,
-  deleteDoc,
   doc,
   addDoc,
   updateDoc,
@@ -26,6 +25,7 @@ export type Transaction = {
 export const useTransactionStore = () => {
   const db = getFirestore();
   const allTransactions: Ref<Transaction[]> = useState(() => []);
+  const myTransactions: Ref<Transaction[]> = useState(() => []);
   const isLoading = useState(() => false);
   const getAllTransactions = async () => {
     isLoading.value = true;
@@ -39,6 +39,19 @@ export const useTransactionStore = () => {
     isLoading.value = false;
   };
 
+  const getMyTransactions = async (uid: string) => {
+    isLoading.value = true;
+    const fetchData: Transaction[] = [];
+    const transactionColRef = collection(db, "transactions");
+    const q = query(transactionColRef, where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      fetchData.push(doc.data() as Transaction);
+    });
+
+    myTransactions.value = [...fetchData];
+    isLoading.value = false;
+  };
   const borrowReq = async (borrowReq: Transaction) => {
     try {
       const transactionRef = await addDoc(
@@ -138,12 +151,12 @@ export const useTransactionStore = () => {
     }
   };
 
-  onMounted(() => getAllTransactions());
-
   return {
     isLoading,
     allTransactions,
+    myTransactions,
     getAllTransactions,
+    getMyTransactions,
     borrowReq,
     borrowBook,
     returnReq,

@@ -36,7 +36,7 @@
               <td>
                 <div class="flex items-center gap-3">
                   <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
+                    <div class="mask mask-squircle w-8 h-8">
                       <img :src="`${user.photo}`" />
                     </div>
                   </div>

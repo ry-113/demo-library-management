@@ -62,7 +62,7 @@
                   {{ transaction.bookTitle }}
                 </td>
                 <td>
-                  {{ transaction.status }}
+                  <span class="w-3 h-3 rounded-full inline-block mr-2" :class="getStatusColor(transaction.status)"></span>{{ transaction.status }}
                 </td>
                 <td>
                   {{ $dayjs(transaction.duedate).format('YYYY/MM/DD') }}
@@ -81,10 +81,27 @@
 definePageMeta({
   layout: false,
 });
+onMounted(() => {
+    getAllTransactions();
+});
 
 const { isLoading, allTransactions, getAllTransactions } = useTransactionStore();
 const allStatus = ['貸出確認', '貸出中', '返却確認', '返却済み', '期限切れ'];
 const selectedStatus: Ref<string | null> = ref("すべて");
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case '貸出確認':
+      return 'bg-orange-400';
+    case '貸出中':
+      return 'bg-green-400';
+    case '返却確認':
+      return 'bg-purple-400';
+    case '返却済み':
+      return 'bg-blue-400';
+    case '期限切れ':
+      return 'bg-red-400';
+  }
+};
 
 const filteredTransactions = computed(() => {
   if (selectedStatus.value === 'すべて') {
