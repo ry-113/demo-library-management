@@ -328,7 +328,6 @@ const returnBook = async () => {
   try {
     await returnReq(newReq.value as Transaction);
     document.getElementById('returnBook')?.close();
-    alert('返却リクエストが送信されました。承認されるまで少々お待ちください。');
   } catch (error) {
     console.error(error);
   }
