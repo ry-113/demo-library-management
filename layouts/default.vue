@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar fixed top-0 z-10 bg-slate-300 px-6 py-4 justify-between">
+  <div class="navbar fixed top-0 z-10 bg-slate-200 px-6 py-4 justify-between">
     <div class="flex-1">
       <a class="btn btn-ghost text-3xl">Logo</a>
     </div>

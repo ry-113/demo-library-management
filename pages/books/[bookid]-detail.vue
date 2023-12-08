@@ -208,6 +208,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"],
+});
 import { getAuth } from 'firebase/auth';
 const auth = getAuth();
 const user = auth.currentUser;

@@ -39,6 +39,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: false,
+  middleware: ["auth"],
 });
 const route = useRoute();
 const genre = route.params.genre;

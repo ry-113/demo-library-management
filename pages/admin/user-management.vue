@@ -92,6 +92,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: false,
+  middleware: ["auth"],
 });
 const { allUsers, isLoading, getAllUsers, changeRole, deleteUser } =
   useUserStore();

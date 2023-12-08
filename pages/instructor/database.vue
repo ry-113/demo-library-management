@@ -81,6 +81,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: false,
+  middleware: ["auth"]
 });
 
 const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook, updateBook } =

@@ -58,6 +58,7 @@
 import 'vue3-carousel/dist/carousel.css';
 definePageMeta({
   layout: false,
+  middleware: ["auth"]
 });
 const { allBooks, booksByGenre, isLoading } = useBookStore();
 const breakpoints = {
