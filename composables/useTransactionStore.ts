@@ -8,6 +8,9 @@ import {
   runTransaction,
   query,
   where,
+  orderBy,
+  limit,
+  startAfter
 } from "firebase/firestore";
 
 export type Transaction = {
@@ -30,11 +33,12 @@ export const useTransactionStore = () => {
   const getAllTransactions = async () => {
     isLoading.value = true;
     const fetchData: Transaction[] = [];
-    const querySnapshot = await getDocs(collection(db, "transactions"));
+    const transactionColRef = collection(db, "transactions");
+    const q = query(transactionColRef, orderBy("nowdate", "desc"), limit(60));
+    const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Transaction);
     });
-
     allTransactions.value = [...fetchData];
     isLoading.value = false;
   };
@@ -43,7 +47,7 @@ export const useTransactionStore = () => {
     isLoading.value = true;
     const fetchData: Transaction[] = [];
     const transactionColRef = collection(db, "transactions");
-    const q = query(transactionColRef, where("uid", "==", uid));
+    const q = query(transactionColRef, where("uid", "==", uid), orderBy("nowdate", "desc"), limit(20));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Transaction);
