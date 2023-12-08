@@ -110,7 +110,7 @@
                       <p class="text-xs">{{ book?.author }}</p>
                     </div>
                   </div>
-                  <form @submit.prevent="borrowReq" class="w-[60%]">
+                  <form @submit.prevent="borrowBook" class="w-[60%]">
                     <DatePicker
                       :datePeriod="datePeriod"
                       @update:model-value="setDatePeriod"
@@ -125,7 +125,7 @@
                 </template>
                 <h1 class="text-xl mb-3">返却リクエスト</h1>
                 <p>この本を返却します。よろしいですか？</p>
-                <form @submit.prevent="returnReq">
+                <form @submit.prevent="returnBook">
                   <button type="submit" class="btn block ml-auto mt-3">OK</button>
                 </form>
               </CommonModal>
@@ -151,9 +151,7 @@
                   </li>
                 </ul>
               </template>
-              <template v-else>
-                この本にはラベルがついていません。
-              </template>
+              <template v-else> この本にはラベルがついていません。 </template>
               <div class="description--box">
                 <h2 class="text-xl mt-8 xl:mt-12 mb-2">説明</h2>
                 <p class="text-overflow-lines-6">{{ book?.description }}</p>
@@ -222,7 +220,7 @@ const route = useRoute();
 const bookid = route.params.bookid;
 const { allBooks } = useBookStore();
 const book = allBooks.value.find((book) => book.bookid === bookid);
-const labels = computed(() => book?.labels.filter(label => label.isChecked === true));
+const labels = computed(() => book?.labels.filter((label) => label.isChecked === true));
 
 const getBgColor = (color: string) => {
   switch (color) {
@@ -297,20 +295,42 @@ const submitReview = async () => {
 };
 
 //本の貸出・返却
+const { borrowReq, returnReq } = useTransactionStore();
 const startDate = new Date();
 const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
 const datePeriod: Ref<Date[]> = ref([startDate, endDate]);
 const setDatePeriod = (value: Date[]) => {
   datePeriod.value = value;
 };
-const borrowReq = () => {
-  console.log(datePeriod.value, user?.uid, user?.displayName, book?.bookid);
-  document.getElementById('borrow')?.close();
+
+const newReq = computed(() => ({
+  nowdate: datePeriod.value[0].toLocaleString(),
+  duedate: datePeriod.value[1].toLocaleString(),
+  uid: user?.uid,
+  userName: user?.displayName,
+  userPhoto: user?.photoURL,
+  bookid: book?.bookid,
+  bookTitle: book?.title,
+  transactionid: '',
+  status: '',
+}));
+const borrowBook = async () => {
+  try {
+    await borrowReq(newReq.value as Transaction);
+    document.getElementById('borrow')?.close();
+    alert('貸出リクエストが送信されました。承認されるまで少々お待ちください。');
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const returnReq = () => {
-  const returnDate = new Date();
-  console.log(returnDate, user?.uid, user?.displayName, book?.bookid);
-  document.getElementById('returnBook')?.close();
+const returnBook = async () => {
+  try {
+    await returnReq(newReq.value as Transaction);
+    document.getElementById('returnBook')?.close();
+    alert('返却リクエストが送信されました。承認されるまで少々お待ちください。');
+  } catch (error) {
+    console.error(error);
+  }
 };
 </script>
