@@ -90,20 +90,11 @@ export const useTransactionStore = () => {
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         const transactionDoc = querySnapshot.docs[0];
-        const {bookTitle, bookid, uid, userName, userPhoto}  = returnReq
-        const restObj = { 
+        const updateNeededObj = { 
           nowdate: new Date().toLocaleString(),
           status: "返却確認",
-          transactionid: transactionDoc.id
         };
-        await updateDoc(doc(transactionColRef, transactionDoc.id), {
-          bookTitle,
-          bookid,
-          uid,
-          userName,
-          userPhoto,
-          ...restObj,
-        });
+        await updateDoc(doc(transactionColRef, transactionDoc.id), updateNeededObj);
       } else {
         alert('あなたの貸出中リストに存在していません。');
       }
