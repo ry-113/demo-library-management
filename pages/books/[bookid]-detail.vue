@@ -169,7 +169,7 @@
                   >
                     <Slide v-for="review in reviews" :key="review.reviewid">
                       <div
-                        class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[75%] h-[20vh]"
+                        class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[75%]"
                         @click="showFullReview(review)"
                       >
                         <div class="review--header flex items-center justify-between mb-3">
