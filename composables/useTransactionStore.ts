@@ -10,7 +10,8 @@ import {
   where,
   orderBy,
   limit,
-  startAfter
+  startAfter,
+  deleteDoc
 } from "firebase/firestore";
 
 export type Transaction = {
@@ -155,6 +156,15 @@ export const useTransactionStore = () => {
     }
   };
 
+  const cancelTransaction = async (transaction: Transaction) =>  {
+    const transactionDocRef = doc(db, "transactions", transaction.transactionid);
+    if(transaction.status === "貸出確認") {
+      await deleteDoc(transactionDocRef);
+    } else {
+      await updateDoc(transactionDocRef, {status: "貸出中"});
+    }
+  };
+
   return {
     isLoading,
     allTransactions,
@@ -165,5 +175,6 @@ export const useTransactionStore = () => {
     borrowBook,
     returnReq,
     returnBook,
+    cancelTransaction
   };
 };

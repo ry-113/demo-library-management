@@ -47,7 +47,7 @@
               :key="transaction.transactionid"
             >
               <tr
-                class="hover"
+                class="hover cursor-pointer" @click="transaction.status === '貸出確認' || transaction.status === '返却確認' ? cancelReq(transaction) : moveToDetailPage(transaction.bookid) "
               >
                 <th>{{ index + 1 }}</th>
                 <td>
@@ -109,4 +109,17 @@ const filteredTransactions = computed(() => {
     return filteredTransactions;
   }
 });
+
+const {cancelTransaction} = useTransactionStore();
+const cancelReq = async (transaction: Transaction) => {
+  const answer = confirm(`${transaction.status}リクエストをキャンセルしますか？`);
+  if(answer) {
+    await cancelTransaction(transaction);
+    await getMyTransactions(uid);
+  }
+};
+
+const moveToDetailPage = async (bookid: string) => {
+  await navigateTo(`/books/${bookid}-detail`, {replace: true});
+};
 </script>
