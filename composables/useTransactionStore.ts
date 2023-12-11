@@ -11,8 +11,9 @@ import {
   orderBy,
   limit,
   startAfter,
-  deleteDoc
-} from "firebase/firestore";
+  deleteDoc,
+  writeBatch,
+} from 'firebase/firestore';
 
 export type Transaction = {
   bookTitle: string;
@@ -34,8 +35,8 @@ export const useTransactionStore = () => {
   const getAllTransactions = async () => {
     isLoading.value = true;
     const fetchData: Transaction[] = [];
-    const transactionColRef = collection(db, "transactions");
-    const q = query(transactionColRef, orderBy("nowdate", "asc"), limit(60));
+    const transactionColRef = collection(db, 'transactions');
+    const q = query(transactionColRef, orderBy('nowdate', 'asc'), limit(60));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Transaction);
@@ -47,8 +48,13 @@ export const useTransactionStore = () => {
   const getMyTransactions = async (uid: string) => {
     isLoading.value = true;
     const fetchData: Transaction[] = [];
-    const transactionColRef = collection(db, "transactions");
-    const q = query(transactionColRef, where("uid", "==", uid), orderBy("nowdate", "asc"), limit(20));
+    const transactionColRef = collection(db, 'transactions');
+    const q = query(
+      transactionColRef,
+      where('uid', '==', uid),
+      orderBy('nowdate', 'asc'),
+      limit(20)
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Transaction);
@@ -57,15 +63,40 @@ export const useTransactionStore = () => {
     myTransactions.value = [...fetchData];
     isLoading.value = false;
   };
+
+  const updateExpiredTransaction = async () => {
+    //指導員か管理者のみ実行可能にするか
+    const transactionColRef = collection(db, 'transactions');
+    const now = new Date();
+
+    try {
+      const q = query(
+        transactionColRef,
+        where('status', '==', '貸出中'),
+        where('duedate', '<', now.toLocaleString())
+      );
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.docs.length === 0) {
+        return false;
+      }
+      const batch = writeBatch(db);
+      querySnapshot.docs.forEach((doc) => {
+        batch.update(doc.ref, { status: '期限切れ' });
+      });
+
+      await batch.commit();
+      console.log(`${querySnapshot.size}冊の本が期限切れになりました`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const borrowReq = async (borrowReq: Transaction) => {
     try {
-      const transactionRef = await addDoc(
-        collection(db, "transactions"),
-        borrowReq
-      );
-      await updateDoc(doc(db, "transactions", transactionRef.id), {
+      const transactionRef = await addDoc(collection(db, 'transactions'), borrowReq);
+      await updateDoc(doc(db, 'transactions', transactionRef.id), {
         transactionid: transactionRef.id,
-        status: "貸出確認",
+        status: '貸出確認',
       });
     } catch (error) {
       console.error(error);
@@ -73,29 +104,27 @@ export const useTransactionStore = () => {
   };
 
   const borrowBook = async (borrowReq: Transaction) => {
-    const transactionDocRef = doc(db, "transactions", borrowReq.transactionid);
-    const bookDocRef = doc(db, "books", borrowReq.bookid);
+    const transactionDocRef = doc(db, 'transactions', borrowReq.transactionid);
+    const bookDocRef = doc(db, 'books', borrowReq.bookid);
     try {
       const newBookStock = await runTransaction(db, async (transaction) => {
         const bookDoc = await transaction.get(bookDocRef);
         if (!bookDoc.exists()) {
-          throw "ドキュメントが存在しません";
+          throw 'ドキュメントが存在しません';
         }
         const newBookStock = bookDoc.data().stock - 1;
 
         if (newBookStock >= 0) {
           transaction.update(bookDocRef, { stock: newBookStock });
-          transaction.update(transactionDocRef, { status: "貸出中" });
+          transaction.update(transactionDocRef, { status: '貸出中' });
           return newBookStock;
         } else {
-          alert("在庫がないため貸出確認を承認できません。");
-          return Promise.reject("在庫がありません。");
+          alert('在庫がないため貸出確認を承認できません。');
+          return Promise.reject('在庫がありません。');
         }
       });
 
-      console.log(
-        `${borrowReq.bookTitle}の在庫数が${newBookStock}になりました。`
-      );
+      console.log(`${borrowReq.bookTitle}の在庫数が${newBookStock}になりました。`);
     } catch (error) {
       console.error(error);
     }
@@ -103,29 +132,24 @@ export const useTransactionStore = () => {
 
   const returnReq = async (returnReq: Transaction) => {
     try {
-      const transactionColRef = collection(db, "transactions");
+      const transactionColRef = collection(db, 'transactions');
       const q = query(
         transactionColRef,
-        where("uid", "==", returnReq.uid),
-        where("bookid", "==", returnReq.bookid),
-        where("status", "==", "貸出中")
+        where('uid', '==', returnReq.uid),
+        where('bookid', '==', returnReq.bookid),
+        where('status', 'in', ['貸出中', '期限切れ'])
       );
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         const transactionDoc = querySnapshot.docs[0];
         const updateNeededObj = {
           nowdate: new Date().toLocaleString(),
-          status: "返却確認",
+          status: '返却確認',
         };
-        await updateDoc(
-          doc(transactionColRef, transactionDoc.id),
-          updateNeededObj
-        );
-        alert(
-          "返却リクエストが送信されました。承認されるまで少々お待ちください。"
-        );
+        await updateDoc(doc(transactionColRef, transactionDoc.id), updateNeededObj);
+        alert('返却リクエストが送信されました。承認されるまで少々お待ちください。');
       } else {
-        alert("あなたの貸出中リストに存在していません。");
+        alert('あなたの貸出中リストに存在していません。');
       }
     } catch (error) {
       console.error(error);
@@ -133,37 +157,53 @@ export const useTransactionStore = () => {
   };
 
   const returnBook = async (returnReq: Transaction) => {
-    const transactionDocRef = doc(db, "transactions", returnReq.transactionid);
-    const bookDocRef = doc(db, "books", returnReq.bookid);
+    const transactionDocRef = doc(db, 'transactions', returnReq.transactionid);
+    const bookDocRef = doc(db, 'books', returnReq.bookid);
     try {
       const newBookStock = await runTransaction(db, async (transaction) => {
         const bookDoc = await transaction.get(bookDocRef);
         if (!bookDoc.exists()) {
-          throw "ドキュメントが存在しません";
+          throw 'ドキュメントが存在しません';
         }
         const newBookStock = bookDoc.data().stock + 1;
 
         transaction.update(bookDocRef, { stock: newBookStock });
-        transaction.update(transactionDocRef, { status: "返却済み" });
+        transaction.update(transactionDocRef, { status: '返却済み' });
         return newBookStock;
       });
 
-      console.log(
-        `${returnReq.bookTitle}の在庫数が${newBookStock}になりました。`
-      );
+      console.log(`${returnReq.bookTitle}の在庫数が${newBookStock}になりました。`);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const cancelTransaction = async (transaction: Transaction) =>  {
-    const transactionDocRef = doc(db, "transactions", transaction.transactionid);
-    if(transaction.status === "貸出確認") {
+  const cancelTransaction = async (transaction: Transaction) => {
+    const transactionDocRef = doc(db, 'transactions', transaction.transactionid);
+    if (transaction.status === '貸出確認') {
       await deleteDoc(transactionDocRef);
     } else {
-      await updateDoc(transactionDocRef, {status: "貸出中"});
+      await updateDoc(transactionDocRef, { status: '貸出中' });
     }
   };
+
+  onMounted(() => {
+    const checkExpiredTime = localStorage.getItem('checkExpiredTime');
+    if (!checkExpiredTime) {
+      updateExpiredTransaction();
+      localStorage.setItem('checkExpiredTime', String(new Date()));
+      console.log('期限切れのチェック終了');
+    } else if (checkExpiredTime) {
+      const lastUpdateTime = new Date(checkExpiredTime).getTime();
+      const now = new Date().getTime();
+      const timeDiff = Math.abs(now - lastUpdateTime) / (1000 * 60 * 60 * 24); //単位は日
+      if (timeDiff >= 1) {
+        updateExpiredTransaction();
+        localStorage.setItem('checkExpiredTime', String(new Date()));
+        console.log('1日経過');
+      }
+    }
+  });
 
   return {
     isLoading,
@@ -175,6 +215,7 @@ export const useTransactionStore = () => {
     borrowBook,
     returnReq,
     returnBook,
-    cancelTransaction
+    cancelTransaction,
+    updateExpiredTransaction,
   };
 };
