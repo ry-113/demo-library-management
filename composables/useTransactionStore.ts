@@ -34,7 +34,7 @@ export const useTransactionStore = () => {
     isLoading.value = true;
     const fetchData: Transaction[] = [];
     const transactionColRef = collection(db, "transactions");
-    const q = query(transactionColRef, orderBy("nowdate", "desc"), limit(60));
+    const q = query(transactionColRef, orderBy("nowdate", "asc"), limit(60));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Transaction);
@@ -47,7 +47,7 @@ export const useTransactionStore = () => {
     isLoading.value = true;
     const fetchData: Transaction[] = [];
     const transactionColRef = collection(db, "transactions");
-    const q = query(transactionColRef, where("uid", "==", uid), orderBy("nowdate", "desc"), limit(20));
+    const q = query(transactionColRef, where("uid", "==", uid), orderBy("nowdate", "asc"), limit(20));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Transaction);
