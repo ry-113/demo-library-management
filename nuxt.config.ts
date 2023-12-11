@@ -7,6 +7,16 @@ export default defineNuxtConfig({
     "vue3-carousel-nuxt",
     "dayjs-nuxt",
     "nuxt-icon",
+    [
+      "@nuxtjs/algolia",
+      {
+        apiKey: process.env.NUXT_ALGOLIA_ADMIN_APIKEY,
+        applicationId: process.env.NUXT_ALGOLIA_APP_ID,
+        instantSearch: {
+          theme: "algolia",
+        },
+      },
+    ],
   ],
   runtimeConfig: {
     public: {
