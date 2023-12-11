@@ -1,5 +1,5 @@
 <template>
-  <div>あいうえお</div>
+  <div>ここは検索ページです</div>
 </template>
 
 <script setup lang="ts">
