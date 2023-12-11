@@ -132,7 +132,7 @@
             </div>
           </div>
 
-          <div class="contents--container pt-12 flex justify-between items-start">
+          <div class="contents--container pt-6 flex justify-between items-start">
             <img
               :src="book?.imageURL || '/img/noimage.png'"
               alt=""
