@@ -188,18 +188,18 @@ export const useTransactionStore = () => {
   };
 
   onMounted(() => {
-    const checkExpiredTime = localStorage.getItem('checkExpiredTime');
-    if (!checkExpiredTime) {
+    const checkExpiredAt = localStorage.getItem('checkExpiredAt');
+    if (!checkExpiredAt) {
       updateExpiredTransaction();
-      localStorage.setItem('checkExpiredTime', String(new Date()));
+      localStorage.setItem('checkExpiredAt', String(new Date()));
       console.log('期限切れのチェック終了');
-    } else if (checkExpiredTime) {
-      const lastUpdateTime = new Date(checkExpiredTime).getTime();
+    } else  {
+      const lastUpdateTime = new Date(checkExpiredAt).getTime();
       const now = new Date().getTime();
       const timeDiff = Math.abs(now - lastUpdateTime) / (1000 * 60 * 60 * 24); //単位は日
       if (timeDiff >= 1) {
         updateExpiredTransaction();
-        localStorage.setItem('checkExpiredTime', String(new Date()));
+        localStorage.setItem('checkExpiredAt', String(new Date()));
         console.log('1日経過');
       }
     }
