@@ -23,6 +23,7 @@
   "dependencies": {
     "@nuxtjs/algolia": "^1.10.1",
     "@vuepic/vue-datepicker": "^7.3.0",
+    "algoliasearch": "^4.20.0",
     "firebase": "^10.6.0",
     "vue3-carousel": "^0.3.1",
     "vue3-carousel-nuxt": "^1.1.0",

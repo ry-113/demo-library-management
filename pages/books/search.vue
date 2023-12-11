@@ -1,28 +1,18 @@
 <template>
-  <div>{{ result }}</div>
+  <div>あいうえお</div>
 </template>
 
 <script setup lang="ts">
-import algoliaserch from "@nuxtjs/algolia"
-const { result, search } = useAlgoliaSearch('book')
+import algoliaserch from "algoliasearch";
+const { allBooks } = useBookStore();
+const config = useRuntimeConfig();
+const objects = allBooks.value;
+const books = objects.map((book) => Object.assign(book, { objectID: book.bookid }));
 
-onMounted(async () => {
-  await search({ query: 'Jimmie' })
-});
-
-const objects = [{
-  firstname: 'Jimmie',
-  lastname: 'Barninger',
-  objectID: 'myID1'
-}, {
-  firstname: 'Warren',
-  lastname: 'Speach',
-  objectID: 'myID2'
-}];
-
-
-const index = useAlgoliaInitIndex("book");
-console.log(index);
-await index.saveObjects(objects);
+const client = algoliaserch(config.public.algolia.applicationId, config.public.algolia.apiKey);
+const index = client.initIndex("book");
+await index.saveObjects(books);
+index.search("HTML")
+  .then(({ hits })=> console.log(hits));
 </script>
 
