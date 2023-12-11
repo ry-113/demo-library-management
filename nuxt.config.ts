@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     'vue3-carousel-nuxt',
     'dayjs-nuxt',
     'nuxt-icon',
+    "@nuxtjs/algolia"
   ],
   runtimeConfig: {
     public: {
@@ -20,6 +21,6 @@ export default defineNuxtConfig({
     },
   },
   build: {
-    transpile: ["@vuepic/vue-datepicker"],
+    transpile: ['@vuepic/vue-datepicker'],
   },
 });
