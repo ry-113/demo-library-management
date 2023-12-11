@@ -1,14 +1,20 @@
 <template>
   <div class="navbar min-h^[2rem] fixed top-0 z-10 bg-slate-200 px-6 py-2 justify-between">
-    <div class="flex-1">
+    <div class="flex-1 navbar-start">
       <a class="btn btn-ghost text-3xl">Logo</a>
     </div>
-    <div class="gap-2">
+    <div class="flex navbar-center w-[30vw] translate-x-[50%]">
       <input
         type="text"
         placeholder="本をキーワードで検索"
-        class="input input-bordered w-[35%] absolute right-[50%] translate-x-[50%] h-10"
+        class="input input-bordered w-full h-11"
       />
+      <button class="btn btn-ghost btn-circle">
+        <Icon name="ant-design:search-outlined" size="1.5rem"/>
+      </button>
+      
+    </div>
+    <div class="navbar-end">
       <div class="dropdown dropdown-end">
         <label tabindex="0" class="flex items-center gap-2 cursor-pointer btn btn-ghost">
           <div class="badge badge-outline">{{ userRole }}</div>
@@ -28,6 +34,12 @@
           <li @click="logOut"><NuxtLink to="/">ログアウト</NuxtLink></li>
         </ul>
       </div>
+      <button class="btn btn-ghost btn-circle">
+        <div class="indicator">
+          <Icon name="ant-design:bell-outlined" size="1.5rem" />
+          <span class="badge badge-xs badge-primary indicator-item h-5 text-xs">3</span>
+        </div>
+      </button>
     </div>
   </div>
 
@@ -63,7 +75,7 @@
         </li>
         <li class="p-4">
           <NuxtLink to="/books" class="py-3" :class="{ active: /^\/books/.test($route.path) }"
-            ><Icon name="mingcute:book-5-line" size="1.75rem"/>本棚</NuxtLink
+            ><Icon name="mingcute:book-5-line" size="1.75rem" />本棚</NuxtLink
           >
         </li>
         <li class="p-4" v-if="userRole === 'admin' || userRole === 'instructor'">
@@ -71,7 +83,7 @@
             to="/instructor/database"
             class="py-3"
             :class="{ active: $route.path === '/instructor/database' }"
-            ><Icon name="fluent:book-database-20-regular" size="1.75rem"/>書籍管理</NuxtLink
+            ><Icon name="fluent:book-database-20-regular" size="1.75rem" />書籍管理</NuxtLink
           >
         </li>
         <li class="p-4" v-if="userRole === 'admin'">
