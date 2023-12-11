@@ -8,6 +8,11 @@ export default {
     "./nuxt.config.{js,ts}",
     "./app.vue",
   ],
+  safelist: [
+    {
+      pattern: /bg-(red|amber|lime|emerald|cyan|blue|violet|fuchsia|rose)-400/
+    }
+  ],
   theme: {
     extend: {},
   },
