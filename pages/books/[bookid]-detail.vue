@@ -145,7 +145,7 @@
                     v-for="label in labels"
                     :key="label.name"
                     class="badge badge-lg rounded-md py-4 px-3 text-white"
-                    :class="getBgColor(label.color)"
+                    :class="getBgColor(label)"
                   >
                     {{ label.name }}
                   </li>
@@ -225,19 +225,12 @@ const { allBooks } = useBookStore();
 const book = allBooks.value.find((book) => book.bookid === bookid);
 const labels = computed(() => book?.labels.filter((label) => label.isChecked === true));
 
-const getBgColor = (color: string) => {
-  switch (color) {
-    case 'red':
-      return 'bg-red-400';
-    case 'blue':
-      return 'bg-blue-400';
-    case 'green':
-      return 'bg-green-400';
-    case 'yellow':
-      return 'bg-yellow-400';
-    case 'purple':
-      return 'bg-purple-400';
+const getBgColor = (label: Label) => {
+  if (!label.isChecked) {
+    return false;
   }
+  const str = `bg-${label.color}-400`;
+  return str;
 };
 
 const { getReviews, addReview } = useReviewStore();

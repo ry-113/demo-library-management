@@ -173,18 +173,8 @@ const getBgColor = (label: Label) => {
   if (!label.isChecked) {
     return false;
   }
-  switch (label.color) {
-    case 'red':
-      return 'bg-red-400';
-    case 'blue':
-      return 'bg-blue-400';
-    case 'green':
-      return 'bg-green-400';
-    case 'yellow':
-      return 'bg-yellow-400';
-    case 'purple':
-      return 'bg-purple-400';
-  }
+  const str = `bg-${label.color}-400`;
+  return str;
 };
 
 const imageURL: Ref<any> = ref(null); //プレビュー用のデータ
