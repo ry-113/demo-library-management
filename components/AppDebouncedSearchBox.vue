@@ -1,5 +1,5 @@
 <template>
-    <input type="search" v-model="query" class="input h-10 p-2 border-gray-400 border rounded-md focus:border-primary focus:border"/>
+    <input type="search" v-model="query" class="input h-10 p-2 mt-10 border-gray-400 border rounded-md focus:border"/>
   </template>
   
   <script>
