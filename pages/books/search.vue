@@ -45,7 +45,7 @@
 
               <div class="mt-5">
                 <h3>ラベル</h3>
-                <AisRefinementList attribute="labels.name" :sort-by="['name:desc']" />
+                <AisRefinementList attribute="labels.name" />
               </div>
             </div>
             <div class="right-box w-[70%] 2xl:[w-80%]">
