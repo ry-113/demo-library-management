@@ -87,7 +87,7 @@ export const useBookStore = () => {
     await updateDoc(doc(db, "books", book.bookid), book);
   };
 
-  const updateScore = async (bookid:string, rating: number) => {
+  const updateRating = async (bookid:string, rating: number) => {
     await updateDoc(doc(db, "books", bookid), {rating: Number(rating)});
   };
 
@@ -119,6 +119,6 @@ export const useBookStore = () => {
     deleteBook,
     addBook,
     updateBook,
-    updateScore
+    updateRating
   };
 };

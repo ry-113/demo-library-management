@@ -13,11 +13,12 @@ export type Review = {
 
 export const useReviewStore = () => {
   const db = getFirestore();
-  const getReviews = async (bookid: string | undefined): Promise<Review[]> => {
+  const reviews: Ref<Review[]> = useState(() => []);
+  const getReviews = async (bookid: string | undefined) => {
     const q = query(collection(db, 'reviews'), where('bookid', '==', bookid));
     const querySnapShot = await getDocs(q);
-    const reviews = querySnapShot.docs.map((doc) => doc.data() as Review);
-    return reviews;
+    const fetchData = querySnapShot.docs.map((doc) => doc.data() as Review);
+    reviews.value = [...fetchData];
   };
 
   const addReview = async (review: Review) => {
@@ -43,5 +44,5 @@ export const useReviewStore = () => {
     querySnapShot.docs.forEach(doc => batch.delete(doc.ref));
     await batch.commit();
   };
-  return { getReviews, addReview, deleteReviews };
+  return { reviews, getReviews, addReview, deleteReviews };
 };
