@@ -19,24 +19,7 @@
               </AisClearRefinements>
               <div class="mt-5">
                 <h3>評価</h3>
-                <AisRatingMenu attribute="rating">
-                  <template v-slot="{ items, refine, createURL }">
-                    <ul>
-                      <li v-for="item in items" :key="item.value">
-                        <NuxtLink
-                          class="text-amber-400 cursor-pointer"
-                          @click.prevent="refine(item.value)"
-                        >
-                          <span v-for="(full, index) in item.stars" :key="index">
-                            {{ full ? '★' : '☆' }}
-                          </span>
-                          <span class="text-gray-900"> {{ item.value }}以上 </span>
-                          <span class="text-gray-900"> ({{ item.count }}) </span>
-                        </NuxtLink>
-                      </li>
-                    </ul>
-                  </template>
-                </AisRatingMenu>
+                <AisRatingMenu attribute="rating"/>
               </div>
               <div class="mt-5">
                 <h3>ジャンル</h3>
@@ -61,7 +44,7 @@
                     <li
                       v-for="book in books"
                       :key="book.objectID"
-                      class="text-left card card-compact shadow-xl bg-base-100 w-[30%] xl:w-[20%] 2xl:w-[14%]"
+                      class="text-left card card-compact shadow-xl bg-base-100 w-[30%] xl:w-[20%] 2xl:w-[16%]"
                     >
                       <NuxtLink :to="`/books/${book.bookid}-detail`">
                         <figure>
