@@ -221,7 +221,7 @@ definePageMeta({
 });
 const route = useRoute();
 const bookid = route.params.bookid;
-const { allBooks } = useBookStore();
+const { allBooks, updateScore } = useBookStore();
 const book = allBooks.value.find((book) => book.bookid === bookid);
 const labels = computed(() => book?.labels.filter((label) => label.isChecked === true));
 
@@ -234,7 +234,7 @@ const getBgColor = (label: Label) => {
 };
 
 const { getReviews, addReview } = useReviewStore();
-const reviews: Review[] = await getReviews(book?.bookid);
+const reviews = await getReviews(book.bookid);
 const numOfReviews = reviews.length;
 //firestoreのレビューコレクションの集計
 const rating = computed((): number => {
@@ -283,6 +283,8 @@ const submitReview = async () => {
   };
   try {
     await addReview(newReview);
+    await getReviews(book.bookid);
+    await updateScore(book.bookid, rating.value);
     alert('レビューの投稿が完了しました。');
   } catch {
     alert('レビュー送信中に予期せぬエラーが起きました');

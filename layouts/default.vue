@@ -36,8 +36,8 @@
           >
         </div>
       </button>
-      <button class="btn btn-ghost btn-circle">
-        <Icon name="ant-design:search-outlined" size="1.5rem"  @click="navigateTo('/books/search', {replace: true})"/>
+      <button class="btn btn-ghost btn-circle inline-block p-2" @click="navigateTo('/books/search', {replace: true})">
+        <Icon name="ant-design:search-outlined" size="1.5rem" />
       </button>
     </div>
   </div>

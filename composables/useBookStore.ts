@@ -87,6 +87,10 @@ export const useBookStore = () => {
     await updateDoc(doc(db, "books", book.bookid), book);
   };
 
+  const updateScore = async (bookid:string, rating: number) => {
+    await updateDoc(doc(db, "books", bookid), {rating: Number(rating)});
+  };
+
   onMounted(() => {
     const isBooksExisting = sessionStorage.getItem("isBooksExisting");
     const booksTimestamp = sessionStorage.getItem("booksTimestamp");
@@ -115,5 +119,6 @@ export const useBookStore = () => {
     deleteBook,
     addBook,
     updateBook,
+    updateScore
   };
 };
