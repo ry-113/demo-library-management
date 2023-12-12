@@ -114,6 +114,7 @@
         <div class="right--box w-[48%]">
           <p>ラベル</p>
           <div class="flex flex-wrap mb-5 border rounded-lg py-2 border-gray-300">
+            <p v-if="book.labels.length === 0" class="text-gray-400 pl-2">下からラベルを追加してください。</p>
             <label
               v-for="label in book.labels"
               :key="label.name"
@@ -125,6 +126,29 @@
                 class="hidden"
                 :id="`${label.name}-${book.bookid}`"
                 v-model="label.isChecked"
+                @change="moveLabel(label, book.labels, unselectedLabels)"
+              />
+              <div
+                class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
+                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
+              >
+                {{ label.name }}
+              </div>
+            </label>
+          </div>
+          <div class="flex flex-wrap mb-5 border rounded-lg py-2 border-gray-300">
+            <label
+              v-for="label in unselectedLabels"
+              :key="label.name"
+              :for="`${label.name}-${book.bookid}`"
+              class="flex items-center space-x-2 space-y-1"
+            >
+              <input
+                type="checkbox"
+                class="hidden"
+                :id="`${label.name}-${book.bookid}`"
+                v-model="label.isChecked"
+                @change="moveLabel(label, unselectedLabels, book.labels)"
               />
               <div
                 class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
@@ -169,7 +193,8 @@ interface Props {
   book: Book;
 }
 const { book } = defineProps<Props>();
-
+const { labels } = useLabelStore();
+const unselectedLabels = computed(() => labels.value.filter(label => !book.labels.some(selectedLabel => selectedLabel.labelid === label.labelid)));
 interface Emits {
   (e: 'changeBookData', value: Book): void;
   (e: 'changeImageFile', value: File): void;
@@ -184,6 +209,13 @@ const getBgColor = (label: Label) => {
   }
   const str = `bg-${label.color}-400`;
   return str;
+};
+const moveLabel = (label: Label, sourceArray: Label[], destinationArray: Label[]) => {
+  const index = sourceArray.indexOf(label);
+  if (index !== -1) {
+    sourceArray.splice(index, 1);
+    destinationArray.push(label);
+  }
 };
 
 const imageURL: Ref<any> = ref(null); //プレビュー用のデータ

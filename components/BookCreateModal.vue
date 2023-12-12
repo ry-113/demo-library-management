@@ -115,17 +115,41 @@
         <div class="right--box w-[48%]">
           <p>ラベル</p>
           <div class="flex flex-wrap mb-5 border rounded-lg py-2 border-gray-300">
+            <p v-if="newBook.labels.length === 0" class="text-gray-400 pl-2">下からラベルを追加してください。</p>
             <label
-              v-for="(label, index) in labels"
+              v-for="(label, index) in newBook.labels"
               :key="label.name"
-              :for="`label-${index}`"
+              :for="`${label.name}-${label.labelid}`"
               class="flex items-center space-x-2 space-y-1"
             >
               <input
                 type="checkbox"
                 class="hidden"
-                :id="`label-${index}`"
+                :id="`${label.name}-${label.labelid}`"
                 v-model="label.isChecked"
+                @change="moveLabel(label, newBook.labels, labels)"
+              />
+              <div
+                class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
+                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
+              >
+                {{ label.name }}
+              </div>
+            </label>
+          </div>
+          <div class="flex flex-wrap mb-5 border rounded-lg py-2 border-gray-300">
+            <label
+              v-for="(label, index) in labels"
+              :key="label.name"
+              :for="`${label.name}-${label.labelid}`"
+              class="flex items-center space-x-2 space-y-1"
+            >
+              <input
+                type="checkbox"
+                class="hidden"
+                :id="`${label.name}-${label.labelid}`"
+                v-model="label.isChecked"
+                @change="moveLabel(label, labels, newBook.labels)"
               />
               <div
                 class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
@@ -176,6 +200,13 @@ const getBgColor = (label: Label) => {
   const str = `bg-${label.color}-400`;
   return str;
 };
+const moveLabel = (label: Label, sourceArray: Label[], destinationArray: Label[]) => {
+  const index = sourceArray.indexOf(label);
+  if (index !== -1) {
+    sourceArray.splice(index, 1);
+    destinationArray.push(label);
+  }
+};
 
 const imageURL: Ref<any> = ref(null); //プレビュー用のデータ
 const handleFileUpload = (e) => {
@@ -202,10 +233,6 @@ const handleFileUpload = (e) => {
 watch(newBook, (newValue) => {
   emit("changeBookData", newValue);
 }, { immediate: true, deep: true });
-
-watch(labels, (newValue) => {
-  emit("checkLabel", newValue);
-}, {immediate: true, deep: true});
 
 const submitBookData = () => {
   emit("submitBookData");

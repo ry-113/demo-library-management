@@ -3,6 +3,7 @@ export type Label = {
   name: string;
   color: string;
   isChecked: boolean;
+  labelid: string;
 };
 export const useLabelStore = () => {
   const db = getFirestore();

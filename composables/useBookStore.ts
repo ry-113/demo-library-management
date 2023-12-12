@@ -12,6 +12,7 @@ type Label = {
   name: string;
   color: string;
   isChecked: boolean;
+  labelid: string;
 };
 export type Book = {
   ISBN: string;
