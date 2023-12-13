@@ -6,8 +6,9 @@ import {
   doc,
   addDoc,
   updateDoc,
-} from "firebase/firestore";
-import type { Ref } from "vue";
+  onSnapshot,
+} from 'firebase/firestore';
+import type { Ref } from 'vue';
 type Label = {
   name: string;
   color: string;
@@ -30,18 +31,19 @@ export type Book = {
 export const useBookStore = () => {
   const { uploadImage, deleteImage } = useBookStorage();
   const { deleteReviews } = useReviewStore();
+  const {addAlgolia, updateAlgolia, deleteAlgolia} = useAlgolia();
   const db = getFirestore();
-  const allBooks: Ref<Book[]> = useState("allBooks", () => []);
+  const allBooks: Ref<Book[]> = useState('allBooks', () => []);
   type BooksByGenre = {
     [genre: string]: Book[];
   };
-  const booksByGenre = useState("booksByGenre", () => ({} as BooksByGenre));
-  const isLoading = useState("isLoading", () => false);
+  const booksByGenre = useState('booksByGenre', () => ({} as BooksByGenre));
+  const isLoading = useState('isLoading', () => false);
 
   const getAllBooks = async () => {
     isLoading.value = true;
     const fetchData: Book[] = [];
-    const querySnapshot = await getDocs(collection(db, "books"));
+    const querySnapshot = await getDocs(collection(db, 'books'));
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Book);
     });
@@ -61,53 +63,57 @@ export const useBookStore = () => {
 
   const deleteBook = async (book: Book) => {
     try {
-      await deleteDoc(doc(db, "books", book.bookid));
+      await deleteDoc(doc(db, 'books', book.bookid));
       if (book.imageURL) {
         await deleteImage(book.bookid);
       }
       await deleteReviews(book.bookid);
+      await deleteAlgolia(book);
     } catch (error) {
-      console.error("本を削除中にエラーが発生：", error);
+      console.error('本を削除中にエラーが発生：', error);
     }
   };
 
   const addBook = async (book: Book, file: File | null) => {
-    const bookRef = await addDoc(collection(db, "books"), book);
+    const bookRef = await addDoc(collection(db, 'books'), book);
     if (file) {
       await uploadImage(file, bookRef.id);
     }
-    await updateDoc(doc(db, "books", bookRef.id), {
+    await updateDoc(doc(db, 'books', bookRef.id), {
       bookid: bookRef.id,
     });
+    await addAlgolia(book, bookRef.id);
   };
 
   const updateBook = async (book: Book, file: File | null) => {
     if (file) {
       await uploadImage(file, book.bookid);
     }
-    await updateDoc(doc(db, "books", book.bookid), book);
+    await updateDoc(doc(db, 'books', book.bookid), book);
+    await updateAlgolia(book);
   };
 
-  const updateRating = async (bookid:string, rating: number) => {
-    await updateDoc(doc(db, "books", bookid), {rating: Number(rating)});
+  const updateRating = async (book: Book, rating: number) => {
+    await updateDoc(doc(db, 'books', book.bookid), { rating: Number(rating) });
+    await updateAlgolia(book);
   };
 
   onMounted(() => {
-    const isBooksExisting = sessionStorage.getItem("isBooksExisting");
-    const booksTimestamp = sessionStorage.getItem("booksTimestamp");
+    const isBooksExisting = sessionStorage.getItem('isBooksExisting');
+    const booksTimestamp = sessionStorage.getItem('booksTimestamp');
     if (!isBooksExisting) {
       getAllBooks();
-      sessionStorage.setItem("isBooksExisting", "true");
-      sessionStorage.setItem("booksTimestamp", String(new Date()));
-      console.log("初回のGET");
+      sessionStorage.setItem('isBooksExisting', 'true');
+      sessionStorage.setItem('booksTimestamp', String(new Date()));
+      console.log('初回のGET');
     } else if (booksTimestamp) {
       const lastUpdateTime = new Date(booksTimestamp).getTime();
       const now = new Date().getTime();
       const timeDiff = Math.abs(now - lastUpdateTime) / (1000 * 60); //単位は分
       if (timeDiff >= 10) {
         getAllBooks();
-        sessionStorage.setItem("booksTimestamp", String(new Date()));
-        console.log("10分以上たった");
+        sessionStorage.setItem('booksTimestamp', String(new Date()));
+        console.log('10分以上たった');
       }
     }
   });
@@ -120,6 +126,6 @@ export const useBookStore = () => {
     deleteBook,
     addBook,
     updateBook,
-    updateRating
+    updateRating,
   };
 };
