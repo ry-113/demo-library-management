@@ -288,7 +288,7 @@ const submitReview = async () => {
   };
   try {
     await addReview(newReview);
-    await getReviews(book);
+    await getReviews(book.bookid);
     await updateRating(book, rating.value);
     alert('レビューの投稿が完了しました。');
   } catch {
