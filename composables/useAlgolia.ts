@@ -4,23 +4,9 @@ export const useAlgolia = () => {
   const client = algoliaserch(config.public.algolia.applicationId, config.public.algolia.apiKey);
   const index = client.initIndex('book');
 
-  const addAlgolia = async (book: Book, bookid: string) => {
-    const bookWithId = {...book, ...{objectID: bookid, bookid: bookid}};
-    console.log(bookWithId);
-    try {
-      await index.saveObject(bookWithId);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const updateAlgolia = async (book: Book) => {
-    try {
-        const bookWithId = {...book, ...{objectID: book.bookid}}
-      await index.partialUpdateObject(bookWithId);
-    } catch (error) {
-      console.error(error);
-    }
+  const addAlgolia = async (books: Book[]) => {
+    const booksWithId = books.map(book => ({...book, objectID: book.bookid}));
+    await index.saveObjects(booksWithId);
   };
 
   const deleteAlgolia = async (book: Book) => {
@@ -31,5 +17,5 @@ export const useAlgolia = () => {
     }
   };
 
-  return {addAlgolia, updateAlgolia, deleteAlgolia};
+  return {addAlgolia, deleteAlgolia};
 };

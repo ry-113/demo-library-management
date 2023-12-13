@@ -31,7 +31,7 @@ export type Book = {
 export const useBookStore = () => {
   const { uploadImage, deleteImage } = useBookStorage();
   const { deleteReviews } = useReviewStore();
-  const {addAlgolia, updateAlgolia, deleteAlgolia} = useAlgolia();
+  const {deleteAlgolia} = useAlgolia();
   const db = getFirestore();
   const allBooks: Ref<Book[]> = useState('allBooks', () => []);
   type BooksByGenre = {
@@ -82,7 +82,6 @@ export const useBookStore = () => {
     await updateDoc(doc(db, 'books', bookRef.id), {
       bookid: bookRef.id,
     });
-    await addAlgolia(book, bookRef.id);
   };
 
   const updateBook = async (book: Book, file: File | null) => {
@@ -90,12 +89,10 @@ export const useBookStore = () => {
       await uploadImage(file, book.bookid);
     }
     await updateDoc(doc(db, 'books', book.bookid), book);
-    await updateAlgolia(book);
   };
 
   const updateRating = async (book: Book, rating: number) => {
     await updateDoc(doc(db, 'books', book.bookid), { rating: Number(rating) });
-    await updateAlgolia(book);
   };
 
   onMounted(() => {

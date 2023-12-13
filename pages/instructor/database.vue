@@ -81,7 +81,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: false,
-  middleware: ["auth"]
+  middleware: ['auth'],
 });
 
 const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook, updateBook } =
@@ -137,6 +137,19 @@ const submitBookData = async () => {
     document.getElementById('newBook')?.close();
   } catch (error) {
     console.error(error);
+  } finally {
+    newBook.value = {
+      ISBN: '',
+      author: '',
+      bookid: '',
+      description: '',
+      genre: '',
+      imageURL: '',
+      labels: [],
+      stock: 1,
+      title: '',
+      year: new Date().getFullYear(),
+    };
   }
 };
 

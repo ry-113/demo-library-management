@@ -86,4 +86,8 @@ definePageMeta({
 });
 const indexName = 'book';
 const algolia = useAlgoliaRef();
+
+const {allBooks} = useBookStore();
+const {addAlgolia} = useAlgolia();
+await addAlgolia(allBooks.value);
 </script>
