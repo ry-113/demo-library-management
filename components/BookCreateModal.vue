@@ -4,7 +4,7 @@
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
-      <form class="flex w-full gap-[4%]" @submit.prevent="submitBookData">
+      <form class="addForm flex w-full gap-[4%]" @submit.prevent="submitBookData">
         <div class="left--box w-[48%]">
           <div class="mb-5">
             <label for="isbn">
@@ -98,24 +98,23 @@
             <input
               type="file"
               class="file-input file-input-bordered w-full max-w-xs"
+              ref="inputFile"
               @change="handleFileUpload"
             />
             <div v-if="imageURL" class="mt-5">
               <img :src="imageURL" alt="" class="w-[300px] rounded-lg" />
             </div>
             <div v-else class="mt-5">
-              <img
-                src="/img/noimage.png"
-                class="object-contain rounded-lg"
-                alt=""
-              />
+              <img src="/img/noimage.png" class="object-contain rounded-lg" alt="" />
             </div>
           </label>
         </div>
         <div class="right--box w-[48%]">
           <p>ラベル</p>
           <div class="flex flex-wrap mb-5 border rounded-lg py-2 border-gray-300">
-            <p v-if="newBook.labels.length === 0" class="text-gray-400 pl-2">下からラベルを追加してください。</p>
+            <p v-if="newBook.labels.length === 0" class="text-gray-400 pl-2">
+              下からラベルを追加してください。
+            </p>
             <label
               v-for="(label, index) in newBook.labels"
               :key="label.name"
@@ -188,7 +187,7 @@ interface Emits {
   (e: 'changeBookData', value: Book): void;
   (e: 'changeImageFile', value: File): void;
   (e: 'submitBookData'): void;
-  (e: "checkLabel", value: Label[]): void;
+  (e: 'checkLabel', value: Label[]): void;
 }
 const emit = defineEmits<Emits>();
 const { genres } = useGenreStore();
@@ -207,15 +206,16 @@ const moveLabel = (label: Label, sourceArray: Label[], destinationArray: Label[]
     destinationArray.push(label);
   }
 };
+const inputFile = ref(null);
 
 const imageURL: Ref<any> = ref(null); //プレビュー用のデータ
 const handleFileUpload = (e) => {
   const file = e.target.files[0];
-  const maxFileSize = 1024 * 200;//200KB
+  const maxFileSize = 1024 * 200; //200KB
   if (file && file.size > maxFileSize) {
-    alert("ファイルサイズが大きすぎます。200KB以下のファイルを選択してください。");
+    alert('ファイルサイズが大きすぎます。200KB以下のファイルを選択してください。');
     e.target.value = null;
-  }else if (file && file.type.startsWith('image/')) {
+  } else if (file && file.type.startsWith('image/')) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
@@ -223,18 +223,26 @@ const handleFileUpload = (e) => {
     };
   } else {
     imageURL.value = null;
-    alert("無効なファイルです。画像ファイルを指定してください。");
+    alert('無効なファイルです。画像ファイルを指定してください。');
     e.target.value = null;
   }
   emit('changeImageFile', file);
 };
 
 //フォームの入力をリアルタイムに監視
-watch(newBook, (newValue) => {
-  emit("changeBookData", newValue);
-}, { immediate: true, deep: true });
+watch(
+  newBook,
+  (newValue) => {
+    emit('changeBookData', newValue);
+  },
+  { immediate: true, deep: true }
+);
 
 const submitBookData = () => {
-  emit("submitBookData");
+  emit('submitBookData');
+  if(inputFile.value) {
+    inputFile.value.value = null;
+    imageURL.value = null;
+  }
 };
 </script>

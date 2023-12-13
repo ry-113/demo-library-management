@@ -44,7 +44,7 @@
                     <li
                       v-for="book in books"
                       :key="book.objectID"
-                      class="text-left card card-compact shadow-xl bg-base-100 w-[30%] xl:w-[20%] 2xl:w-[16%]"
+                      class="text-left card card-compact shadow-xl bg-base-100 w-[30%] xl:w-[25%] 2xl:w-[16%]"
                     >
                       <NuxtLink :to="`/books/${book.bookid}-detail`">
                         <figure>
