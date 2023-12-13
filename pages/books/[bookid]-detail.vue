@@ -209,7 +209,9 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["auth"],
+  middleware: [
+    'auth',
+  ],
 });
 import { getAuth } from 'firebase/auth';
 const auth = getAuth();

@@ -240,7 +240,7 @@ watch(
 
 const submitBookData = () => {
   emit('submitBookData');
-  if(inputFile.value) {
+  if (inputFile.value) {
     inputFile.value.value = null;
     imageURL.value = null;
   }
