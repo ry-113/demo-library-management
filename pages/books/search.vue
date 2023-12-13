@@ -13,13 +13,26 @@
         <AisInstantSearch :index-name="indexName" :search-client="algolia">
           <div class="flex">
             <div class="left-box w-[30%] 2xl:w-[20%] mt-10 pl-10">
-              <h2 class="text-lg">フィルタ<Icon name="fluent:filter-12-regular" class="ml-2" /></h2>
+              <h2 class="text-lg">
+                フィルタ<Icon name="fluent:filter-12-regular" class="ml-2" />
+              </h2>
               <AisClearRefinements class="mt-2">
-                <template #resetLabel><span class="text-base">条件をリセット</span></template>
+                <template #resetLabel
+                  ><span class="text-base">条件をリセット</span></template
+                >
               </AisClearRefinements>
               <div class="mt-5">
                 <h3>評価</h3>
-                <AisRatingMenu attribute="rating"/>
+                <AisNumericMenu
+                  attribute="rating"
+                  :items="[
+                    { label: ' 4.0 以上' , start: 4, end: 5},
+                    { label: ' 3.0 - 4.0', start: 3, end: 4 },
+                    { label: ' 2.0 - 3.0', start: 2, end: 3 },
+                    { label: ' 1.0 - 2.0', start: 1, end: 2 },
+                    { label: ' 1.0 以下', start: 0 ,end: 1 },
+                  ]"
+                />
               </div>
               <div class="mt-5">
                 <h3>ジャンル</h3>
@@ -55,7 +68,9 @@
                           />
                         </figure>
                         <div class="card-body">
-                          <p class="font-bold text-xs xl:text-sm">{{ book.title }}</p>
+                          <p class="font-bold text-xs xl:text-sm">
+                            {{ book.title }}
+                          </p>
                           <p class="text-xs">{{ book.author }}</p>
                         </div>
                       </NuxtLink>
@@ -76,18 +91,18 @@ import {
   AisInstantSearch,
   AisHits,
   AisRefinementList,
-  AisRatingMenu,
+  AisNumericMenu,
   AisClearRefinements,
-} from 'vue-instantsearch/vue3/es';
-import 'instantsearch.css/themes/algolia-min.css';
+} from "vue-instantsearch/vue3/es";
+import "instantsearch.css/themes/algolia-min.css";
 definePageMeta({
-  middleware: ['auth'],
+  middleware: ["auth"],
   layout: false,
 });
-const indexName = 'book';
+const indexName = "book";
 const algolia = useAlgoliaRef();
 
-const {allBooks} = useBookStore();
-const {addAlgolia} = useAlgolia();
+const { allBooks } = useBookStore();
+const { addAlgolia } = useAlgolia();
 await addAlgolia(allBooks.value);
 </script>
