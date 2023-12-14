@@ -45,38 +45,76 @@
               />
             </label>
           </div>
-          <div class="mb-5 inline-block mr-3">
-            <label for="year-select">
-              <p>出版年</p>
-              <select
-                class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
-                v-model="newBook.year"
-                id="year-select"
-                required
-              >
-                <option selected disabled>選択</option>
-                <option v-for="num in 41" :key="num" :value="num + 1989">
-                  {{ num + 1989 }}
-                </option>
-              </select>
-            </label>
+          <div class="flex items-center">
+            <div class="mb-5 inline-block mr-3">
+              <label for="year-select">
+                <p>出版年</p>
+                <select
+                  class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
+                  v-model="newBook.year"
+                  id="year-select"
+                  required
+                >
+                  <option selected disabled>選択</option>
+                  <option v-for="num in 41" :key="num" :value="num + 1989">
+                    {{ num + 1989 }}
+                  </option>
+                </select>
+              </label>
+            </div>
+            <div class="mb-5 flex items-center">
+              <label for="genre-select">
+                <p>ジャンル</p>
+                <select
+                  class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
+                  v-model="newBook.genre"
+                  id="genre-select"
+                  required
+                >
+                  <option selected disabled>選択</option>
+                  <option v-for="genre in genres" :key="genre.name" :value="genre.name">
+                    {{ genre.name }}
+                  </option>
+                </select>
+              </label>
+              <div class="dropdown dropdown-bottom">
+                <div tabindex="0" role="button" class="btn ml-1">
+                  <Icon
+                    name="material-symbols:add-circle-outline"
+                    size="1.5rem"
+                    class="inline-block text-gray-500"
+                  />
+                </div>
+                <ul
+                  tabindex="0"
+                  class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 shadow-md"
+                >
+                  <div class="flex justify-end flex-wrap">
+                    <input
+                      class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
+                      placeholder="新しいジャンルを入力してください。"
+                      type="text"
+                    />
+                    <div class="btn btn-sm">追加</div>
+                  </div>
+
+                  <ul class="pt-3 mt-3 border-t border-t-gray-300">
+                    <li v-for="genre in genres" :key="genre.name">
+                      <div>
+                        <Icon
+                          name="ic:twotone-remove-circle-outline"
+                          size="1.25rem"
+                          class="text-red-400"
+                        />
+                        <p>{{ genre.name }}</p>
+                      </div>
+                    </li>
+                  </ul>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div class="mb-5 inline-block">
-            <label for="genre-select">
-              <p>ジャンル</p>
-              <select
-                class="select select-bordered max-w-[130px] min-w-[130px] mb-3"
-                v-model="newBook.genre"
-                id="genre-select"
-                required
-              >
-                <option selected disabled>選択</option>
-                <option v-for="genre in genres" :key="genre.name" :value="genre.name">
-                  {{ genre.name }}
-                </option>
-              </select>
-            </label>
-          </div>
+
           <div class="mb-5 inline-block">
             <label for="stock-select">
               <p>在庫数</p>
@@ -111,9 +149,9 @@
         </div>
         <div class="right--box w-[48%]">
           <p>ラベル</p>
-          <div class="flex flex-wrap mb-5 border rounded-lg py-2 border-gray-300">
+          <div class="flex flex-wrap mb-2 border rounded-lg py-2 border-gray-300">
             <p v-if="newBook.labels.length === 0" class="text-gray-400 pl-2">
-              下からラベルを追加してください。
+              下からラベルを選択してください。
             </p>
             <label
               v-for="(label, index) in newBook.labels"
@@ -136,7 +174,7 @@
               </div>
             </label>
           </div>
-          <div class="flex flex-wrap mb-5 border rounded-lg py-2 border-gray-300">
+          <div class="flex flex-wrap mb-1 border rounded-lg py-2 border-gray-300">
             <label
               v-for="(label, index) in labels"
               :key="label.name"
@@ -157,6 +195,41 @@
                 {{ label.name }}
               </div>
             </label>
+          </div>
+          <div class="dropdown dropdown-bottom flex justify-end mb-5">
+            <div tabindex="0" role="button" class="btn">
+              <Icon
+                name="material-symbols:add-circle-outline"
+                size="1.5rem"
+                class="inline-block text-gray-500"
+              />
+            </div>
+            <ul
+              tabindex="0"
+              class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 shadow-md"
+            >
+              <div class="flex justify-end flex-wrap">
+                <input
+                  class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
+                  placeholder="新しいラベルを入力してください。"
+                  type="text"
+                />
+                <div class="btn btn-sm">追加</div>
+              </div>
+
+              <ul class="pt-3 mt-3 border-t border-t-gray-300">
+                <li v-for="label in labels" :key="label.name">
+                  <div>
+                    <Icon
+                      name="ic:twotone-remove-circle-outline"
+                      size="1.25rem"
+                      class="text-red-400"
+                    />
+                    <p>{{ label.name }}</p>
+                  </div>
+                </li>
+              </ul>
+            </ul>
           </div>
           <div class="mb-5">
             <label for="content">
