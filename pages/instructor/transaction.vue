@@ -35,7 +35,14 @@
               <td>返却期限</td>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="filteredTransactions.length === 0">
+            <tr>
+              <td colspan="6">
+                <p class="flex justify-center py-40 text-gray-500">現在行われている取引はありません</p>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
             <template
               v-for="(transaction, index) in filteredTransactions"
               :key="transaction.transactionid"
