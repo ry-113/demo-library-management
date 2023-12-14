@@ -208,28 +208,24 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  middleware: [
-    'auth',
-  ],
-});
 import { getAuth } from 'firebase/auth';
 const auth = getAuth();
 const user = auth.currentUser;
 import 'vue3-carousel/dist/carousel.css';
 import type { Review } from '@/composables/useReviewStore';
 definePageMeta({
+  middleware: ['auth'],
   layout: false,
 });
 const route = useRoute();
-const bookid = route.params.bookid;
+const bookid = computed(() => route.params.bookid);
 onMounted(() => {
   getReviews(book.bookid);
 });
 
 const { allBooks, updateRating } = useBookStore();
-const book = allBooks.value.find((book) => book.bookid === bookid);
-const labels = computed(() => book?.labels.filter((label) => label.isChecked === true));
+const book = computed(() =>allBooks.value.find((book) => book.bookid === bookid.value));
+const labels = computed(() => book.value?.labels.filter((label) => label.isChecked === true));
 
 const getBgColor = (label: Label) => {
   if (!label.isChecked) {
