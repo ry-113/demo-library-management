@@ -19,12 +19,12 @@
         <p class="text-xl"><span class="w-4 h-4 rounded-full inline-block mr-2" :class="getStatusColor(transaction.status)"></span>{{ transaction.status }}</p>
         <div class="mt-6">
           <ul class="steps steps-vertical min-w-full">
-            <li class="step step-primary" data-content="●">
+            <li class="step" data-content="●">
               {{ transaction.status === '貸出確認' ? '貸出日: ' : '返却日: '
-              }}{{ $dayjs(transaction.nowdate).format('YYYY/MM/DD') }}
+              }}{{ $dayjs(transaction.nowdate.toDate()).format('YYYY/MM/DD') }}
             </li>
-            <li class="step step-primary" data-content="●">
-              返却予定日: {{ $dayjs(transaction.duedate).format('YYYY/MM/DD') }}
+            <li class="step" data-content="●">
+              返却予定日: {{ $dayjs(transaction.duedate.toDate()).format('YYYY/MM/DD') }}
             </li>
           </ul>
           <p></p>
