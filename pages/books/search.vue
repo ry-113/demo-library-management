@@ -12,19 +12,15 @@
       <template #default>
         <AisInstantSearch :index-name="indexName" :search-client="algolia">
           <div class="flex justify-between">
-            <div
-              class="left-box w-[20%] 2xl:w-[15%] mt-6 border-r-gray-200 border-r-2"
-            >
+            <div class="left-box w-[20%] 2xl:w-[15%] mt-24 border-r-gray-200 border-r-2">
               <h2 class="text-lg">
-                フィルタ<Icon name="fluent:filter-12-regular" class="ml-2" />
+                <Icon name="fluent:filter-12-regular" class="mr-2 mb-1" />フィルタ
               </h2>
               <AisClearRefinements class="mt-2">
-                <template #resetLabel
-                  ><span class="text-base">条件をリセット</span></template
-                >
+                <template #resetLabel><span class="text-base">条件をリセット</span></template>
               </AisClearRefinements>
               <div class="mt-10">
-                <h3>評価</h3>
+                <h3><Icon name="bi:star" size="1rem" class="mr-1 mb-1" />評価</h3>
                 <AisNumericMenu
                   attribute="rating"
                   :items="[
@@ -37,7 +33,13 @@
                 />
               </div>
               <div class="mt-5">
-                <h3>出版年</h3>
+                <h3>
+                  <Icon
+                    name="system-uicons:calendar-month"
+                    size="1.25rem"
+                    class="mr-1 mb-[3px]"
+                  />出版年
+                </h3>
                 <AisSortBy
                   :items="[
                     { value: 'book', label: '選択' },
@@ -47,27 +49,29 @@
                 />
               </div>
               <div class="mt-5">
-                <h3>ジャンル</h3>
+                <h3><Icon name="bi:inboxes" class="mr-1 mb-[3px]" />ジャンル</h3>
                 <AisRefinementList attribute="genre" :sort-by="['name:desc']" />
               </div>
 
               <div class="mt-5">
-                <h3>ラベル</h3>
+                <h3>
+                  <Icon
+                    name="fluent:tag-multiple-16-regular"
+                    size="1.25rem"
+                    class="mr-1 mb-[3px]"
+                  />ラベル
+                </h3>
                 <AisRefinementList attribute="labels.name" />
               </div>
             </div>
             <div class="right-box w-[75%] 2xl:[w-80%] mt-6">
               <AppDebouncedSearchBox
-                placeholder="タイトル・著者・その他キーワードで検索"
+                placeholder="タイトル・著者・その他キーワードで検索 (例: HTML 初心者)"
                 :autofocus="true"
                 :show-loading-indicator="true"
-                class="w-[80%] mx-auto mb-6"
+                class="w-[80%] mx-auto mb-8"
               />
-              <Icon
-                name="ant-design:search-outlined"
-                size="1.5rem"
-                class="ml-3"
-              />
+              <Icon name="ant-design:search-outlined" size="1.5rem" class="ml-3" />
               <AisStats>
                 <template v-slot="{ nbHits, processingTimeMS }">
                   検索結果：{{ nbHits }} 件 ({{ processingTimeMS }}ms)
@@ -121,13 +125,14 @@ import {
   AisConfigure,
   AisPagination,
   AisSortBy,
-} from "vue-instantsearch/vue3/es";
-import "instantsearch.css/themes/algolia-min.css";
+} from 'vue-instantsearch/vue3/es';
+
+import 'instantsearch.css/themes/algolia-min.css';
 definePageMeta({
-  middleware: ["auth"],
+  middleware: ['auth'],
   layout: false,
 });
-const indexName = "book";
+const indexName = 'book';
 const algolia = useAlgoliaRef();
 
 const { allBooks } = useBookStore();

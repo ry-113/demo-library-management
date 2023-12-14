@@ -33,6 +33,7 @@
         </div>
       </template>
       <template #default>
+        <AisInstantSearch>
         <div v-if="isLoading" class="w-full h-[85vh] flex justify-center">
           <span class="loading loading-spinner loading-lg"></span>
         </div>
@@ -73,6 +74,7 @@
             </template>
           </tbody>
         </table>
+        </AisInstantSearch>
       </template>
     </NuxtLayout>
   </div>
@@ -83,9 +85,26 @@ definePageMeta({
   layout: false,
   middleware: ['auth'],
 });
+import {
+  AisInstantSearch,
+  AisHits,
+  AisRefinementList,
+  AisNumericMenu,
+  AisClearRefinements,
+  AisStats,
+  AisConfigure,
+  AisPagination,
+  AisSortBy,
+} from 'vue-instantsearch/vue3/es';
 
+import 'instantsearch.css/themes/algolia-min.css';
 const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook, updateBook } =
   useBookStore();
+  const indexName = 'book';
+const algolia = useAlgoliaRef();
+const { addAlgolia } = useAlgolia();
+await addAlgolia(allBooks.value);
+
 const selectedGenre = ref('すべて');
 const genres = computed(() => Object.keys(booksByGenre.value));
 const filteredBooks = computed(() => {
@@ -105,6 +124,7 @@ const showBookFormModal = (book: Book | null) => {
     : document.getElementById('newBook');
   modal?.showModal();
 };
+
 
 //本の新規登録
 const newBookInit: Book = {
