@@ -2,9 +2,14 @@
   <dialog id="newBook" class="modal">
     <div class="modal-box max-w-[900px] p-20 text-left">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+          ✕
+        </button>
       </form>
-      <form class="addForm flex w-full gap-[4%]" @submit.prevent="submitBookData">
+      <form
+        class="addForm flex w-full gap-[4%]"
+        @submit.prevent="submitBookData"
+      >
         <div class="left--box w-[48%]">
           <div class="mb-5">
             <label for="isbn">
@@ -72,7 +77,11 @@
                   required
                 >
                   <option selected disabled>選択</option>
-                  <option v-for="genre in genres" :key="genre.name" :value="genre.name">
+                  <option
+                    v-for="genre in genres"
+                    :key="genre.name"
+                    :value="genre.name"
+                  >
                     {{ genre.name }}
                   </option>
                 </select>
@@ -87,8 +96,9 @@
                 </div>
                 <ul
                   tabindex="0"
-                  class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 shadow-md"
+                  class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 border shadow-md"
                 >
+                  <p class="mb-2">新規</p>
                   <div class="flex justify-end flex-wrap">
                     <input
                       class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
@@ -98,7 +108,8 @@
                     <div class="btn btn-sm">追加</div>
                   </div>
 
-                  <ul class="pt-3 mt-3 border-t border-t-gray-300">
+                  <p class="pt-3 mt-3 border-t border-t-gray-300">削除</p>
+                  <ul>
                     <li v-for="genre in genres" :key="genre.name">
                       <div>
                         <Icon
@@ -143,13 +154,19 @@
               <img :src="imageURL" alt="" class="w-[300px] rounded-lg" />
             </div>
             <div v-else class="mt-5">
-              <img src="/img/noimage.png" class="object-contain rounded-lg" alt="" />
+              <img
+                src="/img/noimage.png"
+                class="object-contain rounded-lg"
+                alt=""
+              />
             </div>
           </label>
         </div>
         <div class="right--box w-[48%]">
           <p>ラベル</p>
-          <div class="flex flex-wrap mb-2 border rounded-lg py-2 border-gray-300">
+          <div
+            class="flex flex-wrap mb-2 border rounded-lg py-2 border-gray-300"
+          >
             <p v-if="newBook.labels.length === 0" class="text-gray-400 pl-2">
               下からラベルを選択してください。
             </p>
@@ -168,13 +185,18 @@
               />
               <div
                 class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
-                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
+                :class="[
+                  getBgColor(label),
+                  { 'bg-gray-400': !label.isChecked },
+                ]"
               >
                 {{ label.name }}
               </div>
             </label>
           </div>
-          <div class="flex flex-wrap mb-1 border rounded-lg py-2 border-gray-300">
+          <div
+            class="flex flex-wrap mb-1 border rounded-lg py-2 border-gray-300"
+          >
             <label
               v-for="(label, index) in labels"
               :key="label.name"
@@ -190,7 +212,10 @@
               />
               <div
                 class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
-                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
+                :class="[
+                  getBgColor(label),
+                  { 'bg-gray-400': !label.isChecked },
+                ]"
               >
                 {{ label.name }}
               </div>
@@ -204,20 +229,44 @@
                 class="inline-block text-gray-500"
               />
             </div>
+
             <ul
               tabindex="0"
-              class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 shadow-md"
+              class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 border shadow-md"
             >
-              <div class="flex justify-end flex-wrap">
+              <p class="mb-2">新規</p>
+              <form>
                 <input
                   class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
                   placeholder="新しいラベルを入力してください。"
                   type="text"
+                  v-model="newLabel.name"
+                  required
                 />
-                <div class="btn btn-sm">追加</div>
-              </div>
-
-              <ul class="pt-3 mt-3 border-t border-t-gray-300">
+                <select
+                  class="select select-sm select-bordered max-w-[130px] min-w-[130px] mb-3"
+                  v-model="newLabel.color"
+                  required
+                >
+                  <option selected disabled>選択</option>
+                  <option
+                    v-for="color in colorList"
+                    :key="color"
+                    :value="color"
+                  >
+                    {{ color }}
+                  </option>
+                </select>
+                <div
+                  class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer flex"
+                  :class="[displayBgColor(newLabel)]"
+                >
+                  {{ newLabel.name }}
+                </div>
+                <button class="btn btn-sm block ml-auto mt-3">追加</button>
+              </form>
+              <p class="pt-3 mt-3 border-t border-t-gray-300">削除</p>
+              <ul>
                 <li v-for="label in labels" :key="label.name">
                   <div>
                     <Icon
@@ -225,7 +274,12 @@
                       size="1.25rem"
                       class="text-red-400"
                     />
-                    <p>{{ label.name }}</p>
+                    
+                    <p class="text-left">{{ label.name }}</p>
+                    <span
+                      class="inline-block w-4 h-4 rounded-sm"
+                      :class="displayBgColor(label)"
+                    ></span>
                   </div>
                 </li>
               </ul>
@@ -257,10 +311,10 @@ interface Props {
 const { newBook } = defineProps<Props>();
 
 interface Emits {
-  (e: 'changeBookData', value: Book): void;
-  (e: 'changeImageFile', value: File): void;
-  (e: 'submitBookData'): void;
-  (e: 'checkLabel', value: Label[]): void;
+  (e: "changeBookData", value: Book): void;
+  (e: "changeImageFile", value: File): void;
+  (e: "submitBookData"): void;
+  (e: "checkLabel", value: Label[]): void;
 }
 const emit = defineEmits<Emits>();
 const { genres } = useGenreStore();
@@ -272,7 +326,15 @@ const getBgColor = (label: Label) => {
   const str = `bg-${label.color}-400`;
   return str;
 };
-const moveLabel = (label: Label, sourceArray: Label[], destinationArray: Label[]) => {
+const displayBgColor = (label: Label) => {
+  const str = `bg-${label.color}-400`;
+  return str;
+};
+const moveLabel = (
+  label: Label,
+  sourceArray: Label[],
+  destinationArray: Label[]
+) => {
   const index = sourceArray.indexOf(label);
   if (index !== -1) {
     sourceArray.splice(index, 1);
@@ -286,9 +348,11 @@ const handleFileUpload = (e) => {
   const file = e.target.files[0];
   const maxFileSize = 1024 * 200; //200KB
   if (file && file.size > maxFileSize) {
-    alert('ファイルサイズが大きすぎます。200KB以下のファイルを選択してください。');
+    alert(
+      "ファイルサイズが大きすぎます。200KB以下のファイルを選択してください。"
+    );
     e.target.value = null;
-  } else if (file && file.type.startsWith('image/')) {
+  } else if (file && file.type.startsWith("image/")) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
@@ -296,23 +360,49 @@ const handleFileUpload = (e) => {
     };
   } else {
     imageURL.value = null;
-    alert('無効なファイルです。画像ファイルを指定してください。');
+    alert("無効なファイルです。画像ファイルを指定してください。");
     e.target.value = null;
   }
-  emit('changeImageFile', file);
+  emit("changeImageFile", file);
 };
+
+const colorList = [
+  "red",
+  "orange",
+  "amber",
+  "yellow",
+  "lime",
+  "green",
+  "emerald",
+  "teal",
+  "cyan",
+  "sky",
+  "blue",
+  "indigo",
+  "violet",
+  "purple",
+  "fuchsia",
+  "pink",
+  "rose",
+];
+const newLabel: Ref<Label> = ref({
+  name: "",
+  color: "",
+  isChecked: false,
+  labelid: "",
+});
 
 //フォームの入力をリアルタイムに監視
 watch(
   newBook,
   (newValue) => {
-    emit('changeBookData', newValue);
+    emit("changeBookData", newValue);
   },
   { immediate: true, deep: true }
 );
 
 const submitBookData = () => {
-  emit('submitBookData');
+  emit("submitBookData");
   if (inputFile.value) {
     inputFile.value.value = null;
     imageURL.value = null;
