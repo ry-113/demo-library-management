@@ -7,7 +7,7 @@
             <img :src="`${review?.photo}`" alt="" class="rounded-full w-10" />
             <p class="text-lg">{{ review?.username }}</p>
           </div>
-          <p>{{ $dayjs(review?.timestamp).format("YYYY/MM/DD") }}</p>
+          <p>{{ $dayjs(review?.timestamp.toDate()).format("YYYY/MM/DD") }}</p>
         </div>
         <RatingDisplay :rating="Number(review?.rating)" />
         <div class="review--box mt-6">

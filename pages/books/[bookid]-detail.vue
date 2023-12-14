@@ -178,7 +178,7 @@
                             <p class="text-lg">{{ review.username }}</p>
                           </div>
                           <p>
-                            {{ $dayjs(review.timestamp).format('YYYY/MM/DD') }}
+                            {{ $dayjs(review.timestamp.toDate()).format('YYYY/MM/DD') }}
                           </p>
                         </div>
                         <RatingDisplay :rating="Number(review.rating)" />
@@ -277,7 +277,7 @@ const submitReview = async () => {
     rating: postRating.value,
     title: reviewTitle.value,
     description: reviewContent.value,
-    timestamp: new Date().toLocaleString(),
+    timestamp: new Date(),
   };
   try {
     await addReview(newReview);

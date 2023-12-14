@@ -8,7 +8,7 @@ export type Review = {
   rating: number;
   title: string;
   description: string;
-  timestamp: string;
+  timestamp: firebase.firestore.Timestamp;
 };
 
 export const useReviewStore = () => {
