@@ -46,7 +46,7 @@
               >
                 <th>{{ index + 1 }}</th>
                 <td>
-                  {{ $dayjs(transaction.nowdate).format("YYYY/MM/DD") }}
+                  {{ $dayjs(transaction.nowdate.toDate()).format("YYYY/MM/DD") }}
                 </td>
                 <td>
                   <div class="flex items-center gap-3">
@@ -71,7 +71,7 @@
                   >{{ transaction.status }}
                 </td>
                 <td>
-                  {{ $dayjs(transaction.duedate).format("YYYY/MM/DD") }}
+                  {{ $dayjs(transaction.duedate.toDate()).format("YYYY/MM/DD") }}
                 </td>
                 <TransactionModal
                   :transaction="transaction"

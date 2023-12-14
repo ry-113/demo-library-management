@@ -219,10 +219,6 @@ definePageMeta({
 });
 const route = useRoute();
 const bookid = computed(() => route.params.bookid);
-onMounted(() => {
-  getReviews(book.bookid);
-});
-
 const { allBooks, updateRating } = useBookStore();
 const book = computed(() =>allBooks.value.find((book) => book.bookid === bookid.value));
 const labels = computed(() => book.value?.labels.filter((label) => label.isChecked === true));
@@ -236,6 +232,7 @@ const getBgColor = (label: Label) => {
 };
 
 const { reviews, getReviews, addReview } = useReviewStore();
+getReviews(bookid.value);
 const numOfReviews = computed(() => reviews.value.length);
 //firestoreのレビューコレクションの集計
 const rating = computed((): number => {
@@ -276,7 +273,7 @@ const submitReview = async () => {
     uid,
     username,
     photo,
-    bookid,
+    bookid:bookid.value,
     rating: postRating.value,
     title: reviewTitle.value,
     description: reviewContent.value,
@@ -284,10 +281,11 @@ const submitReview = async () => {
   };
   try {
     await addReview(newReview);
-    await getReviews(book.bookid);
-    await updateRating(book, rating.value);
+    await getReviews(book.value?.bookid);
+    await updateRating(book.value, rating.value);
     alert('レビューの投稿が完了しました。');
-  } catch {
+  } catch(error) {
+    console.error(error)
     alert('レビュー送信中に予期せぬエラーが起きました');
   }
   document.getElementById('review')?.close();
@@ -303,13 +301,13 @@ const setDatePeriod = (value: Date[]) => {
 };
 
 const newReq = computed(() => ({
-  nowdate: datePeriod.value[0].toLocaleString(),
-  duedate: datePeriod.value[1].toLocaleString(),
+  nowdate: datePeriod.value[0],
+  duedate: datePeriod.value[1],
   uid: user?.uid,
   userName: user?.displayName,
   userPhoto: user?.photoURL,
-  bookid: book?.bookid,
-  bookTitle: book?.title,
+  bookid: book.value?.bookid,
+  bookTitle: book.value?.title,
   transactionid: '',
   status: '',
 }));

@@ -18,8 +18,8 @@ import {
 export type Transaction = {
   bookTitle: string;
   bookid: string;
-  duedate: string;
-  nowdate: string;
+  duedate: firebase.firestore.Timestamp;
+  nowdate: firebase.firestore.Timestamp;
   status: string;
   transactionid: string;
   uid: string;
@@ -36,7 +36,7 @@ export const useTransactionStore = () => {
     isLoading.value = true;
     const fetchData: Transaction[] = [];
     const transactionColRef = collection(db, 'transactions');
-    const q = query(transactionColRef, orderBy('nowdate', 'asc'), limit(60));
+    const q = query(transactionColRef, orderBy('nowdate', 'desc'), limit(60));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Transaction);
@@ -116,7 +116,7 @@ export const useTransactionStore = () => {
 
         if (newBookStock >= 0) {
           transaction.update(bookDocRef, { stock: newBookStock });
-          transaction.update(transactionDocRef, { status: '貸出中' });
+          transaction.update(transactionDocRef, { status: '貸出中' , nowdate: new Date()});
           return newBookStock;
         } else {
           alert('在庫がないため貸出確認を承認できません。');
@@ -143,7 +143,7 @@ export const useTransactionStore = () => {
       if (!querySnapshot.empty) {
         const transactionDoc = querySnapshot.docs[0];
         const updateNeededObj = {
-          nowdate: new Date().toLocaleString(),
+          nowdate: new Date(),
           status: '返却確認',
         };
         await updateDoc(doc(transactionColRef, transactionDoc.id), updateNeededObj);
@@ -168,7 +168,7 @@ export const useTransactionStore = () => {
         const newBookStock = bookDoc.data().stock + 1;
 
         transaction.update(bookDocRef, { stock: newBookStock });
-        transaction.update(transactionDocRef, { status: '返却済み' });
+        transaction.update(transactionDocRef, { status: '返却済み', nowdate: new Date() });
         return newBookStock;
       });
 
