@@ -99,14 +99,15 @@
                   class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 border shadow-md"
                 >
                   <p class="mb-2">新規</p>
-                  <div class="flex justify-end flex-wrap">
+                  <form class="flex justify-end flex-wrap">
                     <input
                       class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
                       placeholder="新しいジャンルを入力してください。"
                       type="text"
+                      required
                     />
-                    <div class="btn btn-sm">追加</div>
-                  </div>
+                    <button class="btn btn-sm">追加</button>
+                  </form>
 
                   <p class="pt-3 mt-3 border-t border-t-gray-300">削除</p>
                   <ul>
@@ -258,6 +259,7 @@
                   </option>
                 </select>
                 <div
+                  v-if="newLabel.name && newLabel.color"
                   class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer flex"
                   :class="[displayBgColor(newLabel)]"
                 >
