@@ -32,7 +32,7 @@
           <div class="col-span-6 row-span-4 row-start-3 2xl:col-span-4">
              <div class="review--box card bg-base-100 shadow-xl p-4">
                 <div class="section--header flex justify-between items-center pr-8 mb-3">
-            <h2 class="text-2xl">{{ user.name }}さんのレビュー</h2>
+            <h2 class="text-xl">{{ user.name }}さんのレビュー</h2>
             <button class="btn-ghost btn p-0">
               <NuxtLink :to="`/mypage/${user.uid}-review`" class="py-4 px-2">レビューの編集・削除 >> </NuxtLink>
             </button>
