@@ -80,7 +80,7 @@
               <div class="dropdown dropdown-bottom">
                 <div tabindex="0" role="button" class="btn ml-1">
                   <Icon
-                    name="material-symbols:add-circle-outline"
+                    name="fluent:edit-24-regular"
                     size="1.5rem"
                     class="inline-block text-gray-500"
                   />
@@ -89,7 +89,9 @@
                   tabindex="0"
                   class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 border shadow-md"
                 >
-                  <p class="mb-2">新規</p>
+                  <p class="mb-2">
+                    新規<Icon name="fluent:add-square-multiple-20-regular" size="1.5rem" />
+                  </p>
                   <form class="flex justify-end flex-wrap" @submit.prevent="addGenreReq">
                     <input
                       class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
@@ -101,7 +103,10 @@
                     <button class="btn btn-sm">追加</button>
                   </form>
 
-                  <p class="pt-3 mt-3 border-t border-t-gray-300">削除</p>
+                  <p class="pt-3 mt-3 border-t border-t-gray-300">
+                    削除<Icon name="fluent:delete-20-regular" size="1.3rem" class="mb-1" />
+                  </p>
+                  <p v-if="genres.length === 0" class="text-gray-400 pl-2">ジャンルがありません。</p>
                   <ul>
                     <li v-for="genre in genres" :key="genre.name" @click="deleteGenreReq(genre)">
                       <div>
@@ -179,6 +184,7 @@
             </label>
           </div>
           <div class="flex flex-wrap mb-1 border rounded-lg py-2 border-gray-300">
+            <p v-if="labels.length === 0" class="text-gray-400 pl-2">ラベルがありません。</p>
             <label
               v-for="(label, index) in labels"
               :key="label.name"
@@ -203,7 +209,7 @@
           <div class="dropdown dropdown-bottom flex justify-end mb-5">
             <div tabindex="0" role="button" class="btn">
               <Icon
-                name="material-symbols:add-circle-outline"
+                name="fluent:edit-24-regular"
                 size="1.5rem"
                 class="inline-block text-gray-500"
               />
@@ -213,7 +219,9 @@
               tabindex="0"
               class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 border shadow-md"
             >
-              <p class="mb-2">新規</p>
+              <p class="mb-2">
+                新規<Icon name="fluent:add-square-multiple-20-regular" size="1.5rem" />
+              </p>
               <form @submit.prevent="addLabelReq">
                 <input
                   class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
@@ -241,7 +249,10 @@
                 </div>
                 <button class="btn btn-sm block ml-auto mt-3">追加</button>
               </form>
-              <p class="pt-3 mt-3 border-t border-t-gray-300">削除</p>
+              <p class="pt-3 mt-3 border-t border-t-gray-300">
+                削除<Icon name="fluent:delete-20-regular" size="1.3rem" class="mb-1" />
+              </p>
+              <p v-if="labels.length === 0" class="text-gray-400 pl-2">ラベルがありません。</p>
               <ul>
                 <li v-for="label in labels" :key="label.name" @click="deleteLabelReq(label)">
                   <div>
