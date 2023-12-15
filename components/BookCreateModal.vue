@@ -2,14 +2,9 @@
   <dialog id="newBook" class="modal">
     <div class="modal-box max-w-[900px] p-20 text-left">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-          ✕
-        </button>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
-      <form
-        class="addForm flex w-full gap-[4%]"
-        @submit.prevent="submitBookData"
-      >
+      <form class="addForm flex w-full gap-[4%]" @submit.prevent="submitBookData">
         <div class="left--box w-[48%]">
           <div class="mb-5">
             <label for="isbn">
@@ -77,11 +72,7 @@
                   required
                 >
                   <option selected disabled>選択</option>
-                  <option
-                    v-for="genre in genres"
-                    :key="genre.name"
-                    :value="genre.name"
-                  >
+                  <option v-for="genre in genres" :key="genre.name" :value="genre.name">
                     {{ genre.name }}
                   </option>
                 </select>
@@ -99,11 +90,12 @@
                   class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 border shadow-md"
                 >
                   <p class="mb-2">新規</p>
-                  <form class="flex justify-end flex-wrap">
+                  <form class="flex justify-end flex-wrap" @submit.prevent="addGenreReq">
                     <input
                       class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
                       placeholder="新しいジャンルを入力してください。"
                       type="text"
+                      v-model="newGenre.name"
                       required
                     />
                     <button class="btn btn-sm">追加</button>
@@ -111,7 +103,7 @@
 
                   <p class="pt-3 mt-3 border-t border-t-gray-300">削除</p>
                   <ul>
-                    <li v-for="genre in genres" :key="genre.name">
+                    <li v-for="genre in genres" :key="genre.name" @click="deleteGenreReq(genre)">
                       <div>
                         <Icon
                           name="ic:twotone-remove-circle-outline"
@@ -155,19 +147,13 @@
               <img :src="imageURL" alt="" class="w-[300px] rounded-lg" />
             </div>
             <div v-else class="mt-5">
-              <img
-                src="/img/noimage.png"
-                class="object-contain rounded-lg"
-                alt=""
-              />
+              <img src="/img/noimage.png" class="object-contain rounded-lg" alt="" />
             </div>
           </label>
         </div>
         <div class="right--box w-[48%]">
           <p>ラベル</p>
-          <div
-            class="flex flex-wrap mb-2 border rounded-lg py-2 border-gray-300"
-          >
+          <div class="flex flex-wrap mb-2 border rounded-lg py-2 border-gray-300">
             <p v-if="newBook.labels.length === 0" class="text-gray-400 pl-2">
               下からラベルを選択してください。
             </p>
@@ -186,18 +172,13 @@
               />
               <div
                 class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
-                :class="[
-                  getBgColor(label),
-                  { 'bg-gray-400': !label.isChecked },
-                ]"
+                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
               >
                 {{ label.name }}
               </div>
             </label>
           </div>
-          <div
-            class="flex flex-wrap mb-1 border rounded-lg py-2 border-gray-300"
-          >
+          <div class="flex flex-wrap mb-1 border rounded-lg py-2 border-gray-300">
             <label
               v-for="(label, index) in labels"
               :key="label.name"
@@ -213,10 +194,7 @@
               />
               <div
                 class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
-                :class="[
-                  getBgColor(label),
-                  { 'bg-gray-400': !label.isChecked },
-                ]"
+                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
               >
                 {{ label.name }}
               </div>
@@ -236,7 +214,7 @@
               class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 border shadow-md"
             >
               <p class="mb-2">新規</p>
-              <form>
+              <form @submit.prevent="addLabelReq">
                 <input
                   class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
                   placeholder="新しいラベルを入力してください。"
@@ -250,18 +228,14 @@
                   required
                 >
                   <option selected disabled>選択</option>
-                  <option
-                    v-for="color in colorList"
-                    :key="color"
-                    :value="color"
-                  >
+                  <option v-for="color in colorList" :key="color" :value="color">
                     {{ color }}
                   </option>
                 </select>
                 <div
                   v-if="newLabel.name && newLabel.color"
                   class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer flex"
-                  :class="[displayBgColor(newLabel)]"
+                  :class="[getBgColor(newLabel, 'preview')]"
                 >
                   {{ newLabel.name }}
                 </div>
@@ -269,18 +243,18 @@
               </form>
               <p class="pt-3 mt-3 border-t border-t-gray-300">削除</p>
               <ul>
-                <li v-for="label in labels" :key="label.name">
+                <li v-for="label in labels" :key="label.name" @click="deleteLabelReq(label)">
                   <div>
                     <Icon
                       name="ic:twotone-remove-circle-outline"
                       size="1.25rem"
                       class="text-red-400"
                     />
-                    
+
                     <p class="text-left">{{ label.name }}</p>
                     <span
                       class="inline-block w-4 h-4 rounded-sm"
-                      :class="displayBgColor(label)"
+                      :class="getBgColor(label, 'preview')"
                     ></span>
                   </div>
                 </li>
@@ -313,30 +287,23 @@ interface Props {
 const { newBook } = defineProps<Props>();
 
 interface Emits {
-  (e: "changeBookData", value: Book): void;
-  (e: "changeImageFile", value: File): void;
-  (e: "submitBookData"): void;
-  (e: "checkLabel", value: Label[]): void;
+  (e: 'changeBookData', value: Book): void;
+  (e: 'changeImageFile', value: File): void;
+  (e: 'submitBookData'): void;
+  (e: 'checkLabel', value: Label[]): void;
 }
 const emit = defineEmits<Emits>();
-const { genres } = useGenreStore();
-const { labels } = useLabelStore();
-const getBgColor = (label: Label) => {
-  if (!label.isChecked) {
-    return false;
+const { genres, getGenres, addGenre, deleteGenre } = useGenreStore();
+const { labels, getLabels, addLabel, deleteLabel } = useLabelStore();
+const getBgColor = (label: Label, preview?: string) => {
+  if (!label.isChecked && !preview) {
+    return;
   }
   const str = `bg-${label.color}-400`;
   return str;
 };
-const displayBgColor = (label: Label) => {
-  const str = `bg-${label.color}-400`;
-  return str;
-};
-const moveLabel = (
-  label: Label,
-  sourceArray: Label[],
-  destinationArray: Label[]
-) => {
+
+const moveLabel = (label: Label, sourceArray: Label[], destinationArray: Label[]) => {
   const index = sourceArray.indexOf(label);
   if (index !== -1) {
     sourceArray.splice(index, 1);
@@ -350,11 +317,9 @@ const handleFileUpload = (e) => {
   const file = e.target.files[0];
   const maxFileSize = 1024 * 200; //200KB
   if (file && file.size > maxFileSize) {
-    alert(
-      "ファイルサイズが大きすぎます。200KB以下のファイルを選択してください。"
-    );
+    alert('ファイルサイズが大きすぎます。200KB以下のファイルを選択してください。');
     e.target.value = null;
-  } else if (file && file.type.startsWith("image/")) {
+  } else if (file && file.type.startsWith('image/')) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
@@ -362,49 +327,77 @@ const handleFileUpload = (e) => {
     };
   } else {
     imageURL.value = null;
-    alert("無効なファイルです。画像ファイルを指定してください。");
+    alert('無効なファイルです。画像ファイルを指定してください。');
     e.target.value = null;
   }
-  emit("changeImageFile", file);
+  emit('changeImageFile', file);
 };
 
+const newGenre: Ref<Genre> = ref({
+  name: '',
+  genreid: '',
+});
+const addGenreReq = async () => {
+  await addGenre(newGenre.value);
+  await getGenres();
+  newGenre.value.name = '';
+};
+const deleteGenreReq = async (genre: Genre) => {
+  const answer = confirm(`${genre.name}を削除します。よろしいですか？`);
+  if (answer) {
+    await deleteGenre(genre);
+    await getGenres();
+  }
+};
 const colorList = [
-  "red",
-  "orange",
-  "amber",
-  "yellow",
-  "lime",
-  "green",
-  "emerald",
-  "teal",
-  "cyan",
-  "sky",
-  "blue",
-  "indigo",
-  "violet",
-  "purple",
-  "fuchsia",
-  "pink",
-  "rose",
+  'red',
+  'orange',
+  'amber',
+  'yellow',
+  'lime',
+  'green',
+  'emerald',
+  'teal',
+  'cyan',
+  'sky',
+  'blue',
+  'indigo',
+  'violet',
+  'purple',
+  'fuchsia',
+  'pink',
+  'rose',
 ];
 const newLabel: Ref<Label> = ref({
-  name: "",
-  color: "",
+  name: '',
+  color: '',
   isChecked: false,
-  labelid: "",
+  labelid: '',
 });
-
+const addLabelReq = async () => {
+  await addLabel(newLabel.value);
+  await getLabels();
+  newLabel.value.name = '';
+  newLabel.value.color = '';
+};
+const deleteLabelReq = async (label: Label) => {
+  const answer = confirm(`${label.name}を削除します。よろしいですか？`);
+  if (answer) {
+    await deleteLabel(label);
+    await getLabels();
+  }
+};
 //フォームの入力をリアルタイムに監視
 watch(
   newBook,
   (newValue) => {
-    emit("changeBookData", newValue);
+    emit('changeBookData', newValue);
   },
   { immediate: true, deep: true }
 );
 
 const submitBookData = () => {
-  emit("submitBookData");
+  emit('submitBookData');
   if (inputFile.value) {
     inputFile.value.value = null;
     imageURL.value = null;
