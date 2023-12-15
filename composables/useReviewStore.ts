@@ -1,4 +1,4 @@
-import { getFirestore, collection, getDocs, query, where, addDoc, updateDoc, doc, writeBatch} from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where, addDoc, updateDoc, doc, writeBatch, orderBy, limit} from 'firebase/firestore';
 export type Review = {
   reviewid?: string;
   uid: string;
@@ -44,5 +44,21 @@ export const useReviewStore = () => {
     querySnapShot.docs.forEach(doc => batch.delete(doc.ref));
     await batch.commit();
   };
-  return { reviews, getReviews, addReview, deleteReviews };
+
+  const getMyReviews = async (uid: string) => {
+    const fetchData: Review[] = [];
+    const reviewColRef = collection(db, 'reviews');
+    const q = query(
+      reviewColRef,
+      where('uid', '==', uid),
+      orderBy('timestamp', 'asc'),
+      limit(30)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      fetchData.push(doc.data() as Review);
+    });
+    return fetchData;
+  };
+  return { reviews, getReviews, addReview, deleteReviews, getMyReviews };
 };

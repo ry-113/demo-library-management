@@ -28,15 +28,12 @@ export default defineNuxtConfig({
       firebaseAppId: process.env.NUXT_FIREBASE_APP_ID,
       firebaseMeasurementId: process.env.NUXT_FIREBASE_MEASUREMENTID,
       algolia: {
-        apiKey: process.env.NUXT_ALGOLIA_ADMIN_APIKEY,
+        apiKey: process.env.NUXT_ALGOLIA_ADMIN_APIKEY,	
         applicationId: process.env.NUXT_ALGOLIA_APP_ID,
       },
     },
   },
   build: {
     transpile: ["@vuepic/vue-datepicker"],
-  },
-  generate: {
-    
   },
 });

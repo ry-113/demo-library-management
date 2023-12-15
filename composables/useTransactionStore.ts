@@ -53,7 +53,7 @@ export const useTransactionStore = () => {
       transactionColRef,
       where('uid', '==', uid),
       orderBy('nowdate', 'asc'),
-      limit(20)
+      limit(30)
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
