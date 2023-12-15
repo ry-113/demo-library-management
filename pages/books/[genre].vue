@@ -42,7 +42,7 @@ definePageMeta({
   middleware: ["auth"],
 });
 const route = useRoute();
-const genre = route.params.genre;
+const genre = computed(() => route.params.genre);
 const { allBooks } = useBookStore();
-const books = allBooks.value.filter((book) => book.genre === genre);
+const books = computed(() => allBooks.value.filter((book) => book.genre === genre.value));
 </script>

@@ -21,10 +21,7 @@
           tabindex="0"
           class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
         >
-          <li>
-            <a>プロフィール</a>
-          </li>
-          <li><a>設定</a></li>
+          <li><NuxtLink :to="`/mypage/${user?.uid}`">マイページ</NuxtLink></li>
           <li @click="logOut"><NuxtLink to="/">ログアウト</NuxtLink></li>
         </ul>
       </div>
@@ -119,6 +116,14 @@
               name="material-symbols:person-edit-outline"
               size="1.75rem"
             />ユーザー管理</NuxtLink
+          >
+        </li>
+        <li class="p-4">
+          <NuxtLink
+            :to="`/mypage/${user?.uid}`"
+            class="py-3"
+            :class="{ active: /^\/mypage/.test($route.path) }"
+            ><Icon name="ic:outline-settings" size="1.75rem" />マイページ</NuxtLink
           >
         </li>
       </ul>
