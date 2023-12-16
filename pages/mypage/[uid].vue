@@ -37,12 +37,12 @@
               <NuxtLink :to="`/mypage/${user.uid}-review`" class="py-4 px-2">レビューの編集・削除 >> </NuxtLink>
             </button>
           </div>
-                <template v-if="reviews[0]">
+                <template v-if="myReviews[0]">
                   <p class="mb-8">クリックすると全文を表示できます。</p>
                   <Carousel
                     :breakpoints="breakpoints"
                   >
-                    <Slide v-for="review in reviews" :key="review.reviewid">
+                    <Slide v-for="review in myReviews" :key="review.reviewid">
                       <div
                         class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[85%]"
                         @click="showFullReview(review)"
@@ -88,10 +88,10 @@ definePageMeta({
 const route = useRoute();
 const uid = computed(() => route.params.uid as string);
 const { getUser } = useAuth();
-const {getMyReviews} = useReviewStore();
+const {getMyReviews, myReviews} = useReviewStore();
 const userSnapshot = await getUser(uid.value);
 const user = userSnapshot.data();
-const reviews = await getMyReviews(uid.value);
+await getMyReviews(uid.value);
 
 const selectedReview: Ref<Review | null> = ref(null);
 const showFullReview = (review: Review) => {

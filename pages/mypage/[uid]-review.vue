@@ -14,7 +14,7 @@
         <p class="mb-8">ここでレビューの編集・削除が行えます。</p>
         <div
           class="flex gap-4 justify-center items-center"
-          v-for="review in reviews"
+          v-for="(review) in myReviews"
           :key="review.reviewid"
         >
           <div class="collapse bg-base-200 mb-5 2xl:w-[70%]">
@@ -32,8 +32,8 @@
           </div>
           <CommonModal :modal-id="`review-${review.reviewid}`">
             <template #actionName>
-              <button class="btn btn-circle">
-                <Icon name="fluent:edit-24-regular" size="1.4rem" @click="getBook(review.bookid)"/>
+              <button class="btn btn-circle" @click="selectReview(review)">
+                <Icon name="fluent:edit-24-regular" size="1.4rem" />
               </button>
             </template>
             <h1 class="text-xl">レビュー編集</h1>
@@ -56,12 +56,12 @@
                   <p class="text-xs">{{ selectedBook?.author }}</p>
                 </div>
               </div>
-              <form @submit.prevent="submitReview" class="w-[60%]">
+              <form @submit.prevent="updateReviewReq" class="w-[60%]">
                 <div class="mb-3">
                   <label for="rating">
                     評価
                     <RatingDisplay
-                      :rating="review.rating"
+                      :rating="selectedReview.rating"
                       id="rating"
                       @update:rating="setRating"
                     />
@@ -75,7 +75,7 @@
                       placeholder="タイトルを20文字以内で入力してください"
                       class="input input-bordered w-full"
                       id="title"
-                      v-model="review.title"
+                      v-model="selectedReview.title"
                       required
                     />
                   </label>
@@ -87,7 +87,7 @@
                       class="textarea textarea-bordered w-full text-base h-[200px]"
                       placeholder="500文字以内で入力してください"
                       id="content"
-                      v-model="review.description"
+                      v-model="selectedReview.description"
                       required
                     ></textarea>
                   </label>
@@ -97,7 +97,7 @@
               </form>
             </div>
           </CommonModal>
-          <button class="btn btn-circle">
+          <button class="btn btn-circle" @click="deleteReviewReq(review)">
             <Icon name="ant-design:delete-outlined" size="1.4rem" />
           </button>
         </div>
@@ -114,13 +114,48 @@ definePageMeta({
 const route = useRoute();
 const uid = computed(() => route.params.uid as string);
 const { getUser } = useAuth();
-const { getMyReviews } = useReviewStore();
+const { myReviews, getMyReviews, updateReview, deleteReview } = useReviewStore();
 const userSnapshot = await getUser(uid.value);
 const user = userSnapshot.data();
-const reviews = await getMyReviews(uid.value);
+await getMyReviews(uid.value);
 const { allBooks } = useBookStore();
-const selectedBook: Ref<Book | null> = ref(null);
-const getBook = (bookid: string) => {
-  selectedBook.value = allBooks.value.filter((book) => book.bookid === bookid)[0];
+
+const selectReview = (review: Review) => {
+  selectedReview.value = review;
 };
+const selectedReview: Ref<Review> = ref({
+  reviewid: "",
+  username: "",
+  bookid: "",
+  uid: "",
+  timestamp: new Date(),
+  photo: "", 
+  rating: 0,
+  title: "",
+  description: "",
+});
+const selectedBook = computed(() => {
+  const bookid = selectedReview.value?.bookid;
+  return allBooks.value.find((book) => book.bookid === bookid);
+});
+const setRating = (rating: number) => {
+  if (selectedReview.value != undefined) {
+    selectedReview.value.rating = rating;
+  }
+};
+
+const updateReviewReq = async () => {
+  await updateReview(selectedReview.value);
+  await getMyReviews(uid.value);
+  document.getElementById(`review-${selectedReview.value.reviewid}`)?.close();
+};
+
+const deleteReviewReq = async (review: Review) => {
+  const answer = confirm(`「${review.title}」のレビューを削除します。よろしいですか？`);
+  if (answer) {
+    await deleteReview(review.reviewid);
+    await getMyReviews(uid.value);
+  }
+};
+
 </script>
