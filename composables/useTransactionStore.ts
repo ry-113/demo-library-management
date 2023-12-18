@@ -32,12 +32,15 @@ export const useTransactionStore = () => {
   const allTransactions: Ref<Transaction[]> = useState(() => []);
   const myTransactions: Ref<Transaction[]> = useState(() => []);
   const isLoading = useState(() => false);
+  const lastVisible = useState(() => null);
+
   const getAllTransactions = async () => {
     isLoading.value = true;
     const fetchData: Transaction[] = [];
     const transactionColRef = collection(db, 'transactions');
-    const q = query(transactionColRef, orderBy('nowdate', 'desc'), limit(60));
-    const querySnapshot = await getDocs(q);
+    const firstQ = query(transactionColRef, orderBy('nowdate', 'desc'), limit(20));
+    const querySnapshot = await getDocs(firstQ);
+    lastVisible.value = querySnapshot.docs[querySnapshot.docs.length - 1];
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Transaction);
     });
@@ -62,6 +65,22 @@ export const useTransactionStore = () => {
 
     myTransactions.value = [...fetchData];
     isLoading.value = false;
+  };
+
+  const fetchNextPage = async () => {
+    const transactionColRef = collection(db, 'transactions');
+    if (lastVisible.value) {
+      const nextQ = query(
+        transactionColRef,
+        orderBy('nowdate', 'desc'),
+        startAfter(lastVisible.value),
+        limit(20)
+      );
+      const querySnapshot = await getDocs(nextQ);
+      const newFetchData = querySnapshot.docs.map((doc) => doc.data() as Transaction);
+      lastVisible.value = querySnapshot.docs[querySnapshot.docs.length - 1];
+      allTransactions.value.push(...newFetchData);
+    }
   };
 
   const updateExpiredTransaction = async () => {
@@ -116,7 +135,7 @@ export const useTransactionStore = () => {
 
         if (newBookStock >= 0) {
           transaction.update(bookDocRef, { stock: newBookStock });
-          transaction.update(transactionDocRef, { status: '貸出中' , nowdate: new Date()});
+          transaction.update(transactionDocRef, { status: '貸出中', nowdate: new Date() });
           return newBookStock;
         } else {
           alert('在庫がないため貸出確認を承認できません。');
@@ -193,7 +212,7 @@ export const useTransactionStore = () => {
       updateExpiredTransaction();
       localStorage.setItem('checkExpiredAt', String(new Date()));
       console.log('期限切れのチェック終了');
-    } else  {
+    } else {
       const lastUpdateTime = new Date(checkExpiredAt).getTime();
       const now = new Date().getTime();
       const timeDiff = Math.abs(now - lastUpdateTime) / (1000 * 60 * 60 * 24); //単位は日
@@ -207,10 +226,12 @@ export const useTransactionStore = () => {
 
   return {
     isLoading,
+    lastVisible,
     allTransactions,
     myTransactions,
     getAllTransactions,
     getMyTransactions,
+    fetchNextPage,
     borrowReq,
     borrowBook,
     returnReq,

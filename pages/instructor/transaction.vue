@@ -89,6 +89,8 @@
             </template>
           </tbody>
         </table>
+        <button class="btn block mx-auto my-5" @click="fetchNextPageReq" v-if="lastVisible">さらに読み込む</button>
+        <p class="text-gray-500 flex justify-center my-5" v-else>これ以上表示できるコンテンツはありません。</p>
       </template>
     </NuxtLayout>
   </div>
@@ -103,7 +105,7 @@ onMounted(() => {
   getAllTransactions();
 });
 
-const { isLoading, allTransactions, getAllTransactions } =
+const { isLoading, lastVisible,  allTransactions, getAllTransactions, fetchNextPage } =
   useTransactionStore();
 const allStatus = ["貸出確認", "貸出中", "返却確認", "返却済み", "期限切れ"];
 const selectedStatus: Ref<string | null> = ref("すべて");
@@ -153,5 +155,9 @@ const approveReturnReq = async (transaction: Transaction) => {
   await returnBook(transaction);
   await getAllTransactions();
   document.getElementById(`transaction-${transaction.transactionid}`)?.close();
+};
+
+const fetchNextPageReq = async () => {
+  await fetchNextPage();
 };
 </script>
