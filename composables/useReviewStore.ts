@@ -11,6 +11,7 @@ import {
   writeBatch,
   orderBy,
   limit,
+  startAfter
 } from "firebase/firestore";
 export type Review = {
   reviewid: string;
@@ -28,10 +29,12 @@ export const useReviewStore = () => {
   const db = getFirestore();
   const reviews: Ref<Review[]> = useState(() => []);
   const myReviews: Ref<Review[]> = useState(() => []);
+  const lastVisible = useState(() => null);
+
   const getReviews = async (bookid: string | undefined) => {
     const q = query(collection(db, "reviews"), where("bookid", "==", bookid));
-    const querySnapShot = await getDocs(q);
-    const fetchData = querySnapShot.docs.map((doc) => doc.data() as Review);
+    const querySnapshot = await getDocs(q);
+    const fetchData = querySnapshot.docs.map((doc) => doc.data() as Review);
     reviews.value = [...fetchData];
   };
 
@@ -62,17 +65,35 @@ export const useReviewStore = () => {
   const getMyReviews = async (uid: string) => {
     const fetchData: Review[] = [];
     const reviewColRef = collection(db, "reviews");
-    const q = query(
+    const firstQ = query(
       reviewColRef,
       where("uid", "==", uid),
-      orderBy("timestamp", "asc"),
-      limit(30)
+      orderBy("timestamp", "desc"),
+      limit(10)
     );
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(firstQ);
+    lastVisible.value = querySnapshot.docs[querySnapshot.docs.length - 1]
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Review);
     });
     myReviews.value = [...fetchData];
+  };
+
+  const fetchNextPageOfUser = async (uid: string) => {
+    const reviewsColRef = collection(db, 'reviews');
+    if (lastVisible.value) {
+      const nextQ = query(
+        reviewsColRef,
+        where("uid", '==', uid),
+        orderBy('timestamp', 'desc'),
+        startAfter(lastVisible.value),
+        limit(10)
+      );
+      const querySnapshot = await getDocs(nextQ);
+      const newFetchData = querySnapshot.docs.map((doc) => doc.data() as Review);
+      lastVisible.value = querySnapshot.docs[querySnapshot.docs.length - 1];
+      myReviews.value.push(...newFetchData);
+    }
   };
 
   const updateReview = async (review: Review) => {
@@ -91,5 +112,5 @@ export const useReviewStore = () => {
     }
   };
 
-  return { reviews, myReviews, getReviews, addReview, deleteReviews, getMyReviews, updateReview, deleteReview };
+  return { reviews, myReviews, lastVisible, getReviews, addReview, deleteReviews, getMyReviews,fetchNextPageOfUser, updateReview, deleteReview };
 };

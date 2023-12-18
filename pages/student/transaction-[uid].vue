@@ -37,7 +37,9 @@
           <tbody v-if="filteredTransactions.length === 0">
             <tr>
               <td colspan="5">
-                <p class="flex justify-center py-40 text-gray-500">現在行われている取引はありません</p>
+                <p class="flex justify-center py-40 text-gray-500">
+                  現在行われている取引はありません
+                </p>
               </td>
             </tr>
           </tbody>
@@ -47,11 +49,16 @@
               :key="transaction.transactionid"
             >
               <tr
-                class="hover cursor-pointer" @click="transaction.status === '貸出確認' || transaction.status === '返却確認' ? cancelReq(transaction) : moveToDetailPage(transaction.bookid) "
+                class="hover cursor-pointer"
+                @click="
+                  transaction.status === '貸出確認' || transaction.status === '返却確認'
+                    ? cancelReq(transaction)
+                    : moveToDetailPage(transaction.bookid)
+                "
               >
                 <th>{{ index + 1 }}</th>
                 <td>
-                  {{ $dayjs(transaction.nowdate.toDate()).format("YYYY/MM/DD") }}
+                  {{ $dayjs(transaction.nowdate.toDate()).format('YYYY/MM/DD') }}
                 </td>
                 <td>
                   {{ transaction.bookTitle }}
@@ -64,29 +71,36 @@
                   >{{ transaction.status }}
                 </td>
                 <td>
-                  {{ $dayjs(transaction.duedate.toDate()).format("YYYY/MM/DD") }}
+                  {{ $dayjs(transaction.duedate.toDate()).format('YYYY/MM/DD') }}
                 </td>
               </tr>
             </template>
           </tbody>
         </table>
+        <button class="btn block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
+          さらに読み込む
+        </button>
+        <p class="text-gray-500 flex justify-center my-5" v-else>
+          これ以上表示できるコンテンツはありません。
+        </p>
       </template>
     </NuxtLayout>
   </div>
 </template>
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["auth"],
+  middleware: ['auth'],
   layout: false,
 });
 const route = useRoute();
-const uid = route.params.uid;
+const uid = route.params.uid as string;
 onMounted(() => {
   getMyTransactions(uid);
 });
-const { isLoading, getMyTransactions, myTransactions } = useTransactionStore();
+const { isLoading, getMyTransactions, myTransactions, fetchNextPageOfUser, lastVisible } =
+  useTransactionStore();
 const allStatus = ['貸出確認', '貸出中', '返却確認', '返却済み', '期限切れ'];
-const selectedStatus: Ref<string | null> = ref("すべて");
+const selectedStatus: Ref<string | null> = ref('すべて');
 const getStatusColor = (status: string) => {
   switch (status) {
     case '貸出確認':
@@ -105,21 +119,23 @@ const filteredTransactions = computed(() => {
   if (selectedStatus.value === 'すべて') {
     return myTransactions.value;
   } else {
-    const filteredTransactions = myTransactions.value.filter((transaction) => transaction.status === selectedStatus.value);
+    const filteredTransactions = myTransactions.value.filter(
+      (transaction) => transaction.status === selectedStatus.value
+    );
     return filteredTransactions;
   }
 });
 
-const {cancelTransaction} = useTransactionStore();
+const { cancelTransaction } = useTransactionStore();
 const cancelReq = async (transaction: Transaction) => {
   const answer = confirm(`${transaction.status}リクエストをキャンセルしますか？`);
-  if(answer) {
+  if (answer) {
     await cancelTransaction(transaction);
     await getMyTransactions(uid);
   }
 };
 
 const moveToDetailPage = async (bookid: string) => {
-  await navigateTo(`/books/${bookid}-detail`, {replace: true});
+  await navigateTo(`/books/${bookid}-detail`, { replace: true });
 };
 </script>

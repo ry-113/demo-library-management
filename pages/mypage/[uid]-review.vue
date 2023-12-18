@@ -14,14 +14,14 @@
         <p class="mb-8">ここでレビューの編集・削除が行えます。</p>
         <div
           class="flex gap-4 justify-center items-center"
-          v-for="(review) in myReviews"
+          v-for="review in myReviews"
           :key="review.reviewid"
         >
           <div class="collapse bg-base-200 mb-5 2xl:w-[70%]">
             <input type="checkbox" />
             <div class="collapse-title text-lg">
               <p>
-                {{ $dayjs(review.timestamp.toDate()).format("YYYY/MM/DD") }}
+                {{ $dayjs(review.timestamp.toDate()).format('YYYY/MM/DD') }}
               </p>
               <p>{{ review.title }}</p>
               <RatingDisplay :rating="Number(review.rating)" />
@@ -39,9 +39,7 @@
             <h1 class="text-xl">レビュー編集</h1>
             <p>入力内容を変更し、送信ボタンを押してください。</p>
             <div class="review--form flex items-start mt-10 gap-10">
-              <div
-                class="text-left card card-compact shadow-xl bg-base-100 w-[35%]"
-              >
+              <div class="text-left card card-compact shadow-xl bg-base-100 w-[35%]">
                 <figure>
                   <img
                     :src="selectedBook?.imageURL || '/img/noimage.png'"
@@ -101,6 +99,12 @@
             <Icon name="ant-design:delete-outlined" size="1.4rem" />
           </button>
         </div>
+        <button class="btn block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
+          さらに読み込む
+        </button>
+        <p class="text-gray-500 flex justify-center my-5" v-else>
+          これ以上表示できるコンテンツはありません。
+        </p>
       </template>
     </NuxtLayout>
   </div>
@@ -109,12 +113,13 @@
 <script setup lang="ts">
 definePageMeta({
   layout: false,
-  middleware: ["auth"],
+  middleware: ['auth'],
 });
 const route = useRoute();
 const uid = computed(() => route.params.uid as string);
 const { getUser } = useAuth();
-const { myReviews, getMyReviews, updateReview, deleteReview } = useReviewStore();
+const { myReviews, lastVisible, fetchNextPageOfUser, getMyReviews, updateReview, deleteReview } =
+  useReviewStore();
 const userSnapshot = await getUser(uid.value);
 const user = userSnapshot.data();
 await getMyReviews(uid.value);
@@ -124,15 +129,15 @@ const selectReview = (review: Review) => {
   selectedReview.value = review;
 };
 const selectedReview: Ref<Review> = ref({
-  reviewid: "",
-  username: "",
-  bookid: "",
-  uid: "",
+  reviewid: '',
+  username: '',
+  bookid: '',
+  uid: '',
   timestamp: new Date(),
-  photo: "", 
+  photo: '',
   rating: 0,
-  title: "",
-  description: "",
+  title: '',
+  description: '',
 });
 const selectedBook = computed(() => {
   const bookid = selectedReview.value?.bookid;
@@ -157,5 +162,4 @@ const deleteReviewReq = async (review: Review) => {
     await getMyReviews(uid.value);
   }
 };
-
 </script>

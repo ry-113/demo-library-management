@@ -52,22 +52,22 @@ export const useTransactionStore = () => {
     isLoading.value = true;
     const fetchData: Transaction[] = [];
     const transactionColRef = collection(db, 'transactions');
-    const q = query(
+    const firstQ = query(
       transactionColRef,
       where('uid', '==', uid),
-      orderBy('nowdate', 'asc'),
-      limit(30)
+      orderBy('nowdate', 'desc'),
+      limit(20)
     );
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(firstQ);
+    lastVisible.value = querySnapshot.docs[querySnapshot.docs.length - 1];
     querySnapshot.forEach((doc) => {
       fetchData.push(doc.data() as Transaction);
     });
-
     myTransactions.value = [...fetchData];
     isLoading.value = false;
   };
 
-  const fetchNextPage = async () => {
+  const fetchNextPageOfAll = async () => {
     const transactionColRef = collection(db, 'transactions');
     if (lastVisible.value) {
       const nextQ = query(
@@ -80,6 +80,23 @@ export const useTransactionStore = () => {
       const newFetchData = querySnapshot.docs.map((doc) => doc.data() as Transaction);
       lastVisible.value = querySnapshot.docs[querySnapshot.docs.length - 1];
       allTransactions.value.push(...newFetchData);
+    }
+  };
+
+  const fetchNextPageOfUser = async (uid: string) => {
+    const transactionColRef = collection(db, 'transactions');
+    if (lastVisible.value) {
+      const nextQ = query(
+        transactionColRef,
+        where("uid", '==', uid),
+        orderBy('nowdate', 'desc'),
+        startAfter(lastVisible.value),
+        limit(20)
+      );
+      const querySnapshot = await getDocs(nextQ);
+      const newFetchData = querySnapshot.docs.map((doc) => doc.data() as Transaction);
+      lastVisible.value = querySnapshot.docs[querySnapshot.docs.length - 1];
+      myTransactions.value.push(...newFetchData);
     }
   };
 
@@ -231,7 +248,8 @@ export const useTransactionStore = () => {
     myTransactions,
     getAllTransactions,
     getMyTransactions,
-    fetchNextPage,
+    fetchNextPageOfAll,
+    fetchNextPageOfUser,
     borrowReq,
     borrowBook,
     returnReq,
