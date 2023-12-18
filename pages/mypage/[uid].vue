@@ -11,8 +11,8 @@
       <template #default>
         <div class="grid grid-cols-6 grid-rows-3 gap-4 min-h-[75vh] my-10">
           <div class="col-span-4 row-span-1 2xl:col-span-2">
-            <h1 class="text-xl">プロフィール</h1>
-            <div class="card w-full bg-base-100 shadow-xl flex-row p-4">
+            <h1 class="text-xl mb-3">プロフィール</h1>
+            <div class="card w-full bg-base-200 shadow-md flex-row p-4">
               <figure>
                 <div class="avatar">
                   <div class="w-20 mask mask-squircle">
@@ -29,11 +29,12 @@
               </div>
             </div>
           </div>
+          
           <div class="col-span-6 row-span-3 row-start-2 2xl:col-span-4">
-             <div class="review--box card bg-base-100 shadow-xl px-4 py-16">
+            <h1 class="text-xl mt-6 mb-3">{{ user.name }}さんのレビュー</h1>
+             <div class="review--box card bg-base-200 shadow-md px-4 py-8">
                 <div class="section--header flex justify-between items-center pr-8 mb-3">
-            <h2 class="text-xl">{{ user.name }}さんのレビュー</h2>
-            <button class="btn-ghost btn p-0">
+            <button class="btn-ghost btn p-0 block ml-auto">
               <NuxtLink :to="`/mypage/${user.uid}-review`" class="py-4 px-2">レビューの編集・削除 >> </NuxtLink>
             </button>
           </div>
@@ -44,7 +45,7 @@
                   >
                     <Slide v-for="review in myReviews" :key="review.reviewid">
                       <div
-                        class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[85%]"
+                        class="carousel__item bg-base-100 p-4 rounded-xl text-left w-[85%]"
                         @click="showFullReview(review)"
                       >
                         <div class="review--header flex items-center justify-between mb-3">

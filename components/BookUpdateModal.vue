@@ -94,7 +94,7 @@
                   </p>
                   <form class="flex justify-end flex-wrap" @submit.prevent="addGenreReq">
                     <input
-                      class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
+                      class="input input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
                       placeholder="新しいジャンルを入力してください。"
                       type="text"
                       v-model="newGenre.name"
@@ -228,7 +228,7 @@
               </p>
               <form @submit.prevent="addLabelReq">
                 <input
-                  class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
+                  class="input input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
                   placeholder="新しいラベルを入力してください。"
                   type="text"
                   v-model="newLabel.name"
@@ -298,7 +298,7 @@
               <Icon name="ant-design:delete-outlined" size="1.25rem" />
             </button>
 
-            <button class="btn inline-block w-[100px]" @click.prevent="updateBookData">適用</button>
+            <button class="btn btn-primary inline-block w-[100px]" @click.prevent="updateBookData">適用</button>
           </div>
         </div>
       </form>

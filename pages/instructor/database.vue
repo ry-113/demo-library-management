@@ -18,18 +18,21 @@
               </option>
             </select>
           </label>
-          <button class="btn" @click.stop="showBookFormModal(null)">
+          <button
+            class="btn btn-primary text-white"
+            @click.stop="showBookFormModal(null)"
+          >
             追加
-            <Icon name="ant-design:plus-outlined" />
-            <BookCreateModal
-              :newBook="newBook"
-              :imageFile="imageFile"
-              @change-image-file="changeImageFile"
-              @change-book-data="changeBookData"
-              @check-label="checkLabel"
-              @submit-book-data="submitBookData"
-            />
+            <Icon name="ant-design:plus-outlined" size="1.35rem" />
           </button>
+          <BookCreateModal
+            :newBook="newBook"
+            :imageFile="imageFile"
+            @change-image-file="changeImageFile"
+            @change-book-data="changeBookData"
+            @check-label="checkLabel"
+            @submit-book-data="submitBookData"
+          />
         </div>
       </template>
       <template #default>
@@ -81,19 +84,28 @@
 <script setup lang="ts">
 definePageMeta({
   layout: false,
-  middleware: ['auth'],
+  middleware: ["auth"],
 });
 
-const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook, updateBook } =
-  useBookStore();
+const {
+  allBooks,
+  isLoading,
+  booksByGenre,
+  getAllBooks,
+  deleteBook,
+  addBook,
+  updateBook,
+} = useBookStore();
 
-const selectedGenre = ref('すべて');
+const selectedGenre = ref("すべて");
 const genres = computed(() => Object.keys(booksByGenre.value));
 const filteredBooks = computed(() => {
-  if (selectedGenre.value === 'すべて') {
+  if (selectedGenre.value === "すべて") {
     return allBooks.value;
   } else {
-    const filteredBooks = allBooks.value.filter((book) => book.genre === selectedGenre.value);
+    const filteredBooks = allBooks.value.filter(
+      (book) => book.genre === selectedGenre.value
+    );
     return filteredBooks;
   }
 });
@@ -103,22 +115,21 @@ const showBookFormModal = (book: Book | null) => {
   selectedBook.value = book;
   const modal = book
     ? document.getElementById(`book-${book.bookid}`)
-    : document.getElementById('newBook');
+    : document.getElementById("newBook");
   modal?.showModal();
 };
 
-
 //本の新規登録
 const newBookInit: Book = {
-  ISBN: '',
-  author: '',
-  bookid: '',
-  description: '',
-  genre: '',
-  imageURL: '',
+  ISBN: "",
+  author: "",
+  bookid: "",
+  description: "",
+  genre: "",
+  imageURL: "",
   labels: [],
   stock: 1,
-  title: '',
+  title: "",
   year: new Date().getFullYear(),
 };
 const newBook = ref(newBookInit);
@@ -136,20 +147,20 @@ const submitBookData = async () => {
   try {
     await addBook(newBook.value, imageFile.value);
     await getAllBooks();
-    document.getElementById('newBook')?.close();
+    document.getElementById("newBook")?.close();
   } catch (error) {
     console.error(error);
   } finally {
     newBook.value = {
-      ISBN: '',
-      author: '',
-      bookid: '',
-      description: '',
-      genre: '',
-      imageURL: '',
+      ISBN: "",
+      author: "",
+      bookid: "",
+      description: "",
+      genre: "",
+      imageURL: "",
       labels: [],
       stock: 1,
-      title: '',
+      title: "",
       year: new Date().getFullYear(),
     };
   }

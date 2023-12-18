@@ -89,7 +89,7 @@
             </template>
           </tbody>
         </table>
-        <button class="btn block mx-auto my-5" @click="fetchNextPageOfAll" v-if="lastVisible">さらに読み込む</button>
+        <button class="btn btn-primary block mx-auto my-5" @click="fetchNextPageOfAll" v-if="lastVisible">さらに読み込む</button>
       </template>
     </NuxtLayout>
   </div>

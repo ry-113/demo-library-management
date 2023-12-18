@@ -36,4 +36,11 @@ export default defineNuxtConfig({
   build: {
     transpile: ["@vuepic/vue-datepicker"],
   },
+  app: {
+    head: {
+      htmlAttrs: {
+        "data-theme": "winter",
+      }
+    }
+  }
 });

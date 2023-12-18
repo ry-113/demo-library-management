@@ -10,8 +10,9 @@ export default {
   ],
   safelist: [
     {
-      pattern: /bg-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-400/
-    }
+      pattern:
+        /bg-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-400/,
+    },
   ],
   theme: {
     extend: {},
@@ -55,4 +56,9 @@ export default {
       addUtilities(newUtilities);
     },
   ],
+  daisyui: {
+    themes: [
+     "winter"
+    ],
+  },
 };

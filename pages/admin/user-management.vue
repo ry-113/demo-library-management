@@ -63,7 +63,7 @@
                 <CommonModal :modal-id="`uid${user.uid}`">
                   <template #actionName>
                     <button class="btn btn-ghost">
-                      <Icon name="ant-design:delete-outlined" size="1.4rem" />
+                      <Icon name="ant-design:delete-outlined" size="1.4rem" class="text-red-400"/>
                     </button>
                     
                   </template>
@@ -74,8 +74,9 @@
                     このユーザーを<span class="text-red-500">削除</span
                     >します。本当によろしいですか？
                   </p>
+                  <img src="/img/undraw_Throw_away.png" alt="" class="w-[50%] mx-auto my-10">
                   <form @submit.prevent="deleteUserReq(user.uid)">
-                    <button type="submit" class="btn block ml-auto mt-3">
+                    <button type="submit" class="btn btn-primary w-[80px] block ml-auto mt-3">
                       OK
                     </button>
                   </form>

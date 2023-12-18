@@ -27,7 +27,7 @@
           </div>
 
           <Carousel
-            class="carousel-center p-4 space-x-4 bg-stone-100 rounded-box w-full"
+            class="carousel-center p-4 space-x-4 bg-base-200 rounded-box w-full"
             :items-to-show="3"
             :breakpoints="breakpoints"
           >

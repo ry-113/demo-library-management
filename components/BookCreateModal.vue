@@ -94,7 +94,7 @@
                   </p>
                   <form class="flex justify-end flex-wrap" @submit.prevent="addGenreReq">
                     <input
-                      class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
+                      class="input input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
                       placeholder="新しいジャンルを入力してください。"
                       type="text"
                       v-model="newGenre.name"
@@ -224,7 +224,7 @@
               </p>
               <form @submit.prevent="addLabelReq">
                 <input
-                  class="input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
+                  class="input input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
                   placeholder="新しいラベルを入力してください。"
                   type="text"
                   v-model="newLabel.name"
@@ -284,7 +284,7 @@
               ></textarea>
             </label>
           </div>
-          <button class="btn block ml-auto">登録</button>
+          <button class="btn btn-primary block w-[100px] ml-auto">登録</button>
         </div>
       </form>
     </div>

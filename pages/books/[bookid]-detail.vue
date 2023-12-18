@@ -15,7 +15,7 @@
 
       <template #default>
         <div class="max-w-[1500px] mx-auto">
-          <div class="heading border-b-2 border-b-gray-400 relative py-4">
+          <div class="heading border-b-2 border-b-base-400 relative py-4">
             <h1 class="text-2xl mt-3 mb-3">{{ book?.title }}</h1>
             <p>著者: {{ book?.author }}</p>
             <p>出版年: {{ book?.year }}</p>
@@ -25,7 +25,7 @@
             <div class="action--btns flex absolute bottom-4 right-0 gap-5">
               <CommonModal modal-id="review">
                 <template #actionName>
-                  <button class="btn">レビュー投稿</button>
+                  <button class="btn hover:btn-primary border-primary w-[130px]">レビュー投稿</button>
                 </template>
                 <h1 class="text-xl">レビュー投稿</h1>
                 <p>フォームを入力し、送信ボタンを押してください。</p>
@@ -82,14 +82,14 @@
                       </label>
                     </div>
 
-                    <button type="submit" class="btn block ml-auto">送信</button>
+                    <button type="submit" class="btn btn-primary w-[80px] block ml-auto">送信</button>
                   </form>
                 </div>
               </CommonModal>
 
               <CommonModal modal-id="borrow">
                 <template #actionName>
-                  <button class="btn">借りる</button>
+                  <button class="btn hover:btn-primary border-primary w-[110px]">借りる</button>
                 </template>
                 <h1 class="text-xl">貸出リクエスト</h1>
                 <p>カレンダーから返却予定日を選択してください。</p>
@@ -115,18 +115,19 @@
                       :datePeriod="datePeriod"
                       @update:model-value="setDatePeriod"
                     ></DatePicker>
-                    <button type="submit" class="btn block ml-auto mt-3">送信</button>
+                    <button type="submit" class="btn btn-primary w-[80px] block ml-auto mt-3">送信</button>
                   </form>
                 </div>
               </CommonModal>
               <CommonModal modal-id="returnBook">
                 <template #actionName>
-                  <button class="btn">返す</button>
+                  <button class="btn hover:btn-primary border-primary w-[110px]">返す</button>
                 </template>
                 <h1 class="text-xl mb-3">返却リクエスト</h1>
                 <p>この本を返却します。よろしいですか？</p>
+                <img src="/img/undraw_Bookshelves.png" class="w-[50%] mx-auto">
                 <form @submit.prevent="returnBook">
-                  <button type="submit" class="btn block ml-auto mt-3">OK</button>
+                  <button type="submit" class="btn btn-primary w-[80px] block ml-auto mt-3">OK</button>
                 </form>
               </CommonModal>
             </div>
@@ -167,9 +168,9 @@
                     :autoplay="5000"
                     :transition="800"
                   >
-                    <Slide v-for="review in reviews" :key="review.reviewid">
+                    <Slide v-for="review in reviews" :key="review.reviewid" class="py-3">
                       <div
-                        class="carousel__item bg-zinc-100 p-4 rounded-xl text-left w-[75%]"
+                        class="carousel__item shadow-md p-4 rounded-xl text-left w-[75%]"
                         @click="showFullReview(review)"
                       >
                         <div class="review--header flex items-center justify-between mb-3">

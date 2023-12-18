@@ -1,6 +1,6 @@
 <template>
   <div
-    class="navbar min-h^[2rem] fixed top-0 z-10 bg-slate-200 px-6 py-2 justify-between"
+    class="navbar min-h-[2rem] fixed top-0 z-10 bg-primary text-white px-6 py-2 justify-between"
   >
     <div class="flex-1 navbar-start">
       <a class="btn btn-ghost text-3xl">Logo</a>
@@ -19,20 +19,12 @@
         </label>
         <ul
           tabindex="0"
-          class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+          class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 text-base-content"
         >
-          <li><NuxtLink :to="`/mypage/${user?.uid}`">マイページ</NuxtLink></li>
-          <li @click="logOut"><NuxtLink to="/">ログアウト</NuxtLink></li>
+          <li><NuxtLink :to="`/mypage/${user?.uid}`"><Icon name="fa6-regular:address-card" size="1rem" />マイページ</NuxtLink></li>
+          <li @click="logOut" class="text-red-400"><NuxtLink to="/"><Icon name="majesticons:door-exit-line" size="1rem" />ログアウト</NuxtLink></li>
         </ul>
       </div>
-      <button class="btn btn-ghost btn-circle">
-        <div class="indicator">
-          <Icon name="ant-design:bell-outlined" size="1.5rem" />
-          <span class="badge badge-xs badge-primary indicator-item h-5 text-xs"
-            >3</span
-          >
-        </div>
-      </button>
       <button class="btn btn-ghost btn-circle inline-block p-2" @click="navigateTo('/books/search', {replace: true})">
         <Icon name="ant-design:search-outlined" size="1.5rem" />
       </button>

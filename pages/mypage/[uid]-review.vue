@@ -95,11 +95,11 @@
               </form>
             </div>
           </CommonModal>
-          <button class="btn btn-circle" @click="deleteReviewReq(review)">
+          <button class="btn btn-circle text-red-400" @click="deleteReviewReq(review)">
             <Icon name="ant-design:delete-outlined" size="1.4rem" />
           </button>
         </div>
-        <button class="btn block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
+        <button class="btn btn-primary block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
           さらに読み込む
         </button>
       </template>
