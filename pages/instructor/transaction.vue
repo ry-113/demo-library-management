@@ -90,7 +90,6 @@
           </tbody>
         </table>
         <button class="btn block mx-auto my-5" @click="fetchNextPageOfAll" v-if="lastVisible">さらに読み込む</button>
-        <p class="text-gray-500 flex justify-center my-5" v-else>これ以上表示できるコンテンツはありません。</p>
       </template>
     </NuxtLayout>
   </div>

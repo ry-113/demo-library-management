@@ -31,7 +31,7 @@ export type Book = {
 export const useBookStore = () => {
   const { uploadImage, deleteImage } = useBookStorage();
   const { deleteReviews } = useReviewStore();
-  const {deleteAlgolia} = useAlgolia();
+  const { deleteAlgolia } = useAlgolia();
   const db = getFirestore();
   const allBooks: Ref<Book[]> = useState('allBooks', () => []);
   type BooksByGenre = {

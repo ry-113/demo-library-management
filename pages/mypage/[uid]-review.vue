@@ -102,9 +102,6 @@
         <button class="btn block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
           さらに読み込む
         </button>
-        <p class="text-gray-500 flex justify-center my-5" v-else>
-          これ以上表示できるコンテンツはありません。
-        </p>
       </template>
     </NuxtLayout>
   </div>
@@ -123,7 +120,7 @@ const { myReviews, lastVisible, fetchNextPageOfUser, getMyReviews, updateReview,
 const userSnapshot = await getUser(uid.value);
 const user = userSnapshot.data();
 await getMyReviews(uid.value);
-const { allBooks } = useBookStore();
+const { allBooks, updateRating } = useBookStore();
 
 const selectReview = (review: Review) => {
   selectedReview.value = review;
@@ -150,7 +147,7 @@ const setRating = (rating: number) => {
 };
 
 const updateReviewReq = async () => {
-  await updateReview(selectedReview.value);
+  await updateReview(selectedReview.value, selectedBook.value);
   await getMyReviews(uid.value);
   document.getElementById(`review-${selectedReview.value.reviewid}`)?.close();
 };

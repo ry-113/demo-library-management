@@ -9,7 +9,7 @@
         </div>
       </template>
       <template #default>
-        <div class="grid grid-cols-6 grid-rows-6 gap-4 min-h-[80vh] my-10">
+        <div class="grid grid-cols-6 grid-rows-5 gap-4 min-h-[75vh] my-10">
           <div class="col-span-4 row-span-2 2xl:col-span-2">
             <h1 class="text-xl">プロフィール</h1>
             <div class="card w-full bg-base-100 shadow-xl flex-row p-4">
@@ -29,8 +29,8 @@
               </div>
             </div>
           </div>
-          <div class="col-span-6 row-span-4 row-start-3 2xl:col-span-4">
-             <div class="review--box card bg-base-100 shadow-xl p-4">
+          <div class="col-span-6 row-span-3 row-start-3 2xl:col-span-4">
+             <div class="review--box card bg-base-100 shadow-xl px-4 py-16">
                 <div class="section--header flex justify-between items-center pr-8 mb-3">
             <h2 class="text-xl">{{ user.name }}さんのレビュー</h2>
             <button class="btn-ghost btn p-0">

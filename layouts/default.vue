@@ -123,7 +123,7 @@
             :to="`/mypage/${user?.uid}`"
             class="py-3"
             :class="{ active: /^\/mypage/.test($route.path) }"
-            ><Icon name="ic:outline-settings" size="1.75rem" />マイページ</NuxtLink
+            ><Icon name="fa6-regular:address-card" size="1.75rem" />マイページ</NuxtLink
           >
         </li>
       </ul>
