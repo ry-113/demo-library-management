@@ -12,15 +12,24 @@
       <template #default>
         <AisInstantSearch :index-name="indexName" :search-client="algolia">
           <div class="flex justify-between">
-            <div class="left-box w-[20%] 2xl:w-[15%] mt-24 border-r-gray-200 border-r-2">
+            <div
+              class="left-box w-[20%] 2xl:w-[15%] mt-24 border-r-gray-200 border-r-2"
+            >
               <h2 class="text-lg">
-                <Icon name="fluent:filter-12-regular" class="mr-2 mb-1" />フィルタ
+                <Icon
+                  name="fluent:filter-12-regular"
+                  class="mr-2 mb-1"
+                />フィルタ
               </h2>
               <AisClearRefinements class="mt-2">
-                <template #resetLabel><span class="text-base">条件をリセット</span></template>
+                <template #resetLabel
+                  ><span class="text-base">条件をリセット</span></template
+                >
               </AisClearRefinements>
               <div class="mt-10">
-                <h3><Icon name="bi:star" size="1rem" class="mr-1 mb-1" />評価</h3>
+                <h3>
+                  <Icon name="bi:star" size="1rem" class="mr-1 mb-1" />評価
+                </h3>
                 <AisNumericMenu
                   attribute="rating"
                   :items="[
@@ -49,7 +58,9 @@
                 />
               </div>
               <div class="mt-5">
-                <h3><Icon name="bi:inboxes" class="mr-1 mb-[3px]" />ジャンル</h3>
+                <h3>
+                  <Icon name="bi:inboxes" class="mr-1 mb-[3px]" />ジャンル
+                </h3>
                 <AisRefinementList attribute="genre" :sort-by="['name:desc']" />
               </div>
 
@@ -71,7 +82,11 @@
                 :show-loading-indicator="true"
                 class="w-[80%] mx-auto mb-8"
               />
-              <Icon name="ant-design:search-outlined" size="1.5rem" class="ml-3" />
+              <Icon
+                name="ant-design:search-outlined"
+                size="1.5rem"
+                class="ml-3"
+              />
               <AisStats>
                 <template v-slot="{ nbHits, processingTimeMS }">
                   検索結果：{{ nbHits }} 件 ({{ processingTimeMS }}ms)
@@ -125,17 +140,19 @@ import {
   AisConfigure,
   AisPagination,
   AisSortBy,
-} from 'vue-instantsearch/vue3/es';
+} from "vue-instantsearch/vue3/es";
 
-import 'instantsearch.css/themes/algolia-min.css';
+import "instantsearch.css/themes/algolia-min.css";
 definePageMeta({
-  middleware: ['auth'],
+  middleware: ["auth"],
   layout: false,
 });
-const indexName = 'book';
+const indexName = "book";
 const algolia = useAlgoliaRef();
 
 const { allBooks } = useBookStore();
 const { addAlgolia } = useAlgolia();
-await addAlgolia(allBooks.value);
+onMounted(async () => {
+  await addAlgolia(allBooks.value);
+});
 </script>

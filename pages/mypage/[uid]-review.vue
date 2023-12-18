@@ -120,7 +120,7 @@ const { myReviews, lastVisible, fetchNextPageOfUser, getMyReviews, updateReview,
 const userSnapshot = await getUser(uid.value);
 const user = userSnapshot.data();
 await getMyReviews(uid.value);
-const { allBooks, updateRating } = useBookStore();
+const { allBooks } = useBookStore();
 
 const selectReview = (review: Review) => {
   selectedReview.value = review;

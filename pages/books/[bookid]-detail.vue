@@ -232,7 +232,6 @@ const getBgColor = (label: Label) => {
 };
 
 const { reviews, getReviews, addReview } = useReviewStore();
-getReviews(bookid.value);
 const numOfReviews = computed(() => reviews.value.length);
 //firestoreのレビューコレクションの集計
 const rating = computed((): number => {
@@ -241,6 +240,11 @@ const rating = computed((): number => {
   const ratingAvr = total / numOfReviews.value;
   const rating = Math.round(ratingAvr * 10) / 10; //小数第2位を四捨五入
   return rating;
+});
+
+onMounted(() => {
+  getReviews(bookid.value);
+  updateRating(book.value, rating.value);
 });
 
 const selectedReview: Ref<Review | null> = ref(null);
