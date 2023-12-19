@@ -243,9 +243,9 @@ const rating = computed((): number => {
   return rating;
 });
 
-onMounted(() => {
-  getReviews(bookid.value);
-  updateRating(book.value, rating.value);
+onMounted(async () => {
+  await getReviews(bookid.value);
+  await updateRating(book.value, rating.value);
 });
 
 const selectedReview: Ref<Review | null> = ref(null);

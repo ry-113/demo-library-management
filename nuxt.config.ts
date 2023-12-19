@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
+  experimental: {
+    viewTransition: true,
+  },
   modules: [
     "@nuxtjs/tailwindcss",
     "vue3-carousel-nuxt",

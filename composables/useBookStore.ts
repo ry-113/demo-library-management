@@ -92,7 +92,11 @@ export const useBookStore = () => {
   };
 
   const updateRating = async (book: Book, rating: number) => {
+    try {
     await updateDoc(doc(db, 'books', book.bookid), { rating: rating });
+    } catch(error) {
+      console.error(error);
+    }
   };
 
   onMounted(() => {
