@@ -58,7 +58,13 @@ export default {
   ],
   daisyui: {
     themes: [
-      "winter"
+      {
+        winter: {
+          ...require("daisyui/src/theming/themes")["winter"],
+          primary: "#4285f4",
+          "primary-content": "#ffffff",
+        }
+      }
     ],
   },
 };

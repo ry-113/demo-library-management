@@ -25,7 +25,9 @@
             <div class="action--btns flex absolute bottom-4 right-0 gap-5">
               <CommonModal modal-id="review">
                 <template #actionName>
-                  <button class="btn hover:btn-primary border-primary w-[130px]">レビュー投稿</button>
+                  <button class="btn hover:btn-primary hover:text-white border-primary w-[130px]">
+                    レビュー投稿
+                  </button>
                 </template>
                 <h1 class="text-xl">レビュー投稿</h1>
                 <p>フォームを入力し、送信ボタンを押してください。</p>
@@ -82,14 +84,18 @@
                       </label>
                     </div>
 
-                    <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto">送信</button>
+                    <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto">
+                      送信
+                    </button>
                   </form>
                 </div>
               </CommonModal>
 
               <CommonModal modal-id="borrow">
                 <template #actionName>
-                  <button class="btn hover:btn-primary border-primary w-[110px]">借りる</button>
+                  <button class="btn hover:btn-primary hover:text-white border-primary w-[110px]">
+                    借りる
+                  </button>
                 </template>
                 <h1 class="text-xl">貸出リクエスト</h1>
                 <p>カレンダーから返却予定日を選択してください。</p>
@@ -115,19 +121,31 @@
                       :datePeriod="datePeriod"
                       @update:model-value="setDatePeriod"
                     ></DatePicker>
-                    <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto mt-3">送信</button>
+                    <button
+                      type="submit"
+                      class="btn btn-primary text-white w-[80px] block ml-auto mt-3"
+                    >
+                      送信
+                    </button>
                   </form>
                 </div>
               </CommonModal>
               <CommonModal modal-id="returnBook">
                 <template #actionName>
-                  <button class="btn hover:btn-primary border-primary w-[110px]">返す</button>
+                  <button class="btn hover:btn-primary hover:text-white border-primary w-[110px]">
+                    返す
+                  </button>
                 </template>
                 <h1 class="text-xl mb-3">返却リクエスト</h1>
                 <p>この本を返却します。よろしいですか？</p>
-                <img src="/img/undraw_Bookshelves.png" class="w-[50%] mx-auto">
+                <img src="/img/undraw_Bookshelves.png" class="w-[50%] mx-auto" />
                 <form @submit.prevent="returnBook">
-                  <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto mt-3">OK</button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary text-white w-[80px] block ml-auto mt-3"
+                  >
+                    OK
+                  </button>
                 </form>
               </CommonModal>
             </div>
@@ -137,7 +155,7 @@
             <img
               :src="book?.imageURL || '/img/noimage.png'"
               alt=""
-              class="w-[45%] xl:w-[35%] border shadow-lg"
+              class="w-[45%] xl:w-[35%] border shadow-lg selected-book"
             />
             <div class="book--info w-[50%]">
               <template v-if="labels !== undefined && labels.length !== 0">
@@ -221,7 +239,7 @@ definePageMeta({
 const route = useRoute();
 const bookid = computed(() => route.params.bookid);
 const { allBooks, updateRating } = useBookStore();
-const book = computed(() =>allBooks.value.find((book) => book.bookid === bookid.value));
+const book = computed(() => allBooks.value.find((book) => book.bookid === bookid.value));
 const labels = computed(() => book.value?.labels.filter((label) => label.isChecked === true));
 
 const getBgColor = (label: Label) => {
@@ -278,7 +296,7 @@ const submitReview = async () => {
     uid,
     username,
     photo,
-    bookid:bookid.value,
+    bookid: bookid.value,
     rating: postRating.value,
     title: reviewTitle.value,
     description: reviewContent.value,
@@ -289,8 +307,8 @@ const submitReview = async () => {
     await getReviews(book.value?.bookid);
     await updateRating(book.value, rating.value);
     alert('レビューの投稿が完了しました。');
-  } catch(error) {
-    console.error(error)
+  } catch (error) {
+    console.error(error);
     alert('レビュー送信中に予期せぬエラーが起きました');
   }
   document.getElementById('review')?.close();
@@ -335,3 +353,16 @@ const returnBook = async () => {
   }
 };
 </script>
+<style scoped>
+.selected-book {
+  view-transition-name: selected-book;
+}
+</style>
+
+<style>
+::view-transition-old(selected-book),
+::view-transition-new(selected-book) {
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="navbar min-h-[2rem] fixed top-0 z-10 bg-primary bg-opacity-90 text-white px-6 py-2 justify-between"
+    class="navbar min-h-[2rem] fixed top-0 z-10 bg-primary text-white px-6 py-2 justify-between"
   >
     <div class="flex-1 navbar-start text-3xl ml-3">
       Logo
@@ -25,7 +25,7 @@
           <li @click="logOut" class="text-red-400 hover:text-red-400"><NuxtLink to="/"><Icon name="majesticons:door-exit-line" size="1rem" />ログアウト</NuxtLink></li>
         </ul>
       </div>
-      <button class="btn btn-ghost btn-circle inline-block p-2" @click="navigateTo('/books/search', {replace: true})">
+      <button class="btn btn-ghost hover:bg-white hover:text-primary btn-circle inline-block p-2" @click="navigateTo('/books/search', {replace: true})">
         <Icon name="ant-design:search-outlined" size="1.5rem" />
       </button>
     </div>

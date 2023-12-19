@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxt/image": "^1.1.0",
     "@nuxtjs/tailwindcss": "^6.9.5",
     "@tailwindcss/typography": "^0.5.10",
     "daisyui": "^4.4.2",

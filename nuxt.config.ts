@@ -5,22 +5,16 @@ export default defineNuxtConfig({
   experimental: {
     viewTransition: true,
   },
-  modules: [
-    "@nuxtjs/tailwindcss",
-    "vue3-carousel-nuxt",
-    "dayjs-nuxt",
-    "nuxt-icon",
-    [
-      "@nuxtjs/algolia",
-      {
-        apiKey: process.env.NUXT_ALGOLIA_ADMIN_APIKEY,
-        applicationId: process.env.NUXT_ALGOLIA_APP_ID,
-        instantSearch: {
-          theme: "algolia",
-        },
+  modules: ["@nuxtjs/tailwindcss", "vue3-carousel-nuxt", "dayjs-nuxt", "nuxt-icon", [
+    "@nuxtjs/algolia",
+    {
+      apiKey: process.env.NUXT_ALGOLIA_ADMIN_APIKEY,
+      applicationId: process.env.NUXT_ALGOLIA_APP_ID,
+      instantSearch: {
+        theme: "algolia",
       },
-    ],
-  ],
+    },
+  ], "@nuxt/image"],
   runtimeConfig: {
     public: {
       firebaseApiKey: process.env.NUXT_FIREBASE_APIKEY,

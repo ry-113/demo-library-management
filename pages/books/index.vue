@@ -33,9 +33,9 @@
           >
             <Slide v-for="book in books" :key="book.bookid">
               <li class="mb-3 carousel__item text-left card card-compact shadow-xl bg-base-100 w-[80%]">
-                <NuxtLink :to="`/books/${book.bookid}-detail`">
+                <NuxtLink :to="`/books/${book.bookid}-detail`" @click.native="active = book.bookid">
                   <figure>
-                    <img :src="book.imageURL || '/img/noimage.png'" alt="" class="rounded-t-2xl"/>
+                    <img :src="book.imageURL || '/img/noimage.png'" alt="" class="rounded-t-2xl" :class="{active: active === book.bookid}"/>
                   </figure>
                   <div class="card-body">
                     <p class="font-bold text-xs xl:text-sm">{{ book.title }}</p>
@@ -71,4 +71,12 @@ const breakpoints = {
     itemsToShow: 6,
   },
 };
+
 </script>
+
+<style scoped>
+img.active {
+  view-transition-name: selected-book;
+  contain: layout;
+}
+</style>
