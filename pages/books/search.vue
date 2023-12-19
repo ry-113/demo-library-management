@@ -21,7 +21,10 @@
                   class="mr-2 mb-1"
                 />フィルタ
               </h2>
-              <AisClearRefinements class="mt-2">
+              <AisClearRefinements class="mt-2" :class-names="{
+                'ais-ClearRefinements-button': 'bg-gray-400',
+                'ais-ClearRefinements-button--disabled': 'bg-gray-400'
+              }">
                 <template #resetLabel
                   ><span class="text-base">条件をリセット</span></template
                 >

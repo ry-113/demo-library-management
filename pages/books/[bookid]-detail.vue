@@ -82,7 +82,7 @@
                       </label>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-[80px] block ml-auto">送信</button>
+                    <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto">送信</button>
                   </form>
                 </div>
               </CommonModal>
@@ -115,7 +115,7 @@
                       :datePeriod="datePeriod"
                       @update:model-value="setDatePeriod"
                     ></DatePicker>
-                    <button type="submit" class="btn btn-primary w-[80px] block ml-auto mt-3">送信</button>
+                    <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto mt-3">送信</button>
                   </form>
                 </div>
               </CommonModal>
@@ -127,7 +127,7 @@
                 <p>この本を返却します。よろしいですか？</p>
                 <img src="/img/undraw_Bookshelves.png" class="w-[50%] mx-auto">
                 <form @submit.prevent="returnBook">
-                  <button type="submit" class="btn btn-primary w-[80px] block ml-auto mt-3">OK</button>
+                  <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto mt-3">OK</button>
                 </form>
               </CommonModal>
             </div>

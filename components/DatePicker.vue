@@ -1,6 +1,9 @@
 <template>
   <h2 class="text-lg">貸出期間</h2>
-  <p class="mb-3">{{ $dayjs(props.datePeriod[0]).format("YYYY/MM/DD") }} ～ {{ $dayjs(props.datePeriod[1]).format("YYYY/MM/DD") }}</p>
+  <p class="mb-3">
+    {{ $dayjs(props.datePeriod[0]).format('YYYY/MM/DD') }} ～
+    {{ $dayjs(props.datePeriod[1]).format('YYYY/MM/DD') }}
+  </p>
   <VueDatePicker
     :model-value="props.datePeriod"
     required
@@ -19,8 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
 interface Props {
   datePeriod: Date[];
@@ -28,12 +31,12 @@ interface Props {
 const props = defineProps<Props>();
 
 interface Emits {
-  (e: "update:modelValue", modelValue: Date[]): void;
+  (e: 'update:modelValue', modelValue: Date[]): void;
 }
 const emit = defineEmits<Emits>();
 
 const setDatePeriod = (modelValue: Date[]) => {
-  emit("update:modelValue", modelValue);
+  emit('update:modelValue', modelValue);
 };
 
 //modelValueの変更はemitで知らせる
@@ -48,8 +51,8 @@ const setDatePeriod = (modelValue: Date[]) => {
   --dp-cell-border-radius: 50%;
 }
 .dp__theme_light {
-  --dp-range-between-dates-background-color: var(--dp-primary-color, #1976d2);
+  --dp-range-between-dates-background-color: var(--dp-primary-color, #0069ff);
   --dp-range-between-dates-text-color: var(--dp-hover-color, #f3f3f3);
-  --dp-range-between-border-color: var(--dp-primary-colorr, #1976d2);
+  --dp-range-between-border-color: var(--dp-primary-color, #0069ff);
 }
 </style>

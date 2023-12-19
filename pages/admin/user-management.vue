@@ -76,8 +76,8 @@
                   </p>
                   <img src="/img/undraw_Throw_away.png" alt="" class="w-[50%] mx-auto my-10">
                   <form @submit.prevent="deleteUserReq(user.uid)">
-                    <button type="submit" class="btn btn-primary w-[80px] block ml-auto mt-3">
-                      OK
+                    <button type="submit" class="btn bg-red-500 hover:bg-red-600 text-white w-[80px] block ml-auto mt-3">
+                      削除
                     </button>
                   </form>
                 </CommonModal>

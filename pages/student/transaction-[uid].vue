@@ -77,8 +77,8 @@
             </template>
           </tbody>
         </table>
-        <button class="btn block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
-          さらに読み込む
+        <button class="btn btn-primary text-white block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
+          さらに読み込む<Icon name="ic:round-refresh" size="1.5rem" class="mb-0.5 ml-0.5"/>
         </button>
       </template>
     </NuxtLayout>

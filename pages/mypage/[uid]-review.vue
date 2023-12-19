@@ -91,7 +91,7 @@
                   </label>
                 </div>
 
-                <button type="submit" class="btn block ml-auto">送信</button>
+                <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto">送信</button>
               </form>
             </div>
           </CommonModal>
@@ -99,8 +99,8 @@
             <Icon name="ant-design:delete-outlined" size="1.4rem" />
           </button>
         </div>
-        <button class="btn btn-primary block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
-          さらに読み込む
+        <button class="btn btn-primary text-white block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
+          さらに読み込む<Icon name="ic:round-refresh" size="1.5rem" class="mb-0.5 ml-0.5"/>
         </button>
       </template>
     </NuxtLayout>

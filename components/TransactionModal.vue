@@ -57,7 +57,7 @@
           />
         </div>
 
-        <button class="btn btn-primary block ml-auto w-[100px]">承認</button>
+        <button class="btn btn-primary text-white block ml-auto w-[100px]">承認</button>
       </form>
     </div>
   </dialog>

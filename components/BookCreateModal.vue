@@ -284,7 +284,7 @@
               ></textarea>
             </label>
           </div>
-          <button class="btn btn-primary block w-[100px] ml-auto">登録</button>
+          <button class="btn btn-primary text-white block w-[100px] ml-auto">登録</button>
         </div>
       </form>
     </div>

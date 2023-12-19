@@ -291,14 +291,14 @@
 
           <div class="flex justify-between">
             <button
-              class="btn inline-block bg-red-500 text-white w-[100px]"
+              class="btn inline-block bg-red-500 hover:bg-red-600 text-white w-[100px]"
               @click.prevent="deleteBookData"
             >
               削除
               <Icon name="ant-design:delete-outlined" size="1.25rem" />
             </button>
 
-            <button class="btn btn-primary inline-block w-[100px]" @click.prevent="updateBookData">適用</button>
+            <button class="btn btn-primary text-white inline-block w-[100px]" @click.prevent="updateBookData">適用</button>
           </div>
         </div>
       </form>

@@ -1,9 +1,9 @@
 <template>
   <div
-    class="navbar min-h-[2rem] fixed top-0 z-10 bg-primary text-white px-6 py-2 justify-between"
+    class="navbar min-h-[2rem] fixed top-0 z-10 bg-primary bg-opacity-90 text-white px-6 py-2 justify-between"
   >
-    <div class="flex-1 navbar-start">
-      <a class="btn btn-ghost text-3xl">Logo</a>
+    <div class="flex-1 navbar-start text-3xl ml-3">
+      Logo
     </div>
     <div class="navbar-end gap-3">
       <div class="dropdown dropdown-end">
@@ -22,7 +22,7 @@
           class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 text-base-content"
         >
           <li><NuxtLink :to="`/mypage/${user?.uid}`"><Icon name="fa6-regular:address-card" size="1rem" />マイページ</NuxtLink></li>
-          <li @click="logOut" class="text-red-400"><NuxtLink to="/"><Icon name="majesticons:door-exit-line" size="1rem" />ログアウト</NuxtLink></li>
+          <li @click="logOut" class="text-red-400 hover:text-red-400"><NuxtLink to="/"><Icon name="majesticons:door-exit-line" size="1rem" />ログアウト</NuxtLink></li>
         </ul>
       </div>
       <button class="btn btn-ghost btn-circle inline-block p-2" @click="navigateTo('/books/search', {replace: true})">
@@ -53,12 +53,12 @@
         class="menu p-4 w-80 min-h-full bg-base-200 text-base-content text-xl"
       >
         <!-- Sidebar content here -->
-        <li class="p-4 mt-28" v-if="userRole === 'student'">
+        <li class="p-4 mt-28 " v-if="userRole === 'student'">
           <NuxtLink
             :to="`/student/transaction-${user?.uid}`"
             class="py-3"
             :class="{
-              active: $route.path === `/student/transaction-${user?.uid}`,
+              'bg-primary text-white hover:bg-primary hover:text-white': $route.path === `/student/transaction-${user?.uid}`,
             }"
             ><Icon
               name="material-symbols-light:contract-edit"
@@ -70,7 +70,7 @@
           <NuxtLink
             to="/instructor/transaction"
             class="py-3"
-            :class="{ active: $route.path === '/instructor/transaction' }"
+            :class="{ 'bg-primary text-white hover:bg-primary hover:text-white': $route.path === '/instructor/transaction' }"
             ><Icon
               name="material-symbols-light:contract-edit"
               size="1.75rem"
@@ -81,7 +81,7 @@
           <NuxtLink
             to="/books"
             class="py-3"
-            :class="{ active: /^\/books/.test($route.path) }"
+            :class="{ 'bg-primary text-white hover:bg-primary hover:text-white': /^\/books/.test($route.path) }"
             ><Icon name="mingcute:book-5-line" size="1.75rem" />本棚</NuxtLink
           >
         </li>
@@ -92,7 +92,7 @@
           <NuxtLink
             to="/instructor/database"
             class="py-3"
-            :class="{ active: $route.path === '/instructor/database' }"
+            :class="{ 'bg-primary text-white hover:bg-primary hover:text-white': $route.path === '/instructor/database' }"
             ><Icon
               name="fluent:book-database-20-regular"
               size="1.75rem"
@@ -103,18 +103,18 @@
           <NuxtLink
             to="/admin/user-management"
             class="py-3"
-            :class="{ active: $route.path === '/admin/user-management' }"
+            :class="{ 'bg-primary text-white hover:bg-primary hover:text-white': $route.path === '/admin/user-management' }"
             ><Icon
               name="material-symbols:person-edit-outline"
               size="1.75rem"
             />ユーザー管理</NuxtLink
           >
         </li>
-        <li class="p-4">
+        <li class="p-4 ">
           <NuxtLink
             :to="`/mypage/${user?.uid}`"
             class="py-3"
-            :class="{ active: /^\/mypage/.test($route.path) }"
+            :class="{ 'bg-primary text-white hover:bg-primary hover:text-white': /^\/mypage/.test($route.path) }"
             ><Icon name="fa6-regular:address-card" size="1.75rem" />マイページ</NuxtLink
           >
         </li>
