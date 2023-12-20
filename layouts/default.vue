@@ -28,7 +28,7 @@
       </div>
       <button
         class="btn btn-ghost hover:bg-white hover:text-primary btn-circle inline-block p-2"
-        @click="navigateTo('/books/search', { replace: true }), openOverlay"
+        @click="navigateTo('/books/search', { replace: true })"
       >
         <Icon name="ant-design:search-outlined" size="1.5rem" />
       </button>
