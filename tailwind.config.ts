@@ -60,11 +60,11 @@ export default {
     themes: [
       {
         winter: {
-          ...require("daisyui/src/theming/themes")["winter"],
-          primary: "#4285f4",
-          "primary-content": "#ffffff",
-        }
-      }
+          ...require('daisyui/src/theming/themes')['winter'],
+          primary: '#4285f4',
+          'primary-content': '#ffffff',
+        },
+      },
     ],
   },
 };

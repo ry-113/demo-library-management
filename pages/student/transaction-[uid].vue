@@ -77,8 +77,12 @@
             </template>
           </tbody>
         </table>
-        <button class="btn btn-primary text-white block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
-          さらに読み込む<Icon name="ic:round-refresh" size="1.5rem" class="mb-0.5 ml-0.5"/>
+        <button
+          class="btn btn-primary text-white block mx-auto my-5"
+          @click="fetchNextPageOfUser(uid)"
+          v-if="lastVisible"
+        >
+          さらに読み込む<Icon name="ic:round-refresh" size="1.5rem" class="mb-0.5 ml-0.5" />
         </button>
       </template>
     </NuxtLayout>
@@ -133,6 +137,9 @@ const cancelReq = async (transaction: Transaction) => {
 };
 
 const moveToDetailPage = async (bookid: string) => {
-  await navigateTo(`/books/${bookid}-detail`, { replace: true });
+  const answer = confirm('本の詳細ページに移動しますか？');
+  if (answer) {
+    await navigateTo(`/books/${bookid}-detail`, { replace: true });
+  }
 };
 </script>

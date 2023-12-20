@@ -9,28 +9,29 @@
         </div>
       </template>
       <template #default>
-        <div class="grid grid-cols-6 grid-rows-3 gap-4 min-h-[75vh] my-10">
-          <div class="col-span-4 row-span-1 2xl:col-span-2">
+        <div class="grid grid-cols-6 grid-rows-2 gap-4 my-10">
+          <div class="col-span-3 row-span-1 2xl:col-span-1">
             <h1 class="text-xl mb-3">プロフィール</h1>
-            <div class="card w-full bg-base-200 shadow-md flex-row p-4">
-              <figure>
+            <div class="card w-full bg-base-200 shadow-md flex justify-center py-10">
+              <div class="bg-[#4285f4] block w-full h-[80px] absolute top-0 right-[50%] translate-x-[50%] rounded-t-3xl"></div>
+              <figure class="z-10">
                 <div class="avatar">
                   <div class="w-20 mask mask-squircle">
                     <img :src="`${user.photo}`" />
                   </div>
                 </div>
               </figure>
-              <div class="card-body">
-                <div class="badge badge-outline">
+              <div class="card-body mx-auto text-center z-10">
+                <h2 class="text-xl">{{ user.name }}</h2>
+                <div class="badge badge-outline mx-auto">
                   <p>{{ user.role }}</p>
                 </div>
-                <h2>{{ user.name }}</h2>
                 <p>{{ user.email }}</p>
               </div>
             </div>
           </div>
           
-          <div class="col-span-6 row-span-3 row-start-2 2xl:col-span-4">
+          <div class="col-span-6 row-span-1 row-start-2 2xl:col-span-4">
             <h1 class="text-xl mt-6 mb-3">{{ user.name }}さんのレビュー</h1>
              <div class="review--box card bg-base-200 shadow-md px-4 py-8">
                 <div class="section--header flex justify-between items-center pr-8 mb-3">

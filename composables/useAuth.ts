@@ -51,7 +51,7 @@ export const useAuth = () => {
           navigateTo('admin/user-management', { replace: true });
         }
       } else {
-        alert('新規登録完了しました。');
+        alert('新規登録を受け付けます。');
         await createUser(googleUser);
         const user = await getUser(googleUser.user.uid);
         updateUser(user.data());

@@ -51,8 +51,8 @@ const setDatePeriod = (modelValue: Date[]) => {
   --dp-cell-border-radius: 50%;
 }
 .dp__theme_light {
-  --dp-range-between-dates-background-color: var(--dp-primary-color, #0069ff);
+  --dp-range-between-dates-background-color: var(--dp-primary-color, #4285f4);
   --dp-range-between-dates-text-color: var(--dp-hover-color, #f3f3f3);
-  --dp-range-between-border-color: var(--dp-primary-color, #0069ff);
+  --dp-range-between-border-color: var(--dp-primary-color, #4285f4);
 }
 </style>
