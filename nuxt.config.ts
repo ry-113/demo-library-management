@@ -37,6 +37,7 @@ export default defineNuxtConfig({
     head: {
       htmlAttrs: {
         "data-theme": "winter",
+        style: "scroll-behavior: smooth"
       }
     }
   }
