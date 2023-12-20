@@ -72,7 +72,7 @@
                   <ReviewModal :review="selectedReview" />
                 </template>
                 <template v-else>
-                  <p>現在レビューがありません。</p>
+                  <p class="text-center text-gray-500 py-10">現在レビューがありません。</p>
                 </template>
               </div>
           </div>

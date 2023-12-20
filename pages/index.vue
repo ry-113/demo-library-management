@@ -1,4 +1,5 @@
 <template>
+  <div class="w-0 h-5 bg-[#4285f4] absolute top-0 progress--bar"></div>
   <div class="hero min-h-[70vh] bg-base-200">
     <div class="hero-content text-center">
       <div class="max-w-lg">
@@ -24,3 +25,9 @@ const logIn = () => {
   logIn();
 };
 </script>
+
+<style scoped>
+.progress--bar {
+  view-transition-name: progress-bar;
+}
+</style>

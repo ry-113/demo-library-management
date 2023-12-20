@@ -12,96 +12,107 @@
       <template #default>
         <h1 class="text-xl mt-5 mb-2">{{ user.name }}さんのすべてのレビュー</h1>
         <p class="mb-8">ここでレビューの編集・削除が行えます。</p>
-        <div
-          class="flex gap-4 justify-center items-center"
-          v-for="review in myReviews"
-          :key="review.reviewid"
-        >
-          <div class="collapse bg-base-200 mb-5 2xl:w-[70%]">
-            <input type="checkbox" />
-            <div class="collapse-title text-lg">
-              <p>
-                {{ $dayjs(review.timestamp.toDate()).format('YYYY/MM/DD') }}
-              </p>
-              <p>{{ review.title }}</p>
-              <RatingDisplay :rating="Number(review.rating)" />
-            </div>
-            <div class="collapse-content">
-              <p>{{ review.description }}</p>
-            </div>
-          </div>
-          <CommonModal :modal-id="`review-${review.reviewid}`">
-            <template #actionName>
-              <button class="btn btn-circle" @click="selectReview(review)">
-                <Icon name="fluent:edit-24-regular" size="1.4rem" />
-              </button>
-            </template>
-            <h1 class="text-xl">レビュー編集</h1>
-            <p>入力内容を変更し、送信ボタンを押してください。</p>
-            <div class="review--form flex items-start mt-10 gap-10">
-              <div class="text-left card card-compact shadow-xl bg-base-100 w-[35%]">
-                <figure>
-                  <img
-                    :src="selectedBook?.imageURL || '/img/noimage.png'"
-                    alt=""
-                    class="rounded-t-2xl"
-                  />
-                </figure>
-                <div class="card-body">
-                  <p class="font-bold text-xs xl:text-sm">
-                    {{ selectedBook?.title }}
-                  </p>
-                  <p class="text-xs">{{ selectedBook?.author }}</p>
-                </div>
+        <template v-if="myReviews.length !== 0">
+          <div
+            class="flex gap-4 justify-center items-center"
+            v-for="review in myReviews"
+            :key="review.reviewid"
+          >
+            <div class="collapse bg-base-200 mb-5 2xl:w-[70%]">
+              <input type="checkbox" />
+              <div class="collapse-title text-lg">
+                <p>
+                  {{ $dayjs(review.timestamp.toDate()).format('YYYY/MM/DD') }}
+                </p>
+                <p>{{ review.title }}</p>
+                <RatingDisplay :rating="Number(review.rating)" />
               </div>
-              <form @submit.prevent="updateReviewReq" class="w-[60%]">
-                <div class="mb-3">
-                  <label for="rating">
-                    評価
-                    <RatingDisplay
-                      :rating="selectedReview.rating"
-                      id="rating"
-                      @update:rating="setRating"
-                    />
-                  </label>
-                </div>
-                <div class="mb-3">
-                  <label for="title">
-                    レビュータイトル
-                    <input
-                      type="text"
-                      placeholder="タイトルを20文字以内で入力してください"
-                      class="input input-bordered w-full"
-                      id="title"
-                      v-model="selectedReview.title"
-                      required
-                    />
-                  </label>
-                </div>
-                <div class="mb-3">
-                  <label for="content">
-                    内容
-                    <textarea
-                      class="textarea textarea-bordered w-full text-base h-[200px]"
-                      placeholder="500文字以内で入力してください"
-                      id="content"
-                      v-model="selectedReview.description"
-                      required
-                    ></textarea>
-                  </label>
-                </div>
-
-                <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto">送信</button>
-              </form>
+              <div class="collapse-content">
+                <p>{{ review.description }}</p>
+              </div>
             </div>
-          </CommonModal>
-          <button class="btn btn-circle text-red-400" @click="deleteReviewReq(review)">
-            <Icon name="ant-design:delete-outlined" size="1.4rem" />
+            <CommonModal :modal-id="`review-${review.reviewid}`">
+              <template #actionName>
+                <button class="btn btn-circle" @click="selectReview(review)">
+                  <Icon name="fluent:edit-24-regular" size="1.4rem" />
+                </button>
+              </template>
+              <h1 class="text-xl">レビュー編集</h1>
+              <p>入力内容を変更し、送信ボタンを押してください。</p>
+              <div class="review--form flex items-start mt-10 gap-10">
+                <div class="text-left card card-compact shadow-xl bg-base-100 w-[35%]">
+                  <figure>
+                    <img
+                      :src="selectedBook?.imageURL || '/img/noimage.png'"
+                      alt=""
+                      class="rounded-t-2xl"
+                    />
+                  </figure>
+                  <div class="card-body">
+                    <p class="font-bold text-xs xl:text-sm">
+                      {{ selectedBook?.title }}
+                    </p>
+                    <p class="text-xs">{{ selectedBook?.author }}</p>
+                  </div>
+                </div>
+                <form @submit.prevent="updateReviewReq" class="w-[60%]">
+                  <div class="mb-3">
+                    <label for="rating">
+                      評価
+                      <RatingDisplay
+                        :rating="selectedReview.rating"
+                        id="rating"
+                        @update:rating="setRating"
+                      />
+                    </label>
+                  </div>
+                  <div class="mb-3">
+                    <label for="title">
+                      レビュータイトル
+                      <input
+                        type="text"
+                        placeholder="タイトルを20文字以内で入力してください"
+                        class="input input-bordered w-full"
+                        id="title"
+                        v-model="selectedReview.title"
+                        required
+                      />
+                    </label>
+                  </div>
+                  <div class="mb-3">
+                    <label for="content">
+                      内容
+                      <textarea
+                        class="textarea textarea-bordered w-full text-base h-[200px]"
+                        placeholder="500文字以内で入力してください"
+                        id="content"
+                        v-model="selectedReview.description"
+                        required
+                      ></textarea>
+                    </label>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary text-white w-[80px] block ml-auto">
+                    送信
+                  </button>
+                </form>
+              </div>
+            </CommonModal>
+            <button class="btn btn-circle text-red-400" @click="deleteReviewReq(review)">
+              <Icon name="ant-design:delete-outlined" size="1.4rem" />
+            </button>
+          </div>
+          <button
+            class="btn btn-primary text-white block mx-auto my-5"
+            @click="fetchNextPageOfUser(uid)"
+            v-if="lastVisible"
+          >
+            さらに読み込む<Icon name="ic:round-refresh" size="1.5rem" class="mb-0.5 ml-0.5" />
           </button>
-        </div>
-        <button class="btn btn-primary text-white block mx-auto my-5" @click="fetchNextPageOfUser(uid)" v-if="lastVisible">
-          さらに読み込む<Icon name="ic:round-refresh" size="1.5rem" class="mb-0.5 ml-0.5"/>
-        </button>
+        </template>
+        <template v-else>
+          <p class="text-center text-gray-500 py-40">現在レビューがありません。</p>
+        </template>
       </template>
     </NuxtLayout>
   </div>

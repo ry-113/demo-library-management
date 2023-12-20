@@ -37,7 +37,7 @@ confetti({
 ::view-transition-new(progress-bar) {
   width: auto;
   animation-delay: 200ms;
-  animation-duration: 3s;
-  animation-timing-function: ease-out;
+  animation-duration: 600s;
+  animation-timing-function: cubic-bezier(0.550, 0.085, 0.680, 0.530);
 }
 </style>
