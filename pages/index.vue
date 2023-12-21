@@ -49,6 +49,7 @@
             <p>検索・レビューで必要な本を探す</p>
           </div>
         </div>
+        </div>
     </section>
     <section class="bg-base-100" id="features">
         <h2 class="text-center text-2xl font-semibold pt-10">Features</h2>

@@ -88,8 +88,6 @@
 </template>
 
 <script setup lang="ts">
-import { DocumentReference } from 'firebase/firestore';
-
 definePageMeta({
   layout: false,
   middleware: ['auth'],
