@@ -50,6 +50,11 @@
             </tr>
           </thead>
           <tbody>
+            <template v-if="filteredBooks.length === 0">
+              <td colspan="5"><p class="flex justify-center py-40 text-gray-500">本がありません。右上の追加ボタンから追加してください。</p></td>
+            </template>
+          </tbody>
+          <tbody>
             <template v-for="(book, index) in filteredBooks" :key="book.bookid">
               <tr class="hover cursor-pointer" @click="showBookFormModal(book)">
                 <th>{{ index + 1 }}</th>
@@ -65,15 +70,16 @@
                 <td>
                   {{ book.genre }}
                 </td>
-                <BookUpdateModal
-                  :book="book"
+                
+              </tr>
+            </template>
+            <BookUpdateModal
+                  :book="selectedBook"
                   :imageFile="imageFile"
                   @change-image-file="changeImageFile"
                   @update-book-data="updateBookData"
                   @delete-book-data="deleteBookData"
                 />
-              </tr>
-            </template>
           </tbody>
         </table>
       </template>
@@ -109,17 +115,6 @@ const filteredBooks = computed(() => {
     return filteredBooks;
   }
 });
-
-const selectedBook: Ref<Book | null> = ref(null);
-const showBookFormModal = (book: Book | null) => {
-  selectedBook.value = book;
-  const modal = book
-    ? document.getElementById(`book-${book.bookid}`)
-    : document.getElementById("newBook");
-  modal?.showModal();
-};
-
-//本の新規登録
 const newBookInit: Book = {
   ISBN: "",
   author: "",
@@ -132,6 +127,19 @@ const newBookInit: Book = {
   title: "",
   year: new Date().getFullYear(),
 };
+
+const selectedBook = ref(newBookInit);
+const showBookFormModal = (book: Book | null) => {
+  selectedBook.value = book;
+  const modal = book
+    ? document.getElementById("book-update")
+    : document.getElementById("newBook");
+    console.log(modal, selectedBook.value);
+  modal?.showModal();
+};
+
+//本の新規登録
+
 const newBook = ref(newBookInit);
 const imageFile: Ref<File | null> = ref(null);
 const changeImageFile = (file: File) => {
@@ -166,11 +174,12 @@ const submitBookData = async () => {
   }
 };
 
-const updateBookData = async (book: Book) => {
+const updateBookData = async () => {
   try {
-    await updateBook(book, imageFile.value);
+    console.log(selectedBook.value);
+    await updateBook(selectedBook.value, imageFile.value);
     await getAllBooks();
-    document.getElementById(`book-${book.bookid}`)?.close();
+    document.getElementById("book-update")?.close();
   } catch (error) {
     console.error(error);
   }

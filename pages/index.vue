@@ -4,7 +4,7 @@
     <div class="absolute top-0 w-full">
       <img src="/img/wavesOpacityBlue.svg" alt="" class="w-full h-20" />
     </div>
-    <div class="hero-content flex-row mx-auto justify-between px-20">
+    <div class="hero-content flex-row mx-auto justify-between px-10">
       <div>
         <h1 class="text-2xl font-bold mb-10 leading-10">
           今の自分に必要な本がきっと見つかる
@@ -37,7 +37,7 @@
   </div>
   <main>
     <section class="bg-base-100 pb-32 relative" id="concept">
-      <div class="max-w-[80rem] mx-auto">
+      <div class="max-w-[80rem] mx-auto px-10">
         <h2 class="text-center text-2xl font-semibold py-10">Concept</h2>
         <div class="flex">
           <div class="w-[50%] py-10 px-5">
