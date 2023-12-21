@@ -2,7 +2,9 @@
   <dialog id="book-update" class="modal">
     <div class="modal-box max-w-[900px] p-20 text-left">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+          ✕
+        </button>
       </form>
       <form class="flex w-full gap-[4%]">
         <div class="left--box w-[48%]">
@@ -72,7 +74,11 @@
                   required
                 >
                   <option selected disabled>選択</option>
-                  <option v-for="genre in genres" :key="genre.name" :value="genre.name">
+                  <option
+                    v-for="genre in genres"
+                    :key="genre.name"
+                    :value="genre.name"
+                  >
                     {{ genre.name }}
                   </option>
                 </select>
@@ -90,9 +96,15 @@
                   class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 border shadow-md"
                 >
                   <p class="mb-2">
-                    新規<Icon name="fluent:add-square-multiple-20-regular" size="1.5rem" />
+                    新規<Icon
+                      name="fluent:add-square-multiple-20-regular"
+                      size="1.5rem"
+                    />
                   </p>
-                  <form class="flex justify-end flex-wrap" @submit.prevent="addGenreReq">
+                  <form
+                    class="flex justify-end flex-wrap"
+                    @submit.prevent="addGenreReq"
+                  >
                     <input
                       class="input input-sm border border-gray-400 rounded-md mb-4 w-full py-4"
                       placeholder="新しいジャンルを入力してください。"
@@ -104,11 +116,21 @@
                   </form>
 
                   <p class="pt-3 mt-3 border-t border-t-gray-300">
-                    削除<Icon name="fluent:delete-20-regular" size="1.3rem" class="mb-1" />
+                    削除<Icon
+                      name="fluent:delete-20-regular"
+                      size="1.3rem"
+                      class="mb-1"
+                    />
                   </p>
-                  <p v-if="genres.length === 0" class="text-gray-400 pl-2">ジャンルがありません。</p>
+                  <p v-if="genres.length === 0" class="text-gray-400 pl-2">
+                    ジャンルがありません。
+                  </p>
                   <ul>
-                    <li v-for="genre in genres" :key="genre.name" @click="deleteGenreReq(genre)">
+                    <li
+                      v-for="genre in genres"
+                      :key="genre.name"
+                      @click="deleteGenreReq(genre)"
+                    >
                       <div>
                         <Icon
                           name="ic:twotone-remove-circle-outline"
@@ -154,13 +176,19 @@
               <img :src="imageURL" alt="" class="w-[300px] rounded-lg" />
             </div>
             <div v-else class="mt-5">
-              <img src="/img/noimage.png" class="object-contain rounded-lg" alt="" />
+              <img
+                src="/img/noimage.png"
+                class="object-contain rounded-lg"
+                alt=""
+              />
             </div>
           </label>
         </div>
         <div class="right--box w-[48%]">
           <p>ラベル</p>
-          <div class="flex flex-wrap mb-2 border rounded-lg py-2 border-gray-300">
+          <div
+            class="flex flex-wrap mb-2 border rounded-lg py-2 border-gray-300"
+          >
             <p v-if="book.labels.length === 0" class="text-gray-400 pl-2">
               下からラベルを追加してください。
             </p>
@@ -179,13 +207,18 @@
               />
               <div
                 class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
-                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
+                :class="[
+                  getBgColor(label),
+                  { 'bg-gray-400': !label.isChecked },
+                ]"
               >
                 {{ label.name }}
               </div>
             </label>
           </div>
-          <div class="flex flex-wrap mb-1 border rounded-lg py-2 border-gray-300">
+          <div
+            class="flex flex-wrap mb-1 border rounded-lg py-2 border-gray-300"
+          >
             <p v-if="unselectedLabels.length === 0" class="text-gray-400 pl-2">
               ラベルがありません。
             </p>
@@ -204,7 +237,10 @@
               />
               <div
                 class="badge badge-lg rounded-md py-4 px-3 text-white cursor-pointer"
-                :class="[getBgColor(label), { 'bg-gray-400': !label.isChecked }]"
+                :class="[
+                  getBgColor(label),
+                  { 'bg-gray-400': !label.isChecked },
+                ]"
               >
                 {{ label.name }}
               </div>
@@ -224,7 +260,10 @@
               class="dropdown-content z-[1] menu p-2 bg-base-100 rounded-box w-60 border shadow-md"
             >
               <p class="mb-2">
-                新規<Icon name="fluent:add-square-multiple-20-regular" size="1.5rem" />
+                新規<Icon
+                  name="fluent:add-square-multiple-20-regular"
+                  size="1.5rem"
+                />
               </p>
               <form @submit.prevent="addLabelReq">
                 <input
@@ -240,7 +279,11 @@
                   required
                 >
                   <option selected disabled>選択</option>
-                  <option v-for="color in colorList" :key="color" :value="color">
+                  <option
+                    v-for="color in colorList"
+                    :key="color"
+                    :value="color"
+                  >
                     {{ color }}
                   </option>
                 </select>
@@ -254,11 +297,21 @@
                 <button class="btn btn-sm block ml-auto mt-3">追加</button>
               </form>
               <p class="pt-3 mt-3 border-t border-t-gray-300">
-                削除<Icon name="fluent:delete-20-regular" size="1.3rem" class="mb-1" />
+                削除<Icon
+                  name="fluent:delete-20-regular"
+                  size="1.3rem"
+                  class="mb-1"
+                />
               </p>
-              <p v-if="labels.length === 0" class="text-gray-400 pl-2">ラベルがありません。</p>
+              <p v-if="labels.length === 0" class="text-gray-400 pl-2">
+                ラベルがありません。
+              </p>
               <ul>
-                <li v-for="label in labels" :key="label.name" @click="deleteLabelReq(label)">
+                <li
+                  v-for="label in labels"
+                  :key="label.name"
+                  @click="deleteLabelReq(label)"
+                >
                   <div>
                     <Icon
                       name="ic:twotone-remove-circle-outline"
@@ -298,7 +351,12 @@
               <Icon name="ant-design:delete-outlined" size="1.25rem" />
             </button>
 
-            <button class="btn btn-primary text-white inline-block w-[100px]" @click.prevent="updateBookData">適用</button>
+            <button
+              class="btn btn-primary text-white inline-block w-[100px]"
+              @click.prevent="updateBookData"
+            >
+              適用
+            </button>
           </div>
         </div>
       </form>
@@ -310,19 +368,23 @@
 interface Props {
   book: Book;
 }
+const selectedBook: Ref<Book> = useState("selectedBook");
 const { book } = defineProps<Props>();
 const { genres, getGenres, addGenre, deleteGenre } = useGenreStore();
 const { labels, getLabels, addLabel, deleteLabel } = useLabelStore();
 const unselectedLabels = computed(() =>
   labels.value.filter(
-    (label) => !book.labels.some((selectedLabel) => selectedLabel.labelid === label.labelid)
+    (label) =>
+      !selectedBook.value.labels.some(
+        (selectedLabel) => selectedLabel.labelid === label.labelid
+      )
   )
 );
 interface Emits {
-  (e: 'changeBookData', value: Book): void;
-  (e: 'changeImageFile', value: File): void;
-  (e: 'updateBookData', value: Book): void;
-  (e: 'deleteBookData', value: Book): void;
+  (e: "changeBookData"): void;
+  (e: "changeImageFile", value: File): void;
+  (e: "updateBookData"): void;
+  (e: "deleteBookData"): void;
 }
 const emit = defineEmits<Emits>();
 const getBgColor = (label: Label, preview?: string) => {
@@ -332,7 +394,11 @@ const getBgColor = (label: Label, preview?: string) => {
   const str = `bg-${label.color}-400`;
   return str;
 };
-const moveLabel = (label: Label, sourceArray: Label[], destinationArray: Label[]) => {
+const moveLabel = (
+  label: Label,
+  sourceArray: Label[],
+  destinationArray: Label[]
+) => {
   const index = sourceArray.indexOf(label);
   if (index !== -1) {
     sourceArray.splice(index, 1);
@@ -345,9 +411,11 @@ const handleFileUpload = (e) => {
   const file = e.target.files[0];
   const maxFileSize = 1024 * 200; //200KB
   if (file && file.size > maxFileSize) {
-    alert('ファイルサイズが大きすぎます。200KB以下のファイルを選択してください。');
+    alert(
+      "ファイルサイズが大きすぎます。200KB以下のファイルを選択してください。"
+    );
     e.target.value = null;
-  } else if (file && file.type.startsWith('image/')) {
+  } else if (file && file.type.startsWith("image/")) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
@@ -355,28 +423,28 @@ const handleFileUpload = (e) => {
     };
   } else {
     imageURL.value = null;
-    alert('無効なファイルです。画像ファイルを指定してください。');
+    alert("無効なファイルです。画像ファイルを指定してください。");
     e.target.value = null;
   }
-  emit('changeImageFile', file);
+  emit("changeImageFile", file);
 };
 
 const updateBookData = () => {
-  emit('updateBookData', book);
+  emit("updateBookData");
 };
 
 const deleteBookData = () => {
-  emit('deleteBookData', book);
+  emit("deleteBookData");
 };
 
 const newGenre: Ref<Genre> = ref({
-  name: '',
-  genreid: '',
+  name: "",
+  genreid: "",
 });
 const addGenreReq = async () => {
   await addGenre(newGenre.value);
   await getGenres();
-  newGenre.value.name = '';
+  newGenre.value.name = "";
 };
 const deleteGenreReq = async (genre: Genre) => {
   const answer = confirm(`${genre.name}を削除します。よろしいですか？`);
@@ -386,35 +454,35 @@ const deleteGenreReq = async (genre: Genre) => {
   }
 };
 const colorList = [
-  'red',
-  'orange',
-  'amber',
-  'yellow',
-  'lime',
-  'green',
-  'emerald',
-  'teal',
-  'cyan',
-  'sky',
-  'blue',
-  'indigo',
-  'violet',
-  'purple',
-  'fuchsia',
-  'pink',
-  'rose',
+  "red",
+  "orange",
+  "amber",
+  "yellow",
+  "lime",
+  "green",
+  "emerald",
+  "teal",
+  "cyan",
+  "sky",
+  "blue",
+  "indigo",
+  "violet",
+  "purple",
+  "fuchsia",
+  "pink",
+  "rose",
 ];
 const newLabel: Ref<Label> = ref({
-  name: '',
-  color: '',
+  name: "",
+  color: "",
   isChecked: false,
-  labelid: '',
+  labelid: "",
 });
 const addLabelReq = async () => {
   await addLabel(newLabel.value);
   await getLabels();
-  newLabel.value.name = '';
-  newLabel.value.color = '';
+  newLabel.value.name = "";
+  newLabel.value.color = "";
 };
 const deleteLabelReq = async (label: Label) => {
   const answer = confirm(`${label.name}を削除します。よろしいですか？`);
@@ -424,11 +492,4 @@ const deleteLabelReq = async (label: Label) => {
   }
 };
 
-watch(
-  book,
-  (newValue) => {
-    emit('changeBookData', newValue);
-  },
-  { immediate: true, deep: true }
-);
 </script>

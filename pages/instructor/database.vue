@@ -118,8 +118,7 @@ const newBookInit: Book = {
   title: '',
   year: new Date().getFullYear(),
 };
-
-const selectedBook = ref(newBookInit);
+const selectedBook = useState("selectedBook", () => newBookInit);
 const showCreateModal = () => {
   document.getElementById('newBook')?.showModal();
 };
@@ -166,7 +165,6 @@ const submitBookData = async () => {
 
 const updateBookData = async () => {
   try {
-    console.log(selectedBook.value);
     await updateBook(selectedBook.value, imageFile.value);
     await getAllBooks();
     document.getElementById('book-update')?.close();
@@ -175,11 +173,11 @@ const updateBookData = async () => {
   }
 };
 
-const deleteBookData = async (book: Book) => {
-  const answer = confirm(`${book.title}を削除します。よろしいですか？`);
+const deleteBookData = async () => {
+  const answer = confirm(`${selectedBook.value.title}を削除します。よろしいですか？`);
   if (answer) {
     try {
-      await deleteBook(book);
+      await deleteBook(selectedBook.value);
       await getAllBooks();
     } catch (error) {
       console.error(error);

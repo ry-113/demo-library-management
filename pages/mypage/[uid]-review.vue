@@ -158,7 +158,7 @@ const setRating = (rating: number) => {
 };
 
 const updateReviewReq = async () => {
-  await updateReview(selectedReview.value, selectedBook.value);
+  await updateReview(selectedReview.value);
   await getMyReviews(uid.value);
   document.getElementById(`review-${selectedReview.value.reviewid}`)?.close();
 };

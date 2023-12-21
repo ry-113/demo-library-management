@@ -298,7 +298,6 @@ interface Props {
 const { newBook } = defineProps<Props>();
 
 interface Emits {
-  (e: 'changeBookData', value: Book): void;
   (e: 'changeImageFile', value: File): void;
   (e: 'submitBookData'): void;
   (e: 'checkLabel', value: Label[]): void;
@@ -398,14 +397,7 @@ const deleteLabelReq = async (label: Label) => {
     await getLabels();
   }
 };
-//フォームの入力をリアルタイムに監視
-watch(
-  newBook,
-  (newValue) => {
-    emit('changeBookData', newValue);
-  },
-  { immediate: true, deep: true }
-);
+
 
 const submitBookData = () => {
   emit('submitBookData');
