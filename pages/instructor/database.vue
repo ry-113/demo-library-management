@@ -18,10 +18,7 @@
               </option>
             </select>
           </label>
-          <button
-            class="btn btn-primary text-white"
-            @click.stop="showBookFormModal(null)"
-          >
+          <button class="btn btn-primary text-white" @click.stop="showCreateModal()">
             追加
             <Icon name="ant-design:plus-outlined" size="1.35rem" />
           </button>
@@ -51,12 +48,16 @@
           </thead>
           <tbody>
             <template v-if="filteredBooks.length === 0">
-              <td colspan="5"><p class="flex justify-center py-40 text-gray-500">本がありません。右上の追加ボタンから追加してください。</p></td>
+              <td colspan="5">
+                <p class="flex justify-center py-40 text-gray-500">
+                  本がありません。右上の追加ボタンから追加してください。
+                </p>
+              </td>
             </template>
           </tbody>
           <tbody>
             <template v-for="(book, index) in filteredBooks" :key="book.bookid">
-              <tr class="hover cursor-pointer" @click="showBookFormModal(book)">
+              <tr class="hover cursor-pointer" @click="showUpdateModal(book)">
                 <th>{{ index + 1 }}</th>
                 <td>
                   {{ book.title }}
@@ -70,16 +71,15 @@
                 <td>
                   {{ book.genre }}
                 </td>
-                
               </tr>
             </template>
             <BookUpdateModal
-                  :book="selectedBook"
-                  :imageFile="imageFile"
-                  @change-image-file="changeImageFile"
-                  @update-book-data="updateBookData"
-                  @delete-book-data="deleteBookData"
-                />
+              :book="selectedBook"
+              :imageFile="imageFile"
+              @change-image-file="changeImageFile"
+              @update-book-data="updateBookData"
+              @delete-book-data="deleteBookData"
+            />
           </tbody>
         </table>
       </template>
@@ -88,54 +88,46 @@
 </template>
 
 <script setup lang="ts">
+import { DocumentReference } from 'firebase/firestore';
+
 definePageMeta({
   layout: false,
-  middleware: ["auth"],
+  middleware: ['auth'],
 });
 
-const {
-  allBooks,
-  isLoading,
-  booksByGenre,
-  getAllBooks,
-  deleteBook,
-  addBook,
-  updateBook,
-} = useBookStore();
+const { allBooks, isLoading, booksByGenre, getAllBooks, deleteBook, addBook, updateBook } =
+  useBookStore();
 
-const selectedGenre = ref("すべて");
+const selectedGenre = ref('すべて');
 const genres = computed(() => Object.keys(booksByGenre.value));
 const filteredBooks = computed(() => {
-  if (selectedGenre.value === "すべて") {
+  if (selectedGenre.value === 'すべて') {
     return allBooks.value;
   } else {
-    const filteredBooks = allBooks.value.filter(
-      (book) => book.genre === selectedGenre.value
-    );
+    const filteredBooks = allBooks.value.filter((book) => book.genre === selectedGenre.value);
     return filteredBooks;
   }
 });
 const newBookInit: Book = {
-  ISBN: "",
-  author: "",
-  bookid: "",
-  description: "",
-  genre: "",
-  imageURL: "",
+  ISBN: '',
+  author: '',
+  bookid: '',
+  description: '',
+  genre: '',
+  imageURL: '',
   labels: [],
   stock: 1,
-  title: "",
+  title: '',
   year: new Date().getFullYear(),
 };
 
 const selectedBook = ref(newBookInit);
-const showBookFormModal = (book: Book | null) => {
+const showCreateModal = () => {
+  document.getElementById('newBook')?.showModal();
+};
+const showUpdateModal = (book: Book) => {
   selectedBook.value = book;
-  const modal = book
-    ? document.getElementById("book-update")
-    : document.getElementById("newBook");
-    console.log(modal, selectedBook.value);
-  modal?.showModal();
+  document.getElementById('book-update')?.showModal();
 };
 
 //本の新規登録
@@ -155,20 +147,20 @@ const submitBookData = async () => {
   try {
     await addBook(newBook.value, imageFile.value);
     await getAllBooks();
-    document.getElementById("newBook")?.close();
+    document.getElementById('newBook')?.close();
   } catch (error) {
     console.error(error);
   } finally {
     newBook.value = {
-      ISBN: "",
-      author: "",
-      bookid: "",
-      description: "",
-      genre: "",
-      imageURL: "",
+      ISBN: '',
+      author: '',
+      bookid: '',
+      description: '',
+      genre: '',
+      imageURL: '',
       labels: [],
       stock: 1,
-      title: "",
+      title: '',
       year: new Date().getFullYear(),
     };
   }
@@ -179,7 +171,7 @@ const updateBookData = async () => {
     console.log(selectedBook.value);
     await updateBook(selectedBook.value, imageFile.value);
     await getAllBooks();
-    document.getElementById("book-update")?.close();
+    document.getElementById('book-update')?.close();
   } catch (error) {
     console.error(error);
   }
