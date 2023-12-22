@@ -2,7 +2,7 @@
   <div class="w-0 h-5 bg-primary absolute top-0 progress--bar"></div>
   <div class="hero min-h-[80vh] bg-[#d4f2fd] relative">
     <div class="absolute top-0 w-full">
-      <img src="/img/wavesOpacityBlue.svg" alt="" class="w-full h-20" />
+      <img src="/img/wavesOpacityBlue.svg" alt="" class="w-full h-10" />
     </div>
     <div class="hero-content flex-row mx-auto justify-between px-10">
       <div>

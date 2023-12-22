@@ -13,7 +13,7 @@
         <AisInstantSearch :index-name="indexName" :search-client="algolia">
           <div class="flex justify-between">
             <div
-              class="left-box w-[20%] 2xl:w-[15%] mt-24 border-r-gray-200 border-r-2"
+              class="left-box w-[23%] 2xl:w-[15%] mt-24 border-r-gray-200 border-r-2"
             >
               <h2 class="text-lg">
                 <Icon

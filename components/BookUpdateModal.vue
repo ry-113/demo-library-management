@@ -1,8 +1,9 @@
 <template>
   <dialog id="book-update" class="modal">
+    
     <div class="modal-box max-w-[900px] p-20 text-left">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        <button class="btn btn-md btn-circle btn-ghost absolute right-2 top-2">
           ✕
         </button>
       </form>

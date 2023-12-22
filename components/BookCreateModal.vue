@@ -2,7 +2,7 @@
   <dialog id="newBook" class="modal">
     <div class="modal-box max-w-[900px] p-20 text-left">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        <button class="btn btn-md btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
       <form class="addForm flex w-full gap-[4%]" @submit.prevent="submitBookData">
         <div class="left--box w-[48%]">
@@ -78,7 +78,7 @@
                 </select>
               </label>
               <div class="dropdown dropdown-bottom">
-                <div tabindex="0" role="button" class="btn ml-1">
+                <div tabindex="0" role="button" class="btn ml-1 -mb-[10px]">
                   <Icon
                     name="fluent:edit-24-regular"
                     size="1.5rem"

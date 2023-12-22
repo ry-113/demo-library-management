@@ -56,7 +56,7 @@
                     : moveToDetailPage(transaction.bookid)
                 "
               >
-                <th>{{ index + 1 }}</th>
+                <th class="py-5">{{ index + 1 }}</th>
                 <td>
                   {{ $dayjs(transaction.nowdate.toDate()).format('YYYY/MM/DD') }}
                 </td>

@@ -123,6 +123,9 @@
       </ul>
     </div>
   </aside>
+  <div class="absolute bottom-0 w-full scale-y-[-1]">
+      <img src="/img/wavesOpacityBlue.svg" alt="" class="w-full h-8" />
+    </div>
 </template>
 
 <script setup lang="ts">

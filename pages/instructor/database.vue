@@ -58,7 +58,7 @@
           <tbody>
             <template v-for="(book, index) in filteredBooks" :key="book.bookid">
               <tr class="hover cursor-pointer" @click="showUpdateModal(book)">
-                <th>{{ index + 1 }}</th>
+                <th class="py-5">{{ index + 1 }}</th>
                 <td>
                   {{ book.title }}
                 </td>
