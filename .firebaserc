@@ -1,7 +1,7 @@
 {
   "projects": {
-    "staging": "librarymanagementsystem-1549b",
-    "default": "librarymanagementsystem-1549b"
+    "staging": "library-management-demo-7e0b1",
+    "default": "library-management-demo-7e0b1"
   },
   "targets": {},
   "etags": {}
