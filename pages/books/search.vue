@@ -64,7 +64,7 @@
                 <h3>
                   <Icon name="bi:inboxes" class="mr-1 mb-[3px]" />ジャンル
                 </h3>
-                <AisRefinementList attribute="genre" :sort-by="['name:desc']" />
+                <AisRefinementList attribute="genre" :sort-by="['name:desc']" show-more />
               </div>
 
               <div class="mt-5">
@@ -75,7 +75,7 @@
                     class="mr-1 mb-[3px]"
                   />ラベル
                 </h3>
-                <AisRefinementList attribute="labels.name" />
+                <AisRefinementList attribute="labels.name" show-more />
               </div>
             </div>
             <div class="right-box w-[75%] 2xl:[w-80%] mt-6">
