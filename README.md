@@ -11,22 +11,52 @@ URL:[https://library-management-demo-7e0b1.web.app/](https://library-management-
 
 私自身、紙にいちいち記入して貸出を受けるのは億劫であまり利用していなかったのと、指導員の「承認するのが面倒で本当は紙でやりたくはない」というぼやきが開発のきっかけでした。  
 ### メイン機能
+主要な機能一覧です。
 1. ユーザー認証
-2. データベースへの登録
-3. 検索•閲覧
-4. 貸出•返却
+2. 本の登録
+3. 検索・閲覧
+4. 貸出・返却
 5. レビュー
 
+動画で機能とイメージを表現
 #### 1. ユーザー認証
-#### 2. データベースへの登録
+#### 2. 本の登録
 #### 3. 検索・閲覧
 #### 4. 貸出・返却
 #### 5. レビュー
 
 ## 設計・デザイン
 ### ページ設計
+```  
+├── pages/
+│   ├── index.vue
+│   ├── firstsettings/
+│   │   ├── index.vue
+│   │   └── welcome.vue
+│   ├── mypage/
+│   │   ├── [uid].vue
+│   │   └── [uid]-review.vue
+│   ├── books/
+│   │   ├── search.vue
+│   │   ├── index.vue
+│   │   ├── [genre].vue
+│   │   └── [bookid]-detail.vue
+│   ├── student/
+│   │   └── transaction-[uid].vue
+│   ├── instructor/
+│   │   ├── database.vue
+│   │   └── transaction.vue
+│   ├── admin/
+│   │   └── user-management.vue
+```
+
 ### プロトタイプ制作
+Figmaでプロトタイプを制作しました。  
+ここでアプリのページデザインやレイアウト、ページ遷移のイメージを固めました。
+
+(Figmaのスクリーンショットを載せる)
 ### Firestore設計
+firestoreの構成をツリーで表す
 
 ## 主な使用技術
 表形式で技術をまとめる
@@ -42,7 +72,4 @@ URL:[https://library-management-demo-7e0b1.web.app/](https://library-management-
 ### UIライブラリのカスタマイズ
 ### 修正時の影響範囲がわかりにくく、修正漏れが発生
 
-## 課題点・改善点
-### コンポーネントの粒度が高すぎる、再利用性が低い
-### ユーザーのアクションに反応を返す
-### テストコード、セキュリティ
+## 今後の展望
