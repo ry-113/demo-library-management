@@ -3,7 +3,7 @@
 ## アプリ概要・使い方
 ### なんのアプリ？
 本の貸出システム（社内システム）  
-URL:[https://library-management-demo-7e0b1.web.app/](https://library-management-demo-7e0b1.web.app/)
+URL: [https://library-management-demo-7e0b1.web.app/](https://library-management-demo-7e0b1.web.app/)
 ### コンセプト
 貸出システムの導入で、アナログな手続きによる手間を無くし、学習コミュニティをより活性化させる。
 ### 本アプリ開発の背景
@@ -125,6 +125,22 @@ Figmaでプロトタイプを制作しました。
 
 ## 主な使用技術
 表形式で技術をまとめる
+
+| カテゴリ        | 技術                                               |
+|-----------------|----------------------------------------------------|
+| フロントエンド  | Vue3                                               |
+|                 | Nuxt3                                              |
+|                 | TypeScript                                         |
+| UI,スタイリング | SCSS                                               |
+| データベース    | Firestore                                          |
+| 認証            | Firebase Authentication                            |
+| ストレージ      | Cloud Storage                                      |
+| ホスティング    | Firebase Hosting                                   |
+| 全文検索        | Algolia                                            |
+| ビルドツール    | Vite                                               |
+| バージョン管理  | Git, Github                                        |
+
+
 
 ## 工夫した点
 ### Firestoreのクエリ回数を制限
