@@ -2,7 +2,7 @@
 
 ## アプリ概要・使い方
 ### なんのアプリ？
-本の貸出システム（社内システム）
+本の貸出システム（社内システム）  
 URL:https://library-management-demo-7e0b1.web.app/(https://library-management-demo-7e0b1.web.app/){:target="_blank"}
 ### コンセプト
 貸出システムの導入で、アナログな手続きによる手間を無くし、学習コミュニティをより活性化させる。
