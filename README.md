@@ -131,7 +131,10 @@ Figmaでプロトタイプを制作しました。
 | フロントエンド  | Vue3                                               |
 |                 | Nuxt3                                              |
 |                 | TypeScript                                         |
-| UI,スタイリング | SCSS                                               |
+| UIデザイン      | Tailwind                                           |
+|                 | daisyUI                                            |
+|                 | Vue Datepicker                                     |
+|                 | vue3-carousel                                      |
 | データベース    | Firestore                                          |
 | 認証            | Firebase Authentication                            |
 | ストレージ      | Cloud Storage                                      |
