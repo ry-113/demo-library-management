@@ -59,7 +59,7 @@ URL: [https://library-management-demo-7e0b1.web.app/](https://library-management
 Figmaでプロトタイプを制作しました。  
 ここでアプリのページデザインやレイアウト、ページ遷移のイメージを固めました。
 
-(Figmaのスクリーンショットを載せる)
+![figmaデザイン](https://github.com/ry-113/demo-library-management/assets/149135859/00af442b-64c7-4455-b15e-9ce3c37f9990)
 ### Firestore設計
 今回データベースはFirestoreを採用しています。コレクションとドキュメントという単位で構成されているNoSQLのデータベースです。  
 以下にデータベースの概要を書きます。
