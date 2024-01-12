@@ -126,22 +126,22 @@ Figmaでプロトタイプを制作しました。
 ## 主な使用技術
 表形式で技術をまとめる
 
-| カテゴリ        | 技術                                               |
-|:---------------:|:--------------------------------------------------:|
-| フロントエンド  | Vue3                                               |
-|                 | Nuxt3                                              |
-|                 | TypeScript                                         |
-| UIデザイン      | Tailwind                                           |
-|                 | daisyUI                                            |
-|                 | Vue Datepicker                                     |
-|                 | vue3-carousel                                      |
-| データベース    | Firestore                                          |
-| 認証            | Firebase Authentication                            |
-| ストレージ      | Cloud Storage                                      |
-| ホスティング    | Firebase Hosting                                   |
-| 全文検索        | Algolia                                            |
-| ビルドツール    | Vite                                               |
-| バージョン管理  | Git, Github                                        |
+| カテゴリ        | 技術                    | 概要                                                                     |
+|-----------------|-------------------------|--------------------------------------------------------------------------|
+| フロントエンド  | Vue3                    | UI構築のためのJavaScriptフレームワーク。Composition APIのscript setup記法。 |
+|                 | Nuxt3                   | Vue3がベースのフレームワーク。ルーティングやストアなどを簡単に使用できる |
+|                 | TypeScript              | JavaScriptに静的型付け機能が付いた言語。 |
+| UIデザイン      | Tailwind CSS            | ユーティリティクラスを付与してスタイリングするcssフレームワーク |
+|                 | daisyUI                 | Tailwind CSSがベースのUIライブラリ。tailwindと同じくクラス名を付与してスタイリング |
+|                 | Vue Datepicker          | Vue3で使える日付選択カレンダーを設置できるライブラリ。 |
+|                 | vue3-carousel           | Vue3で使えるカルーセルを設置できるライブラリ。|
+| データベース    | Firestore               | Firebaseが提供するデータベース機能。NoSQLのドキュメント指向型DB |
+| 認証            | Firebase Authentication | Firebaseが提供する認証機能。メールアドレス、各種プロバイダで利用可能 |
+| ストレージ      | Cloud Storage           | Firebaseが提供するストレージ機能。画像などのデータをクラウドストレージに保存できる|
+| ホスティング    | Firebase Hosting        | Firebaseが提供するホスティング機能。Firebaseの各種機能を統合してすぐにホスティングできる |
+| 全文検索        | Algolia                 | 高度な検索エンジンをwebアプリケーションに簡単に統合できる全文検索サービス |
+| ビルドツール    | Vite                    | 従来のビルドツールの課題や問題点を改善し、モダンな開発環境に対応した新しいビルドツール |
+| バージョン管理  | Git, Github             | 開発ソースのバージョン管理ツール |
 
 
 
