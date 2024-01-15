@@ -22,23 +22,32 @@ URL: [https://library-management-demo-7e0b1.web.app/](https://library-management
 4. 貸出・返却
 5. レビュー
 
-動画で機能とイメージを表現
 #### 1. ユーザー管理
-https://github.com/ry-113/demo-library-management/assets/149135859/619869fc-338f-4e1b-a49d-d9f3a1cddd9a
+https://github.com/ry-113/demo-library-management/assets/149135859/619869fc-338f-4e1b-a49d-d9f3a1cddd9a  
+
 https://github.com/ry-113/demo-library-management/assets/149135859/f2ca63c0-2778-41a1-ba4c-7afe87a77986
 #### 2. 本の登録
-https://github.com/ry-113/demo-library-management/assets/149135859/062b1f0d-0387-4514-91b4-a9c2b7aa0ef7
-https://github.com/ry-113/demo-library-management/assets/149135859/add8085c-8780-4e3a-9964-647f9e42a6b0
-https://github.com/ry-113/demo-library-management/assets/149135859/dd2db3e3-3dd7-4bcd-bd16-7d481aff14d6
+https://github.com/ry-113/demo-library-management/assets/149135859/062b1f0d-0387-4514-91b4-a9c2b7aa0ef7  
+
+https://github.com/ry-113/demo-library-management/assets/149135859/add8085c-8780-4e3a-9964-647f9e42a6b0  
+
+https://github.com/ry-113/demo-library-management/assets/149135859/dd2db3e3-3dd7-4bcd-bd16-7d481aff14d6  
 #### 3. 検索・閲覧
-https://github.com/ry-113/demo-library-management/assets/149135859/9e272aeb-7379-422d-9122-91aa34f098b1
+https://github.com/ry-113/demo-library-management/assets/149135859/9e272aeb-7379-422d-9122-91aa34f098b1  
+
+https://github.com/ry-113/demo-library-management/assets/149135859/794542e4-a705-4da8-a310-bbdd55ffe76b
+
 #### 4. 貸出・返却
-https://github.com/ry-113/demo-library-management/assets/149135859/03bee1be-b0ad-496a-a5d5-aff0fe6e9e94
-https://github.com/ry-113/demo-library-management/assets/149135859/daf986f4-6bf9-45c1-afef-6ffe484de498
-https://github.com/ry-113/demo-library-management/assets/149135859/724e277d-fc4f-4cd5-b809-f70d55f01db0
+https://github.com/ry-113/demo-library-management/assets/149135859/03bee1be-b0ad-496a-a5d5-aff0fe6e9e94  
+
+https://github.com/ry-113/demo-library-management/assets/149135859/daf986f4-6bf9-45c1-afef-6ffe484de498  
+
+https://github.com/ry-113/demo-library-management/assets/149135859/724e277d-fc4f-4cd5-b809-f70d55f01db0  
+
 https://github.com/ry-113/demo-library-management/assets/149135859/89ba26a0-5927-4f13-aceb-69a0a42f2359
 #### 5. レビュー
-https://github.com/ry-113/demo-library-management/assets/149135859/5ab3ea97-56fa-49a8-97fc-395d125a14e2
+https://github.com/ry-113/demo-library-management/assets/149135859/5ab3ea97-56fa-49a8-97fc-395d125a14e2  
+
 https://github.com/ry-113/demo-library-management/assets/149135859/9c6ffe84-24d5-471c-8bfb-43ffde1f1bdc
 
 
