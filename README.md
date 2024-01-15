@@ -23,30 +23,57 @@ URL: [https://library-management-demo-7e0b1.web.app/](https://library-management
 5. レビュー
 
 #### 1. ユーザー管理
+認証機能（共通）  
+
 https://github.com/ry-113/demo-library-management/assets/149135859/619869fc-338f-4e1b-a49d-d9f3a1cddd9a  
+
+
+ユーザー管理（管理者）  
 
 https://github.com/ry-113/demo-library-management/assets/149135859/f2ca63c0-2778-41a1-ba4c-7afe87a77986
 #### 2. 本の登録
+本の追加・削除（指導員、管理者）
+
 https://github.com/ry-113/demo-library-management/assets/149135859/062b1f0d-0387-4514-91b4-a9c2b7aa0ef7  
+
+本の編集①（指導員、管理者）
 
 https://github.com/ry-113/demo-library-management/assets/149135859/add8085c-8780-4e3a-9964-647f9e42a6b0  
 
+本の編集②（指導員、管理者）
+
 https://github.com/ry-113/demo-library-management/assets/149135859/dd2db3e3-3dd7-4bcd-bd16-7d481aff14d6  
 #### 3. 検索・閲覧
+検索から本の詳細ページへ（共通）  
+
 https://github.com/ry-113/demo-library-management/assets/149135859/9e272aeb-7379-422d-9122-91aa34f098b1  
+
+絞り込みやソート、ラベル検索など（共通）
 
 https://github.com/ry-113/demo-library-management/assets/149135859/794542e4-a705-4da8-a310-bbdd55ffe76b
 
 #### 4. 貸出・返却
+貸出リクエスト（学生）  
+
 https://github.com/ry-113/demo-library-management/assets/149135859/03bee1be-b0ad-496a-a5d5-aff0fe6e9e94  
+
+貸出リクエスト承認（指導員）
 
 https://github.com/ry-113/demo-library-management/assets/149135859/daf986f4-6bf9-45c1-afef-6ffe484de498  
 
+返却リクエスト（学生）
+
 https://github.com/ry-113/demo-library-management/assets/149135859/724e277d-fc4f-4cd5-b809-f70d55f01db0  
+
+返却リクエスト承認（指導員）  
 
 https://github.com/ry-113/demo-library-management/assets/149135859/89ba26a0-5927-4f13-aceb-69a0a42f2359
 #### 5. レビュー
+レビュー投稿・閲覧（共通） 
+
 https://github.com/ry-113/demo-library-management/assets/149135859/5ab3ea97-56fa-49a8-97fc-395d125a14e2  
+
+レビュー編集（共通）
 
 https://github.com/ry-113/demo-library-management/assets/149135859/9c6ffe84-24d5-471c-8bfb-43ffde1f1bdc
 
