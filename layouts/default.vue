@@ -189,7 +189,7 @@ const toggleRole = async () => {
       await changeRole(user.uid, "student");
     }
   }
-  location.reload();
+  navigateTo('/books/', {replace: true});
 };
 </script>
 
